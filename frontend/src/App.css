@@ -1,0 +1,14 @@
+#root {
+  /* max-width: 1500px; */
+  width: 100%;
+  text-align: center;
+  justify-self: center;
+}
+
+
+h3,
+h4,
+h5,
+h6 {
+  color: var(--color-DarkNavy);
+}

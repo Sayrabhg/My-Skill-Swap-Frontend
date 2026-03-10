@@ -1,0 +1,121 @@
+@import "tailwindcss";
+
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  --color-primary: #4F46E5;
+  --color-DarkNavy: #0F172A;
+  --color-SkyBlue: #38BDF8;
+  --color-Green: #22C55E;
+  --color-Gray: #374151;
+  --color-primaryLight: #6366F1;
+  --color-orangeDark: #F97316;
+  --color-secondary: #7C3AED;
+  --color-mine: #181223;
+  --color-accent: #06B6D4;
+  --color-success: #22C55E;
+  --color-warning: #F59E0B;
+  --color-danger: #EF4444;
+  --color-dark: #0F172A;
+  --color-light: #F8FAFC;
+  --color-card: #FFFFFF;
+  --color-border: #E2E8F0;
+}
+
+body {
+  background-color: white;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-20px);
+  }
+
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 1s ease forwards;
+}
+
+/* Pop animation */
+@keyframes popUp {
+  0% {
+    opacity: 0;
+    transform: translateY(40px) scale(0.9);
+  }
+
+  60% {
+    opacity: 1;
+    transform: translateY(-5px) scale(1.05);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Base card animation */
+.pop-card {
+  opacity: 0;
+  animation: popUp 0.6s ease forwards;
+}
+
+/* Delays for one-by-one effect */
+.pop-delay-1 {
+  animation-delay: 0.2s;
+}
+
+.pop-delay-2 {
+  animation-delay: 0.4s;
+}
+
+.pop-delay-3 {
+  animation-delay: 0.6s;
+}
+
+.pop-delay-4 {
+  animation-delay: 0.8s;
+}
