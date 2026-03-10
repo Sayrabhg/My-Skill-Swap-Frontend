@@ -48,7 +48,7 @@ const steps = [
 
 const HowItWorks = () => {
     return (
-        <section className="min-h-screen bg-gray-50 py-20 px-6 flex flex-col items-center">
+        <section className="bg-gray-50 py-20 px-6 flex flex-col items-center">
             <h2 className="text-5xl font-bold mb-12 text-gray-800 text-center">
                 How it Works
             </h2>
@@ -98,11 +98,11 @@ const HowItWorks = () => {
                     Unlock personalized growth with AI-driven recommendations, token-based achievements,
                     and skill tracking. Your learning journey adapts to your progress in real-time!
                 </p>
-                <div className="flex justify-center gap-4 mt-4">
-                    <span className="bg-white text-cyan-600 px-4 py-2 rounded-full font-semibold shadow-md hover:scale-110 transition-transform cursor-pointer">
-                        Explore Courses
+                <div className="flex flex-col sm:flex-row justify-center gap-4 mt-6">
+                    <span className="bg-white text-cyan-600 px-6 py-3 rounded-full font-semibold shadow-lg hover:scale-110 transition-transform duration-300 cursor-pointer">
+                        Explore Swaps
                     </span>
-                    <span className="bg-white text-blue-600 px-4 py-2 rounded-full font-semibold shadow-md hover:scale-110 transition-transform cursor-pointer">
+                    <span className="bg-white text-blue-600 px-6 py-3 rounded-full font-semibold shadow-lg hover:scale-110 transition-transform duration-300 cursor-pointer">
                         View Achievements
                     </span>
                 </div>

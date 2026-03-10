@@ -1,14 +1,15 @@
 import { useState } from 'react';
 import { Link } from "react-router-dom";
 import { Menu, X, Rocket } from 'lucide-react'; // Using lucide-react for modern icons
+import { CoolMode } from '@/components/ui/cool-mode';
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
 
     const navLinks = [
-        { name: 'Learn', href: '#learn' },
-        { name: 'Earn Tokens', href: '#earn' },
-        { name: 'Tech', href: '#tech' },
+        { name: 'Learn', href: '/learn' },
+        { name: 'Earn Tokens', href: '/earn-tokens' },
+        { name: 'Teach', href: '/teach' },
     ];
 
     return (
@@ -17,18 +18,20 @@ const Navbar = () => {
                 <div className="flex justify-between h-20 items-center">
 
                     {/* Logo Section */}
-                    <Link
-                        to="/"
-                        className="flex-shrink-0 flex items-center gap-2 group transition-all duration-300"
-                    >
-                        <div className="bg-indigo-600 p-2 rounded-lg group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300">
-                            <Rocket className="text-white w-6 h-6" />
-                        </div>
+                    <CoolMode >
+                        <Link
+                            to="/"
+                            className="flex-shrink-0 flex items-center gap-2 group transition-all duration-300"
+                        >
+                            <div className="bg-indigo-600 p-2 rounded-lg group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300">
+                                <Rocket className="text-white w-6 h-6" />
+                            </div>
 
-                        <span className="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-transparent tracking-tight group-hover:from-violet-600 group-hover:to-indigo-600 transition-all duration-300">
-                            My Skill-Swap
-                        </span>
-                    </Link>
+                            <span className="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-transparent tracking-tight group-hover:from-violet-600 group-hover:to-indigo-600 transition-all duration-300">
+                                My Skill-Swap
+                            </span>
+                        </Link>
+                    </CoolMode>
 
                     {/* Desktop Navigation */}
                     <div className="hidden lg:flex items-center space-x-10">
@@ -41,11 +44,13 @@ const Navbar = () => {
                                 {link.name}
                             </a>
                         ))}
-                        <Link to="/auth">
-                            <button className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2.5 rounded-full font-semibold transition-all shadow-lg hover:shadow-indigo-200 active:scale-95">
-                                Get Started
-                            </button>
-                        </Link>
+                        <CoolMode>
+                            <Link to="/auth">
+                                <button className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2.5 rounded-full font-semibold transition-all shadow-lg hover:shadow-indigo-200 active:scale-95">
+                                    Get Started
+                                </button>
+                            </Link>
+                        </CoolMode>
                     </div>
 
                     {/* Mobile Menu Button */}
@@ -74,9 +79,13 @@ const Navbar = () => {
                         </a>
                     ))}
                     <div className="pt-4">
-                        <button className="w-full bg-indigo-600 text-white px-6 py-4 rounded-xl font-bold shadow-md">
-                            Get Started
-                        </button>
+                        <CoolMode>
+                            <Link to="/auth">
+                                <button className="w-full bg-indigo-600 text-white px-6 py-4 rounded-xl font-bold shadow-md">
+                                    Get Started
+                                </button>
+                            </Link>
+                        </CoolMode>
                     </div>
                 </div>
             </div>
