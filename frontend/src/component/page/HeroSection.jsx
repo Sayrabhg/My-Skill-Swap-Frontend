@@ -1,7 +1,8 @@
 import { Search, ArrowRight, Users, BookOpen, Sparkles } from "lucide-react";
-import gemini from "../../assets/1931.png";
 import geminiskillswap from "../../assets/GeminiSkillSwap.png";
 import { Typewriter } from "react-simple-typewriter";
+import RightIllustration from "./components/RightIllustration";
+import { CoolMode } from "@/components/ui/cool-mode";
 
 const suggestions = [
     "What do you want to learn today?",
@@ -22,7 +23,7 @@ const HeroSection = () => {
     };
 
     return (
-        <section className="relative min-h-[90vh] flex items-center overflow-hidden">
+        <section className="relative flex items-center overflow-hidden">
 
             {/* Background Image */}
             <img
@@ -32,7 +33,7 @@ const HeroSection = () => {
             />
 
             {/* Overlay (optional for better text visibility) */}
-            <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/80 via-indigo-800/50 to-blue-100/70"></div>
+            <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/80 via-purple-800/50 to-blue-100/40"></div>
 
             <div className="relative z-10 max-w-7xl mx-auto px-6 py-16 grid lg:grid-cols-2 gap-12 items-center">
 
@@ -74,23 +75,27 @@ const HeroSection = () => {
                         </div>
 
                         {/* Search Button */}
-                        <button
-                            onClick={handleSearch}
-                            className="bg-primary hover:bg-primaryLight text-white px-6 py-3 flex items-center gap-2 cursor-pointer transition relative z-10"
-                        >
-                            <Search size={18} />
-                            Search
-                        </button>
+                        <CoolMode>
+                            <button
+                                onClick={handleSearch}
+                                className="bg-primary hover:bg-primaryLight text-white px-6 py-3 flex items-center gap-2 cursor-pointer transition relative z-10"
+                            >
+                                <Search size={18} />
+                                Search
+                            </button>
+                        </CoolMode>
 
                     </div>
 
                     {/* CTA Buttons */}
                     <div className="mt-8 flex gap-4">
 
-                        <button className="bg-primary hover:bg-primaryLight text-white px-6 py-3 rounded-full font-semibold flex items-center gap-2 shadow-lg hover:shadow-primary/40 transition transform hover:-translate-y-1">
-                            Start Swapping
-                            <ArrowRight size={18} />
-                        </button>
+                        <CoolMode>
+                            <button className="bg-primary hover:bg-primaryLight text-white px-6 py-3 rounded-full font-semibold flex items-center gap-2 shadow-lg hover:shadow-primary/40 transition transform hover:-translate-y-1">
+                                Start Swapping
+                                <ArrowRight size={18} />
+                            </button>
+                        </CoolMode>
 
                         <button className="border border-primary text-primarylight px-6 py-3 rounded-full font-semibold hover:bg-primary hover:text-white transition transform hover:-translate-y-1">
                             Explore Skills
@@ -121,13 +126,7 @@ const HeroSection = () => {
                 </div>
 
                 {/* Right Illustration */}
-                <div className="flex justify-center">
-                    <img
-                        src={gemini}
-                        alt="Skill Exchange"
-                        className="w-full max-w-lg animate-float"
-                    />
-                </div>
+                <RightIllustration />
 
             </div>
         </section>

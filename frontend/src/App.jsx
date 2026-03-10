@@ -6,6 +6,11 @@ import About from './component/page/About';
 import Header from './component/Header';
 import Footer from './component/Footer';
 import HowItWorks from './component/page/HowItWorks';
+import TrendingSwaps from './component/page/TrendingSwaps';
+import AllSkills from './component/page/AllSkills';
+import LearnPage from './component/page/LearnPage';
+import EarnTokens from './component/page/EarnTokens';
+import TeachPage from './component/page/TeachPage';
 
 // Create a wrapper component to handle conditional header/footer
 const Layout = ({ children }) => {
@@ -34,6 +39,11 @@ function App() {
           <Route path='/auth' element={<LoginSignup />} />
           <Route path='/about' element={<About />} />
           <Route path="/how-it-works" element={<HowItWorks />} />
+          <Route path="/trending-swaps" element={<TrendingSwaps />} />
+          <Route path="/all-skills" element={<AllSkills />} />
+          <Route path="/learn" element={<LearnPage />} />
+          <Route path="/earn-tokens" element={<EarnTokens />} />
+          <Route path="/teach" element={<TeachPage />} />
         </Routes>
       </Layout>
     </BrowserRouter>
