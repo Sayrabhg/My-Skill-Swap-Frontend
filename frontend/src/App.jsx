@@ -11,6 +11,7 @@ import AllSkills from './component/page/AllSkills';
 import LearnPage from './component/page/LearnPage';
 import EarnTokens from './component/page/EarnTokens';
 import TeachPage from './component/page/TeachPage';
+import ContactPage from './component/page/ContactPage';
 
 // Create a wrapper component to handle conditional header/footer
 const Layout = ({ children }) => {
@@ -44,6 +45,7 @@ function App() {
           <Route path="/learn" element={<LearnPage />} />
           <Route path="/earn-tokens" element={<EarnTokens />} />
           <Route path="/teach" element={<TeachPage />} />
+          <Route path="/contact" element={<ContactPage />} />
         </Routes>
       </Layout>
     </BrowserRouter>
