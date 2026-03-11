@@ -74,42 +74,42 @@ const ContactPage = () => {
                 >
 
                     {/* Name */}
-                    <div>
+                    <div className="m-2">
                         <label className="text-sm text-gray-600">Full Name</label>
                         <input
                             type="text"
                             placeholder="Enter your name"
-                            className="w-full mt-1 border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                            className="w-full mt-3 border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                         />
                     </div>
 
                     {/* Email */}
-                    <div>
+                    <div className="m-2">
                         <label className="text-sm text-gray-600">Email</label>
                         <input
                             type="email"
                             placeholder="Enter your email"
-                            className="w-full mt-1 border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                            className="w-full mt-3 border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                         />
                     </div>
 
                     {/* Subject */}
-                    <div>
+                    <div className="m-2">
                         <label className="text-sm text-gray-600">Subject</label>
                         <input
                             type="text"
                             placeholder="Message subject"
-                            className="w-full mt-1 border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                            className="w-full mt-3 border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                         />
                     </div>
 
                     {/* Message */}
-                    <div>
+                    <div className="m-2">
                         <label className="text-sm text-gray-600">Message</label>
                         <textarea
                             rows="4"
                             placeholder="Write your message..."
-                            className="w-full mt-1 border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                            className="w-full mt-3 border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                         />
                     </div>
 
