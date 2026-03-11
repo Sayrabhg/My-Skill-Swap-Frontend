@@ -8,6 +8,7 @@ public class SkillswapApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(SkillswapApplication.class, args);
+		System.out.println("✅ Backend Skill Swap API is Running Successfully...");
 	}
 
 }
