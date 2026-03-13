@@ -8,5 +8,7 @@ public interface ContactService {
     Contact saveContact(Contact contact);
 
     List<Contact> getAllContacts();
+    
+    void deleteContactById(String id);
 
 }
