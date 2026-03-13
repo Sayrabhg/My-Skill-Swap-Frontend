@@ -27,14 +27,12 @@ public class DebugController {
     private UserRepository userRepository;
 
     @GetMapping("/users")
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> getAllUsersWithRoles() {
         List<User> users = userRepository.findAll();
         return ResponseEntity.ok(users);
     }
 
     @GetMapping("/user/{email}")
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> getUserByEmail(@PathVariable String email) {
         Optional<User> user = userRepository.findByEmail(email);
         if (user.isPresent()) {

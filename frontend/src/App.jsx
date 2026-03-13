@@ -12,6 +12,13 @@ import LearnPage from './component/page/LearnPage';
 import EarnTokens from './component/page/EarnTokens';
 import TeachPage from './component/page/TeachPage';
 import ContactPage from './component/page/ContactPage';
+import ExchangeMarket from './component/page/ExchangeMarket';
+import UserDashboard from './component/page/UserDashboard';
+import LiveClassroom from './component/page/LiveClassroom';
+import ProfilePortfolio from './component/page/ProfilePortfolio';
+import UpdateProfile from './component/page/UpdateProfile';
+import Profile from './component/page/Profile';
+import ContactFormsData from './component/page/ContactFormsData';
 
 // Create a wrapper component to handle conditional header/footer
 const Layout = ({ children }) => {
@@ -46,6 +53,16 @@ function App() {
           <Route path="/earn-tokens" element={<EarnTokens />} />
           <Route path="/teach" element={<TeachPage />} />
           <Route path="/contact" element={<ContactPage />} />
+
+          <Route path="/market" element={<ExchangeMarket />} />
+          <Route path="/dashboard" element={<UserDashboard />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/Profile/edit" element={<UpdateProfile />} />
+          <Route path="/classroom/:sessionId" element={<LiveClassroom />} />
+          <Route path="/profile/:id" element={<ProfilePortfolio />} />
+
+          {/* Admin Routes */}
+          <Route path="/admin/contacts" element={<ContactFormsData />} />
         </Routes>
       </Layout>
     </BrowserRouter>
