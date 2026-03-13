@@ -23,4 +23,9 @@ public class ContactServiceImpl implements ContactService {
     public List<Contact> getAllContacts() {
         return contactRepository.findAll();
     }
+    
+    @Override
+    public void deleteContactById(String id) {
+        contactRepository.deleteById(id);
+    }
 }

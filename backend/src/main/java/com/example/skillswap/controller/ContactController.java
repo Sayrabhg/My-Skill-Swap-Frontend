@@ -29,4 +29,11 @@ public class ContactController {
     public List<Contact> getAllContacts() {
         return contactService.getAllContacts();
     }
+    
+    // Delete a contact message by ID (Admin/Moderator only)
+    @PreAuthorize("hasAnyRole('ADMIN','MODERATOR')")
+    @DeleteMapping("/delete/{id}")
+    public void deleteContact(@PathVariable String id) {
+        contactService.deleteContactById(id);
+    }
 }
