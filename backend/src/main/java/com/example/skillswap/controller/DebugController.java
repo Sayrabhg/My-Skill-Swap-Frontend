@@ -21,6 +21,7 @@ import com.example.skillswap.repository.UserRepository;
 
 @RestController
 @RequestMapping("/api/debug")
+@CrossOrigin("*")
 public class DebugController {
 
     @Autowired
