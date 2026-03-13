@@ -40,13 +40,16 @@ public class SecurityConfig {
             .and()
             .csrf().disable()
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/", "/api/auth/**", "/api/contact**").permitAll()
+                // Public routes — contact form is now accessible to anyone
+                .requestMatchers("/", "/api/auth/**", "/api/contact/**").permitAll()
+                // All other routes require authentication
                 .anyRequest().authenticated()
             )
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
             .exceptionHandling().accessDeniedHandler(accessDeniedHandler);
 
+        // JWT filter applies only to secured routes
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
@@ -55,11 +58,10 @@ public class SecurityConfig {
     // CORS configuration
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
-
         CorsConfiguration configuration = new CorsConfiguration();
 
         configuration.setAllowedOrigins(Arrays.asList(
-                "http://localhost:5173", "http://localhost:5174" , "https://my-skill-swap.vercel.app"   // React Vite
+                "http://localhost:5173", "http://localhost:5174", "https://my-skill-swap.vercel.app"
         ));
 
         configuration.setAllowedMethods(Arrays.asList(
