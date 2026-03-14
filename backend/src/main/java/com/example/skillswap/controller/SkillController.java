@@ -2,6 +2,7 @@ package com.example.skillswap.controller;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -33,6 +34,11 @@ public class SkillController {
     @GetMapping("/user/{userId}")
     public List<Skill> getSkillsByUser(@PathVariable String userId) {
         return skillService.getSkillsByUser(userId);
+    }
+
+    @GetMapping("/skill/{id}")
+    public Optional<Skill> getSkillsBySkillsId(@PathVariable String id) {
+    	return skillService.getSkillsBySkillsId(id);
     }
 
     @DeleteMapping("/delete/{skillId}")
