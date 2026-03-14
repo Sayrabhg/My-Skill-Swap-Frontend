@@ -1,6 +1,7 @@
 package com.example.skillswap.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,6 +42,10 @@ public class SkillService {
 
     public List<Skill> getSkillsByUser(String userId) {
         return skillRepository.findByUserId(userId);
+    }
+
+    public Optional<Skill> getSkillsBySkillsId(String id) {
+    	return skillRepository.findById(id);
     }
 
     public void deleteSkill(String skillId) {
