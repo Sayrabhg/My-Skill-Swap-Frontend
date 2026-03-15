@@ -106,11 +106,29 @@ public class UserService {
     // ---------------- HELPER: copy fields ----------------
     private void copyUserFields(User existing, User updated) {
         if (updated.getName() != null) existing.setName(updated.getName());
-        if (updated.getEmail() != null) existing.setEmail(updated.getEmail());
         if (updated.getLanguage() != null) existing.setLanguage(updated.getLanguage());
         if (updated.getBio() != null) existing.setBio(updated.getBio());
         if (updated.getAvatar() != null) existing.setAvatar(updated.getAvatar());
-        // Tokens, rating, trustScore should be updated only by admin
+
+        // Contact info
+        if (updated.getMobileNumber() != null) existing.setMobileNumber(updated.getMobileNumber());
+        
+        // Personal info
+        if (updated.getGender() != null) existing.setGender(updated.getGender());
+
+        // Address info
+        if (updated.getAddress() != null) existing.setAddress(updated.getAddress());
+        if (updated.getCity() != null) existing.setCity(updated.getCity());
+        if (updated.getState() != null) existing.setState(updated.getState());
+        if (updated.getCountry() != null) existing.setCountry(updated.getCountry());
+        if (updated.getPostalCode() != null) existing.setPostalCode(updated.getPostalCode());
+
+        // Optional / social links
+        if (updated.getWebsite() != null) existing.setWebsite(updated.getWebsite());
+        if (updated.getLinkedin() != null) existing.setLinkedin(updated.getLinkedin());
+        if (updated.getGithub() != null) existing.setGithub(updated.getGithub());
+
+        // Do NOT update: email, tokens, rating, trustScore (only admin)
     }
     
     public UserProfileDTO getUserProfile(String userId) {

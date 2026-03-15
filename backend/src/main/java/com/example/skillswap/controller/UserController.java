@@ -51,19 +51,24 @@ public class UserController {
             return ResponseEntity.status(403).body("Default admin cannot be deleted");
         }
 
-        boolean isAdmin = authentication != null && authentication.getAuthorities() != null &&
-                authentication.getAuthorities()
-                .stream()
-                .anyMatch(auth -> "ROLE_ADMIN".equals(auth.getAuthority()));
-
         boolean deleted = userService.deleteUserByEmail(email);
 
         if (deleted) {
-            if (isAdmin) {
-                return ResponseEntity.ok("Admin account deleted successfully");
-            } else {
-                return ResponseEntity.ok("User account deleted successfully");
-            }
+            return ResponseEntity.ok("User account deleted successfully");
+        }
+
+        return ResponseEntity.status(404).body("User not found");
+    }
+
+    // ---------------- GET USER PROFILE WITH SKILLS ----------------
+    @GetMapping("/me/profile")
+    public ResponseEntity<?> getCurrentUserProfile(Authentication authentication) {
+        String email = authentication.getName();
+        Optional<User> userOpt = userService.getUserByEmail(email);
+
+        if (userOpt.isPresent()) {
+            User user = userOpt.get();
+            return ResponseEntity.ok(userService.getUserProfile(user.getId()));
         }
 
         return ResponseEntity.status(404).body("User not found");
