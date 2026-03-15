@@ -1,13 +1,18 @@
 import { useEffect, useState } from "react";
-import { getProfile } from "../../api/api";
+import { getProfile, updateProfile } from "../../api/api";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { Pencil, Globe, Phone, AtSign, MapPin, Github, Linkedin } from "lucide-react";
+import { Pencil, Globe, Phone, AtSign, MapPin, Github, Linkedin, X } from "lucide-react";
 import Loading from "./components/Loading";
 
 export default function Profile() {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [showBioDialog, setShowBioDialog] = useState(false);
+    const [newBio, setNewBio] = useState("");
+    const [bioLoading, setBioLoading] = useState(false);
+    const [showMsgDialog, setShowMsgDialog] = useState(false);
+    const [msgText, setMsgText] = useState("");
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -26,8 +31,31 @@ export default function Profile() {
 
     if (loading) return <Loading message="Loading profile..." />;
 
+    const handleBioSave = async () => {
+        try {
+            setBioLoading(true);
+            const updatedUser = { ...user, bio: newBio };
+            const res = await updateProfile(updatedUser);
+            setUser(res.data);
+            localStorage.setItem("user", JSON.stringify(res.data));
+
+            // Close bio dialog
+            setShowBioDialog(false);
+
+            // Show success message
+            setMsgText("Bio updated successfully!");
+            setShowMsgDialog(true);
+        } catch (error) {
+            console.error(error);
+            setMsgText("Failed to update bio.");
+            setShowMsgDialog(true);
+        } finally {
+            setBioLoading(false);
+        }
+    };
+
     return (
-        <div className="min-h-screen bg-gray-100">
+        <div className="min-h-screen bg-gray-100 pb-3">
 
             {/* Cover Section */}
             <div className="relative h-56 w-full">
@@ -42,7 +70,7 @@ export default function Profile() {
                         alt="avatar"
                         className="w-32 h-32 rounded-full border-4 border-white shadow-lg -mb-22"
                     />
-                    <div className="ml-6 -mb-12 text-white gap-2 grid">
+                    <div className="lg:ml-6 -mb-12 text-white gap-2 grid">
                         <h1 className="text-sm lg:text-2xl text-white bg-[#83838342] p-2 rounded-lg shadow-xl font-bold">{user.name}</h1>
                         <p className="text-gray-900">{user.email}</p>
                     </div>
@@ -72,7 +100,14 @@ export default function Profile() {
                 <div className="bg-white rounded-xl shadow p-6">
                     <div className="flex justify-between items-center mb-3">
                         <h3 className="text-lg font-semibold">Bio</h3>
-                        <Pencil size={18} className="text-gray-400 cursor-pointer" />
+                        <Pencil
+                            size={18}
+                            className="text-gray-400 cursor-pointer"
+                            onClick={() => {
+                                setNewBio(user.bio || "");
+                                setShowBioDialog(true);
+                            }}
+                        />
                     </div>
                     <p className="text-gray-600">{user.bio || "No bio provided."}</p>
                 </div>
@@ -104,7 +139,7 @@ export default function Profile() {
                     <h3 className="text-lg font-semibold mb-4">Contact & Info</h3>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-700">
                         <div className="flex items-center gap-2"><Phone size={16} /> {user.mobileNumber || "Not provided"}</div>
-                        <div className="flex items-center gap-2"><MapPin size={16} /> {user.address || "Not provided"}, {user.city || "-"}, {user.state || "-"}, {user.country || "-"}, {user.postalCode || "-"}</div>
+                        <div className="flex align-baseline text-left gap-2"><MapPin size={16} className="mt-1" /> {user.address || "Not provided"}, {user.city || "-"}, {user.state || "-"}, {user.country || "-"}, {user.postalCode || "-"}</div>
                         <div className="flex items-center gap-2"><Globe size={16} /> {user.website || "Not provided"}</div>
                         <div className="flex items-center gap-2"><Linkedin size={16} /> {user.linkedin || "Not provided"}</div>
                         <div className="flex items-center gap-2"><Github size={16} /> {user.github || "Not provided"}</div>
@@ -114,7 +149,45 @@ export default function Profile() {
 
             </div>
 
-            {/* Edit Profile Button */}
+            {/* Mini Bio Dialog */}
+            {showBioDialog && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+                    <div className="bg-white rounded-lg shadow-lg p-6 w-96">
+                        <div className="flex justify-between items-center mb-4">
+                            <h3 className="text-lg font-semibold">Edit Bio</h3>
+                            <X className="cursor-pointer" onClick={() => setShowBioDialog(false)} />
+                        </div>
+                        <textarea
+                            className="w-full border rounded-lg p-2 mb-4"
+                            rows={4}
+                            value={newBio}
+                            onChange={(e) => setNewBio(e.target.value)}
+                            placeholder="Update your bio..."
+                        />
+                        <Button
+                            className="w-full"
+                            onClick={handleBioSave}
+                            disabled={bioLoading}
+                        >
+                            {bioLoading ? "Saving..." : "Save"}
+                        </Button>
+                    </div>
+                </div>
+            )}
+
+            {/* Message Dialog */}
+            {showMsgDialog && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+                    <div className="bg-white rounded-lg shadow-lg p-6 w-80 text-center">
+                        <p className="mb-4">{msgText}</p>
+                        <Button className="w-full" onClick={() => setShowMsgDialog(false)}>
+                            OK
+                        </Button>
+                    </div>
+                </div>
+            )}
+
+            {/* Edit Full Profile Button */}
             <div className="mt-8 flex justify-center">
                 <Link to="/profile/edit">
                     <Button className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white">

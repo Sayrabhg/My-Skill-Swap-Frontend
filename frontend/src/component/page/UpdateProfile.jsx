@@ -23,6 +23,8 @@ export default function UpdateProfile() {
 
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+    const [dialogMessage, setDialogMessage] = useState("");
+    const [showDialog, setShowDialog] = useState(false);
 
     useEffect(() => {
         const storedUser = localStorage.getItem("user");
@@ -44,13 +46,21 @@ export default function UpdateProfile() {
             setLoading(true);
             const res = await updateProfile(user);
             localStorage.setItem("user", JSON.stringify(res.data));
-            alert("Profile updated successfully");
-            navigate("/profile");
+            setDialogMessage("Profile updated successfully"); // <-- show success
+            setShowDialog(true);
         } catch (error) {
             console.error(error);
-            alert("Profile update failed");
+            setDialogMessage("Profile update failed"); // <-- show error
+            setShowDialog(true);
         } finally {
             setLoading(false);
+        }
+    };
+
+    const handleDialogClose = () => {
+        setShowDialog(false);
+        if (dialogMessage === "Profile updated successfully") {
+            navigate("/profile");
         }
     };
 
@@ -95,15 +105,6 @@ export default function UpdateProfile() {
                         className="w-full border rounded-lg px-4 py-2 bg-gray-100"
                     />
 
-                    {/* Bio */}
-                    <textarea
-                        name="bio"
-                        placeholder="Short bio"
-                        value={user.bio || ""}
-                        onChange={handleChange}
-                        className="w-full border rounded-lg px-4 py-2"
-                    />
-
                     {/* Mobile Number */}
                     <input
                         type="text"
@@ -115,14 +116,20 @@ export default function UpdateProfile() {
                     />
 
                     {/* Gender */}
-                    <input
-                        type="text"
-                        name="gender"
-                        placeholder="Gender"
-                        value={user.gender || ""}
-                        onChange={handleChange}
-                        className="w-full border rounded-lg px-4 py-2"
-                    />
+                    <div className="w-full">
+                        <label className="block mb-1 font-medium text-gray-700">Gender</label>
+                        <select
+                            name="gender"
+                            value={user.gender || ""}
+                            onChange={handleChange}
+                            className="w-full border rounded-lg px-4 py-2"
+                        >
+                            <option value="">Select Gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
 
                     {/* Address */}
                     <input
@@ -215,6 +222,18 @@ export default function UpdateProfile() {
 
                 </form>
             </div>
+
+            {/* Dialog */}
+            {showDialog && (
+                <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
+                    <div className="bg-white rounded-lg shadow-lg p-6 w-80 text-center">
+                        <p className="mb-4">{dialogMessage}</p>
+                        <Button onClick={handleDialogClose} className="w-full">
+                            OK
+                        </Button>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
