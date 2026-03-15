@@ -26,6 +26,7 @@ export const deleteProfile = () => API.delete(`/users/me`);
 // ================= SKILLS =================
 export const createSkill = (data) => API.post(`/skills/add`, data);
 export const getAllSkills = () => API.get(`/skills/all`);
+export const getSkillsBySkillsId = (skillsId) => API.get(`/skills/skill/${skillsId}`);
 export const getSkillsByUserId = (userId) => API.get(`/skills/user/${userId}`);
 export const deleteSkill = (skillId) => API.delete(`/skills/delete/${skillId}`);
 
@@ -61,8 +62,8 @@ export const createSwapSession = (mentorId, studentId, sessionData) =>
 export const getAllSwapSessions = () => API.get(`/sessions/all`);
 export const getSwapSessionsByMentorId = (mentorId) => API.get(`/sessions/mentor/${mentorId}`);
 export const getSwapSessionsByStudentId = (studentId) => API.get(`/sessions/student/${studentId}`);
-export const updateSwapSessionStatus = (sessionId, statusData) =>
-    API.put(`/sessions/updateStatus/${sessionId}`, statusData);
+export const updateSwapSessionStatus = (sessionId, status) =>
+    API.put(`/sessions/updateStatus/${sessionId}?status=${status}`);
 
 // ================= CONTACT FORM =================
 export const sendContactMessage = (data) => API.post(`/contact/create`, data);

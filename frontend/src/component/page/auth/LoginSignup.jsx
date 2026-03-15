@@ -19,6 +19,7 @@ const LoginSignup = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [isLogin, setIsLogin] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [status, setStatus] = useState("success");
     const [customLanguage, setCustomLanguage] = useState("");
     const [dialogOpen, setDialogOpen] = useState(false);
@@ -42,6 +43,8 @@ const LoginSignup = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        setLoading(true);
 
         try {
 
@@ -95,8 +98,8 @@ const LoginSignup = () => {
 
                 setIsLogin(true);
             }
-        }
-        catch (error) {
+
+        } catch (error) {
 
             console.error(error);
 
@@ -104,8 +107,11 @@ const LoginSignup = () => {
             setStatus("error");
             setDialogOpen(true);
 
-        }
+        } finally {
 
+            setLoading(false);
+
+        }
     };
 
     return (
@@ -249,9 +255,17 @@ const LoginSignup = () => {
 
                     <button
                         type="submit"
-                        className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded-lg font-medium transition"
+                        disabled={loading}
+                        className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded-lg font-medium transition flex items-center justify-center gap-2 disabled:opacity-70"
                     >
-                        {isLogin ? "Login" : "Sign Up"}
+                        {loading ? (
+                            <>
+                                <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                                Processing...
+                            </>
+                        ) : (
+                            isLogin ? "Login" : "Sign Up"
+                        )}
                     </button>
 
                 </form>

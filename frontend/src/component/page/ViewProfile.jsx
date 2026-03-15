@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getUserByEmail, getSkillsByUserId } from "../../api/api";
 import { Button } from "@/components/ui/button";
 
 export default function ViewProfile() {
 
     const { email } = useParams();
+    const navigate = useNavigate();
 
     const [user, setUser] = useState(null);
     const [skills, setSkills] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
 
@@ -32,6 +34,10 @@ export default function ViewProfile() {
 
                 console.error(error);
 
+            } finally {
+
+                setLoading(false);
+
             }
 
         };
@@ -40,7 +46,61 @@ export default function ViewProfile() {
 
     }, [email]);
 
-    if (!user) return <p className="text-center mt-10">Loading...</p>;
+    /* ---------------- LOADING SKELETON ---------------- */
+
+    if (loading) {
+        return (
+            <div className="max-w-5xl mx-auto mt-10 px-4 animate-pulse">
+
+                {/* Profile Header Skeleton */}
+                <div className="bg-white shadow-xl rounded-2xl p-6 flex flex-col md:flex-row items-center gap-6">
+
+                    <div className="w-24 h-24 rounded-full bg-gray-300"></div>
+
+                    <div className="space-y-3 text-center md:text-left">
+                        <div className="h-6 w-40 bg-gray-300 rounded"></div>
+                        <div className="h-4 w-52 bg-gray-200 rounded"></div>
+                        <div className="h-5 w-28 bg-gray-200 rounded-full"></div>
+                    </div>
+
+                </div>
+
+                {/* Skills Skeleton */}
+
+                <div className="my-8">
+
+                    <div className="h-6 w-40 bg-gray-300 rounded mb-6"></div>
+
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+
+                        {[1, 2, 3].map((i) => (
+
+                            <div
+                                key={i}
+                                className="border rounded-xl p-5 bg-white space-y-3"
+                            >
+
+                                <div className="h-4 w-16 bg-gray-200 rounded"></div>
+
+                                <div className="h-4 w-32 bg-gray-300 rounded"></div>
+
+                                <div className="h-4 w-28 bg-gray-200 rounded"></div>
+
+                                <div className="h-8 w-full bg-gray-300 rounded"></div>
+
+                            </div>
+
+                        ))}
+
+                    </div>
+
+                </div>
+
+            </div>
+        );
+    }
+
+    /* ---------------- MAIN UI ---------------- */
 
     return (
         <div className="max-w-5xl mx-auto mt-10 px-4">
@@ -123,6 +183,7 @@ export default function ViewProfile() {
                                 <Button
                                     className="w-full mt-4"
                                     size="sm"
+                                    onClick={() => navigate(`/request/${user.id}/${skill.id}`)}
                                 >
                                     Request Swap
                                 </Button>

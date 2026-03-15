@@ -125,6 +125,13 @@ const Navbar = () => {
                                         >
                                             Profile
                                         </Link>
+                                        <Link
+                                            to="/mentor/requests"
+                                            className="block text-left px-4 py-2 hover:bg-gray-100"
+                                            onClick={() => setDropdownOpen(false)}
+                                        >
+                                            Request
+                                        </Link>
                                         {user && (user.role === "ADMIN" || user.role === "MODERATOR") && (
                                             <button
                                                 onClick={() => navigate("/admin/contacts")}
@@ -230,6 +237,15 @@ const Navbar = () => {
                                             className="block w-full text-left px-4 py-2 hover:bg-indigo-50 transition"
                                         >
                                             Profile
+                                        </button>
+                                        <button
+                                            onClick={() => {
+                                                navigate("/mentor/requests");
+                                                setIsOpen(false);
+                                            }}
+                                            className="block w-full text-left px-4 py-2 hover:bg-indigo-50 transition"
+                                        >
+                                            Request
                                         </button>
                                         {user && (user.role === "ADMIN" || user.role === "MODERATOR") && (
                                             <button

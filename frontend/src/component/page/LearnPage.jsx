@@ -8,10 +8,17 @@ import { CoolMode } from "@/components/ui/cool-mode";
 const LearnPage = () => {
 
     const [search, setSearch] = useState("");
+    const [showLockedPopup, setShowLockedPopup] = useState(false);
+    const [selectedCourse, setSelectedCourse] = useState(null);
 
     const filteredCourses = courses.filter((course) =>
         course.title.toLowerCase().includes(search.toLowerCase())
     );
+
+    const handleUnlockClick = (course) => {
+        setSelectedCourse(course);
+        setShowLockedPopup(true);
+    };
 
     return (
         <section className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-200 py-16 px-6">
@@ -105,7 +112,10 @@ const LearnPage = () => {
                             </div>
 
                             <CoolMode>
-                                <button className="mt-5 w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded-full flex items-center justify-center gap-2 transition">
+                                <button
+                                    onClick={() => handleUnlockClick(course)}
+                                    className="mt-5 w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded-full flex items-center justify-center gap-2 transition"
+                                >
 
                                     <BookOpen size={18} />
 
@@ -121,7 +131,44 @@ const LearnPage = () => {
                 ))}
 
             </div>
+            {showLockedPopup && (
+                <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
 
+                    <motion.div
+                        initial={{ scale: 0.7, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        exit={{ scale: 0.7, opacity: 0 }}
+                        transition={{ duration: 0.3 }}
+                        className="bg-white rounded-2xl shadow-xl p-8 text-center max-w-sm w-full"
+                    >
+
+                        <div className="text-5xl mb-3">🔒</div>
+
+                        <h3 className="text-xl font-bold text-gray-800">
+                            Course Locked
+                        </h3>
+
+                        <p className="text-gray-500 mt-2">
+                            This course is locked. Use tokens to unlock it.
+                        </p>
+
+                        {selectedCourse && (
+                            <p className="text-indigo-600 font-semibold mt-3">
+                                {selectedCourse.tokens} Tokens Required
+                            </p>
+                        )}
+
+                        <button
+                            onClick={() => setShowLockedPopup(false)}
+                            className="mt-6 bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-full"
+                        >
+                            Close
+                        </button>
+
+                    </motion.div>
+
+                </div>
+            )}
         </section>
     );
 };

@@ -135,8 +135,81 @@ export default function UserDashboard() {
 
     if (loading) {
         return (
-            <div className="min-h-screen flex items-center justify-center">
-                <p className="text-lg">Loading dashboard...</p>
+            <div className="min-h-screen bg-gray-50 p-6 animate-pulse">
+
+                {/* Header Skeleton */}
+                <div className="flex items-center justify-center gap-4 mb-8">
+
+                    <div className="w-14 h-14 rounded-full bg-gray-300"></div>
+
+                    <div className="space-y-2">
+                        <div className="h-6 w-40 bg-gray-300 rounded"></div>
+                        <div className="h-4 w-28 bg-gray-200 rounded"></div>
+                    </div>
+
+                </div>
+
+                {/* Stats Cards Skeleton */}
+                <div className="grid md:grid-cols-3 gap-6 mb-10">
+
+                    {[1, 2, 3].map((i) => (
+                        <div
+                            key={i}
+                            className="bg-white border rounded-xl p-6 shadow-sm space-y-3"
+                        >
+                            <div className="h-4 w-24 bg-gray-200 rounded"></div>
+                            <div className="h-8 w-16 bg-gray-300 rounded"></div>
+                        </div>
+                    ))}
+
+                </div>
+
+                {/* Skills Section Skeleton */}
+                <div className="bg-white rounded-xl shadow-sm border p-6 mb-10">
+
+                    <div className="h-6 w-32 bg-gray-300 rounded mb-4"></div>
+
+                    <div className="flex flex-wrap gap-3">
+
+                        {[1, 2, 3, 4].map((i) => (
+                            <div
+                                key={i}
+                                className="h-8 w-28 bg-gray-200 rounded-full"
+                            ></div>
+                        ))}
+
+                    </div>
+
+                </div>
+
+                {/* Recommendations Skeleton */}
+                <div className="bg-white rounded-xl shadow-sm border p-6">
+
+                    <div className="h-6 w-52 bg-gray-300 rounded mb-6"></div>
+
+                    <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-6">
+
+                        {[1, 2, 3, 4].map((i) => (
+                            <div
+                                key={i}
+                                className="border rounded-xl p-4 text-center space-y-3"
+                            >
+
+                                <div className="w-16 h-16 bg-gray-300 rounded-full mx-auto"></div>
+
+                                <div className="h-4 w-20 bg-gray-300 rounded mx-auto"></div>
+
+                                <div className="h-3 w-32 bg-gray-200 rounded mx-auto"></div>
+
+                                <div className="h-8 w-24 bg-gray-300 rounded mx-auto"></div>
+
+                            </div>
+                        ))}
+
+                    </div>
+
+                </div>
+
             </div>
         );
     }
@@ -231,10 +304,10 @@ export default function UserDashboard() {
                     Your Skills
                 </h2>
 
-                <div className="flex flex-wrap justify-between">
+                <div className="flex flex-wrap gap-3 lg:justify-between justify-center">
                     {skills.length ? (
 
-                        <div className="flex flex-wrap gap-3">
+                        <div className="flex flex-wrap gap-3 justify-center">
 
                             {skills.map((skill) => (
 
@@ -264,7 +337,7 @@ export default function UserDashboard() {
 
                     ) : (
 
-                        <p className="text-gray-500">
+                        <p className="text-gray-500" style={{webkitTextStrokeWidth:'medium'}}>
                             You have not added any skills yet.
                         </p>
 

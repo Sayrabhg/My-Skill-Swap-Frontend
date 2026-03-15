@@ -1,0 +1,9 @@
+navigate(`/review/${session.otherUserId}`);
+
+
+<Button
+    className="bg-blue-600 hover:bg-blue-700"
+    onClick={() => navigate(`/review/${session.otherUserId}`)}
+>
+    Leave Review
+</Button>

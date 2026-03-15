@@ -2,10 +2,12 @@ import { useEffect, useState } from "react";
 import { getProfile } from "../../api/api";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import Loading from "./components/Loading";
 
 export default function Profile() {
 
     const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
 
@@ -26,6 +28,10 @@ export default function Profile() {
 
                 console.error(error);
 
+            } finally {
+
+                setLoading(false);
+
             }
 
         };
@@ -34,13 +40,9 @@ export default function Profile() {
 
     }, []);
 
-    if (!user) {
-        return (
-            <div className="flex justify-center items-center min-h-screen">
-                Loading profile...
-            </div>
-        );
-    }
+    /* Loader */
+
+    if (loading) return <Loading message="Loading profile..." />;
 
     return (
 

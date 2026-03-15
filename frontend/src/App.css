@@ -13,3 +13,6 @@ h6 {
   color: var(--color-DarkNavy);
 }
 
+input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+  filter: invert(0) brightness(0);
+}

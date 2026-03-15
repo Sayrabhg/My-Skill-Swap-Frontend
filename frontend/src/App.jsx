@@ -21,6 +21,10 @@ import Profile from './component/page/Profile';
 import ContactFormsData from './component/page/ContactFormsData';
 import ViewProfile from './component/page/ViewProfile';
 import AddSkill from './component/page/pages/AddSkill';
+import CreateRequest from './component/page/pages/CreateRequest';
+import MentorRequests from './component/page/pages/MentorRequests';
+import AddReview from './component/page/pages/AddReview';
+import AllReviews from './component/page/pages/AllReviews';
 
 // Create a wrapper component to handle conditional header/footer
 const Layout = ({ children }) => {
@@ -60,13 +64,17 @@ function App() {
           <Route path="/dashboard" element={<UserDashboard />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/Profile/edit" element={<UpdateProfile />} />
-          <Route path="/classroom/:sessionId" element={<LiveClassroom />} />
-          <Route path="/profile" element={<ProfilePortfolio />} />
+          {/* <Route path="/classroom/:sessionId" element={<LiveClassroom />} />
+          <Route path="/profile" element={<ProfilePortfolio />} /> */}
 
           {/* Admin Routes */}
           <Route path="/admin/contacts" element={<ContactFormsData />} />
           <Route path="/profile/:email" element={<ViewProfile />} />
           <Route path="/add-skill" element={<AddSkill />} />
+          <Route path="/request/:mentorId/:skillId" element={<CreateRequest />} />
+          <Route path="/mentor/requests" element={<MentorRequests />} />
+          <Route path="/review/:userId" element={<AddReview />} />
+          <Route path="/dashboard/reviews" element={<AllReviews />} />
 
         </Routes>
       </Layout>
