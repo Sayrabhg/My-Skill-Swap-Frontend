@@ -38,14 +38,33 @@ public class UserService {
 
     // ---------------- UPDATE USER BY ID (ADMIN) ----------------
     public User updateUser(String id, User updatedUser) {
-
         User user = userRepository.findById(id).orElse(null);
 
         if (user != null) {
+            // Basic info
             user.setName(updatedUser.getName());
             user.setBio(updatedUser.getBio());
             user.setLanguage(updatedUser.getLanguage());
             user.setAvatar(updatedUser.getAvatar());
+
+            // Contact info
+            user.setEmail(updatedUser.getEmail());
+            user.setMobileNumber(updatedUser.getMobileNumber());
+
+            // Personal info
+            user.setGender(updatedUser.getGender());
+
+            // Address info
+            user.setAddress(updatedUser.getAddress());
+            user.setCity(updatedUser.getCity());
+            user.setState(updatedUser.getState());
+            user.setCountry(updatedUser.getCountry());
+            user.setPostalCode(updatedUser.getPostalCode());
+
+            // Optional / social links
+            user.setWebsite(updatedUser.getWebsite());
+            user.setLinkedin(updatedUser.getLinkedin());
+            user.setGithub(updatedUser.getGithub());
 
             return userRepository.save(user);
         }
