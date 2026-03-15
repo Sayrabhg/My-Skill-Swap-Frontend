@@ -134,6 +134,14 @@ const Navbar = () => {
                                         </Link>
                                         {user && (user.role === "ADMIN" || user.role === "MODERATOR") && (
                                             <button
+                                                onClick={() => navigate("/dashboard/users")}
+                                                className="w-full text-left px-4 py-2 hover:bg-gray-100"
+                                            >
+                                                Account Profiles
+                                            </button>
+                                        )}
+                                        {user && (user.role === "ADMIN" || user.role === "MODERATOR") && (
+                                            <button
                                                 onClick={() => navigate("/admin/contacts")}
                                                 className="w-full text-left px-4 py-2 hover:bg-gray-100"
                                             >
@@ -247,6 +255,17 @@ const Navbar = () => {
                                         >
                                             Request
                                         </button>
+                                        {user && (user.role === "ADMIN" || user.role === "MODERATOR") && (
+                                            <button
+                                                onClick={() => {
+                                                    navigate("/dashboard/users");
+                                                    setIsOpen(false);
+                                                }}
+                                                className="block w-full text-left px-4 py-2 hover:bg-indigo-50 transition"
+                                            >
+                                                Account Profiles
+                                            </button>
+                                        )}
                                         {user && (user.role === "ADMIN" || user.role === "MODERATOR") && (
                                             <button
                                                 onClick={() => {

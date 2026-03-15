@@ -34,7 +34,7 @@ export const deleteSkill = (skillId) => API.delete(`/skills/delete/${skillId}`);
 export const getAllUsers = () => API.get(`/debug/users`);
 export const getUserByEmail = (email) => API.get(`/debug/user/${email}`);
 export const deleteUserByEmail = (email) => API.delete(`/debug/user/${email}`);
-export const createAdmin = () => API.post(`/debug/create-admin`);
+export const createAdmin = (data) => API.post(`/debug/create-admin`, data);
 
 // ================= REVIEWS =================
 export const addReview = (data, userId) => API.post(`/reviews/add/${userId}`, data);

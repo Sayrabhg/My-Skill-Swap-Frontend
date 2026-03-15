@@ -14,8 +14,8 @@ public class SwapSession {
     @Id
     private String id;  // <-- Must be String for MongoDB ObjectId
 
-    private String mentorId;   // use String for user IDs
-    private String studentId;  // use String for user IDs
+    private String swapUserId;   // use String for user IDs
+    private String userId;  // use String for user IDs
 
     private String skill;
 
