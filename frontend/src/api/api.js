@@ -56,12 +56,11 @@ export const acceptRequest = (requestId) => API.put(`/requests/accept/${requestI
 export const rejectRequest = (requestId) => API.put(`/requests/reject/${requestId}`); // PUT matches backend action
 
 // ================= SWAP SESSION =================
-// export const createSwapSession = (mentorId, studentId, sessionData) => API.post(`/sessions/create/${mentorId}/${studentId}`, sessionData);
-export const createSwapSession = (mentorId, sessionData) => API.post(`/sessions/create/${swapUserId}`, sessionData);
+export const createSwapSession = (swapUserId, sessionData) => API.post(`/sessions/create/${swapUserId}`, sessionData);
+export const getMySwapSessions = () => API.get(`/sessions/my-sessions`);
 export const getAllSwapSessions = () => API.get(`/sessions/all`);
-export const getSwapSessionsByMentorId = (mentorId) => API.get(`/sessions/mentor/${mentorId}`);
-export const getSwapSessionsByStudentId = (studentId) => API.get(`/sessions/student/${studentId}`);
 export const updateSwapSessionStatus = (sessionId, status) => API.put(`/sessions/updateStatus/${sessionId}?status=${status}`);
+export const deleteExpiredSessions = () => API.delete(`/sessions/deleteExpired`);
 
 // ================= CONTACT FORM =================
 export const sendContactMessage = (data) => API.post(`/contact/create`, data);
@@ -69,7 +68,10 @@ export const getAllContactMessages = () => API.get(`/contact/all`);
 export const deleteContact = (contactId) => API.delete(`/contact/delete/${contactId}`);
 
 // ================= CHAT FORM =================
+export const createChatRoom = (data) => API.post("/chat/create-room", data);
+export const getChatRoom = (swapSessionId) => API.get(`/chat/room/${swapSessionId}`);
 export const sendMessage = (data) => API.post("/chat/send", data);
-export const getChatMessages = (sessionId) => API.get(`/chat/session/${sessionId}`);
+export const getChatMessages = (roomId) => API.get(`/chat/messages/${roomId}`);
+export const deleteMessage = (chatId) => API.delete(`/chat/delete/${chatId}`);
 
 export default API;

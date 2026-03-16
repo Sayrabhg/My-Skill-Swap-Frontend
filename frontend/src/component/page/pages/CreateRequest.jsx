@@ -1,7 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { createSwapSession, getProfile, getSkillsByUserId } from "../../../api/api";
+import { createSwapSession, getSkillsByUserId } from "../../../api/api";
 import {
     Dialog,
     DialogContent,
@@ -14,8 +14,6 @@ export default function CreateRequest() {
 
     const { mentorId, skillId } = useParams();
     const navigate = useNavigate();
-
-    const [skills, setSkills] = useState([]);
     const [skill, setSkill] = useState("");
     const [scheduledTime, setScheduledTime] = useState("");
     const [tokenAmount, setTokenAmount] = useState("");
@@ -61,16 +59,13 @@ export default function CreateRequest() {
 
             setLoading(true);
 
-            const profileRes = await getProfile();
-            const studentId = profileRes.data.id;
-
             const sessionData = {
                 skill: skill,
                 scheduledTime: scheduledTime,
                 tokenAmount: Number(tokenAmount)
             };
 
-            await createSwapSession(mentorId, studentId, sessionData);
+            await createSwapSession(mentorId, sessionData);
 
             setDialogMessage("Session request sent successfully");
             setStatus("success");

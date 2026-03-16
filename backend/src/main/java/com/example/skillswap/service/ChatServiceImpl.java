@@ -11,7 +11,7 @@ import com.example.skillswap.model.ChatRoom;
 import com.example.skillswap.model.SwapSession;
 import com.example.skillswap.repository.ChatMessageRepository;
 import com.example.skillswap.repository.ChatRoomRepository;
-import com.example.skillswap.repository.SwapRepository;
+import com.example.skillswap.repository.SwapSessionRepository;
 
 @Service
 public class ChatServiceImpl implements ChatService {
@@ -23,7 +23,7 @@ public class ChatServiceImpl implements ChatService {
     private ChatMessageRepository chatMessageRepo;
 
     @Autowired
-    private SwapRepository swapSessionRepo; // ✅ Added
+    private SwapSessionRepository swapSessionRepo; // ✅ Added
 
     @Override
     public ChatRoom createRoom(String swapSessionId, String userAId, String userBId) {
@@ -100,5 +100,18 @@ public class ChatServiceImpl implements ChatService {
         chatMessageRepo.deleteById(chatId);
 
         return true;
+    }
+    
+    public List<ChatRoom> getAllRooms() {
+        return chatRoomRepo.findAll();
+    }
+    
+    public void deleteRoomWithMessages(String roomId) {
+
+        // delete all messages of this room
+        chatMessageRepo.deleteByRoomId(roomId);
+
+        // delete chat room
+        chatRoomRepo.deleteById(roomId);
     }
 }

@@ -12,10 +12,10 @@ import lombok.Data;
 public class SwapSession {
 
     @Id
-    private String id;  // <-- Must be String for MongoDB ObjectId
+    private String id;  // MongoDB ObjectId
 
-    private String swapUserId;   // use String for user IDs
-    private String userId;  // use String for user IDs
+    private String user1Id;   // First user
+    private String user2Id;   // Second user
 
     private String skill;
 

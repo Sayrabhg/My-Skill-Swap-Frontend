@@ -9,7 +9,7 @@ import {
     DialogTitle
 } from "@/components/ui/dialog";
 
-export default function ChatDialog({ open, setOpen, sessionId, mentorId, userId }) {
+export default function ChatDialog({ open, setOpen, roomId, userId }) {
 
     const [messages, setMessages] = useState([]);
     const [text, setText] = useState("");
@@ -17,7 +17,7 @@ export default function ChatDialog({ open, setOpen, sessionId, mentorId, userId 
 
     const loadMessages = async () => {
         try {
-            const res = await getChatMessages(sessionId);
+            const res = await getChatMessages(roomId);
             setMessages(res.data);
         } catch (err) {
             console.error(err);
@@ -25,10 +25,10 @@ export default function ChatDialog({ open, setOpen, sessionId, mentorId, userId 
     };
 
     useEffect(() => {
-        if (open) {
+        if (open && roomId) {
             loadMessages();
         }
-    }, [open]);
+    }, [open, roomId]);
 
     useEffect(() => {
         bottomRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -39,8 +39,7 @@ export default function ChatDialog({ open, setOpen, sessionId, mentorId, userId 
 
         try {
             await sendMessage({
-                swapSessionId: sessionId,
-                receiverId: mentorId,
+                roomId: roomId,
                 message: text
             });
 
@@ -76,7 +75,7 @@ export default function ChatDialog({ open, setOpen, sessionId, mentorId, userId 
 
                                 <div
                                     className={`px-4 py-2 rounded-xl max-w-xs text-sm shadow
-                  ${msg.senderId === userId
+                                    ${msg.senderId === userId
                                             ? "bg-blue-500 text-white"
                                             : "bg-white border"
                                         }`}
@@ -84,7 +83,7 @@ export default function ChatDialog({ open, setOpen, sessionId, mentorId, userId 
                                     {msg.message}
 
                                     <div className="text-xs opacity-70 mt-1">
-                                        {new Date(msg.sentAt).toLocaleTimeString()}
+                                        {new Date(msg.timestamp).toLocaleTimeString()}
                                     </div>
                                 </div>
 
@@ -123,11 +122,3 @@ export default function ChatDialog({ open, setOpen, sessionId, mentorId, userId 
         </Dialog>
     );
 }
-
-{/* <ChatPage
-  sessionId="65fa1c9b"
-  mentorId="userB"
-  userId="userA"
-/> */}
-
-// navigate(`/chat/${sessionId}/${mentorId}`);

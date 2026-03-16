@@ -1,17 +1,48 @@
 package com.example.skillswap.service;
 
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import com.example.skillswap.model.SwapSession;
+import com.example.skillswap.repository.SwapSessionRepository;
 
-public interface SwapSessionService {
+@Service
+public class SwapSessionService {
 
-    SwapSession createSession(SwapSession session);
+    @Autowired
+    private SwapSessionRepository repository;
 
-    List<SwapSession> getSessionsByUser(String userId);
+    // Create new session
+    public SwapSession createSession(SwapSession session) {
+        session.setStatus("pending"); // default status
+        return repository.save(session);
+    }
 
-    SwapSession updateSessionStatus(String id, String status);
+    // Get all sessions
+    public List<SwapSession> getAllSessions() {
+        return repository.findAll();
+    }
 
-    List<SwapSession> getAllSessions();
+    // Get session by ID
+    public SwapSession getSessionById(String id) {
+        return repository.findById(id).orElse(null);
+    }
+    
+    public List<SwapSession> getLearningSessions(String userId){
+        return repository.findByUser1Id(userId);
+    }
 
-    void deleteExpiredSessions();
+    public List<SwapSession> getTeachingSessions(String userId){
+        return repository.findByUser2Id(userId);
+    }
+
+    // Update session
+    public SwapSession updateSession(SwapSession session) {
+        return repository.save(session);
+    }
+
+    // Delete session
+    public void deleteSession(String id) {
+        repository.deleteById(id);
+    }
 }
