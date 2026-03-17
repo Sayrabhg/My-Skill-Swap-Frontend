@@ -11,54 +11,50 @@ export default function MentorSessions() {
     const [roomId, setRoomId] = useState(null);
     const [createdRooms, setCreatedRooms] = useState({});
 
+    // Create chat room and open chat
     const createRoomAndOpenChat = async (session) => {
         try {
             const roomData = {
                 swapSessionId: session.id,
-                userAId: session.user1Id, // learner ID
-                userBId: session.user2Id  // mentor ID
-            };
+                userAId: session.user1Id, // learner
+                userBId: session.user2Id  // mentor
+            }
+
+            console.log("UserId:", localStorage.getItem("userId"));
+            console.log("Session:", session);
+            console.log("Payload for room:", {
+                swapSessionId: session.id,
+                userAId: session.user1Id,
+                userBId: session.user2Id,
+            });
+
+            console.log("Logged-in userId:", localStorage.getItem("userId"));
+            console.log("session.user1Id (learner):", session.user1Id);
+            console.log("session.user2Id (mentor):", session.user2Id);
 
             console.log("Creating room with:", roomData);
 
             const res = await createChatRoom(roomData);
 
-            if (res?.data) {
+            if (res?.data?.id) {
                 console.log("Room created:", res.data);
 
-                // Set roomId and open chat
-                setRoomId(res.data.id);   // assuming backend returns created room with `id`
-                setChatOpen(true);
-            }
-
-        } catch (error) {
-            console.error("Failed to create chat room:", error);
-            alert(error?.response?.data || "Failed to create chat room");
-        }
-    };
-
-    const createRoom = async (session) => {
-        try {
-            const roomData = {
-                swapSessionId: session.id,
-                userAId: session.user1Id, // learner ID
-                userBId: session.user2Id  // mentor ID
-            };
-
-            console.log("Creating room with:", roomData);
-
-            const res = await createChatRoom(roomData);
-
-            if (res?.data) {
-                alert("Chat room created successfully");
-                console.log("Room:", res.data);
-
-                // Mark this session as having a room
+                // Cache created room
                 setCreatedRooms(prev => ({ ...prev, [session.id]: res.data.id }));
-            }
 
+                // Open chat
+                setRoomId(res.data.id);
+                setChatOpen(true);
+            } else {
+                console.warn("No room ID returned:", res.data);
+                alert("Failed to create chat room. No ID returned from server.");
+            }
         } catch (error) {
-            console.error("Failed to create chat room:", error);
+            console.error("Failed to create chat room:", error.response || error);
+            if (error.response) {
+                console.log("Status:", error.response.status);
+                console.log("Data:", error.response.data);
+            }
             alert(error?.response?.data || "Failed to create chat room");
         }
     };
@@ -83,7 +79,6 @@ export default function MentorSessions() {
     const handleUpdateStatus = async (sessionId, status) => {
         try {
             await updateSessionStatus(sessionId, status);
-            // Update local state
             setSessions(prev =>
                 prev.map(s => (s.id === sessionId ? { ...s, status } : s))
             );
@@ -109,38 +104,31 @@ export default function MentorSessions() {
                         >
                             <div className="space-y-2 mb-3">
                                 <p className="text-sm">
-                                    <span className="font-semibold text-indigo-600">
-                                        Skill:
-                                    </span>{" "}
+                                    <span className="font-semibold text-indigo-600">Skill:</span>{" "}
                                     {session.skill || "Not selected"}
                                 </p>
 
                                 <p className="text-sm">
-                                    <span className="font-semibold text-green-600">
-                                        Scheduled Time:
-                                    </span>{" "}
+                                    <span className="font-semibold text-green-600">Scheduled Time:</span>{" "}
                                     {session.scheduledTime
                                         ? new Date(session.scheduledTime).toLocaleString()
                                         : "Not scheduled"}
                                 </p>
 
                                 <p className="text-sm">
-                                    <span className="font-semibold text-purple-600">
-                                        Tokens:
-                                    </span>{" "}
+                                    <span className="font-semibold text-purple-600">Tokens:</span>{" "}
                                     {session.tokenAmount}
                                 </p>
                             </div>
 
                             <p className="text-xs mb-4">
-                                Status:
+                                Status:{" "}
                                 <span
-                                    className={`ml-2 font-semibold 
-                                        ${session.status === "active"
-                                            ? "text-green-600"
-                                            : session.status === "rejected"
-                                                ? "text-red-600"
-                                                : "text-yellow-600"
+                                    className={`ml-2 font-semibold ${session.status === "active"
+                                        ? "text-green-600"
+                                        : session.status === "rejected"
+                                            ? "text-red-600"
+                                            : "text-yellow-600"
                                         }`}
                                 >
                                     {session.status}
@@ -148,7 +136,6 @@ export default function MentorSessions() {
                             </p>
 
                             <div className="flex gap-2">
-
                                 {session.status === "pending" && (
                                     <>
                                         <Button
@@ -194,14 +181,13 @@ export default function MentorSessions() {
                                             <Button
                                                 size="sm"
                                                 className="bg-indigo-600 hover:bg-indigo-700"
-                                                onClick={() => createRoom(session)}
+                                                onClick={() => createRoomAndOpenChat(session)}
                                             >
                                                 Create Room
                                             </Button>
                                         )}
                                     </>
                                 )}
-
                             </div>
                         </div>
                     ))}
@@ -217,5 +203,3 @@ export default function MentorSessions() {
         </div>
     );
 }
-
-

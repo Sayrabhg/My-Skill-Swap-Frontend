@@ -37,36 +37,38 @@ public class ChatController {
     @PostMapping("/create-room")
     public Object createRoom(@RequestBody ChatRoom room) {
 
+        // 1️⃣ Fetch the session
         SwapSession session = swapSessionService.getSessionById(room.getSwapSessionId());
-
         if (session == null) {
-            return "Swap session ID not found";
+            return ResponseEntity.status(400).body("Swap session ID not found");
         }
 
+        // 2️⃣ Check session status
         if (!"active".equalsIgnoreCase(session.getStatus())) {
-            return "First activate your swap session";
+            return ResponseEntity.status(400).body("First activate your swap session");
         }
 
-        // Convert user1 email → userId
-        User user1 = userService.getUserByEmail(session.getUser1Id())
-                .orElseThrow(() -> new RuntimeException("User1 not found"));
+        // 3️⃣ Use IDs directly (no email lookup)
+        String user1Id = session.getUser1Id(); // learner ID
+        String user2Id = session.getUser2Id(); // mentor ID
 
-        String user1Id = user1.getId();
-        String user2Id = session.getUser2Id();
-
+        // 4️⃣ Validate users match the session
         boolean validUsers =
                 (user1Id.equals(room.getUserAId()) && user2Id.equals(room.getUserBId())) ||
                 (user1Id.equals(room.getUserBId()) && user2Id.equals(room.getUserAId()));
 
         if (!validUsers) {
-            return "Users are not connected with this swap session";
+            return ResponseEntity.status(403).body("Users are not connected with this swap session");
         }
 
-        return chatService.createRoom(
+        // 5️⃣ Create room
+        ChatRoom createdRoom = chatService.createRoom(
                 room.getSwapSessionId(),
                 room.getUserAId(),
                 room.getUserBId()
         );
+
+        return ResponseEntity.ok(createdRoom);
     }
 
     // Get room by swap session
