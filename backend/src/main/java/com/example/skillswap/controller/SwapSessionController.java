@@ -27,19 +27,27 @@ public class SwapSessionController {
     @Autowired
     private UserRepository userRepository;
 
-    // Create new session
     @PostMapping("/create/{user2Id}")
     public ResponseEntity<SwapSession> createSession(
             @PathVariable String user2Id,
             @RequestBody SwapSessionDTO dto,
             Principal principal) {
 
-        // Get logged-in user ID from token (Principal)
-        String user1Id = principal.getName();
+        // Get logged-in user email from Principal
+        String email = principal.getName();
+
+        // Find user by email to get actual ID
+        Optional<User> userOpt = userRepository.findByEmail(email);
+
+        if (!userOpt.isPresent()) {
+            return ResponseEntity.status(404).body(null); // user not found
+        }
+
+        User user = userOpt.get(); // get actual User object
 
         // Create new session
         SwapSession session = new SwapSession();
-        session.setUser1Id(user1Id);
+        session.setUser1Id(user.getId());   // now actual user ID
         session.setUser2Id(user2Id);
         session.setSkill(dto.getSkill());
         session.setScheduledTime(dto.getScheduledTime());
@@ -47,6 +55,7 @@ public class SwapSessionController {
         session.setStatus("pending");
 
         SwapSession created = service.createSession(session);
+
         return ResponseEntity.ok(created);
     }
     
@@ -146,7 +155,23 @@ public class SwapSessionController {
     
     @GetMapping("/my-learning")
     public ResponseEntity<List<SwapSession>> myLearning(Principal principal){
-        return ResponseEntity.ok(service.getLearningSessions(principal.getName()));
+
+        String email = principal.getName();
+        Optional<User> loggedUser = userRepository.findByEmail(email);
+        if (loggedUser.isEmpty()) return ResponseEntity.notFound().build();
+
+        String userId = loggedUser.get().getId();
+        List<SwapSession> sessions = service.getLearningSessions(userId);
+
+        List<SwapSession> fixedSessions = sessions.stream().map(session -> {
+            if(session.getUser1Id().contains("@")){
+                Optional<User> userOpt = userRepository.findByEmail(session.getUser1Id());
+                userOpt.ifPresent(user -> session.setUser1Id(user.getId()));
+            }
+            return session;
+        }).toList();
+
+        return ResponseEntity.ok(fixedSessions);
     }
 
     @GetMapping("/my-teaching")
@@ -154,16 +179,30 @@ public class SwapSessionController {
 
         String email = principal.getName();
 
-        // Find user by email
-        Optional<User> user = userRepository.findByEmail(email);
-
-        if(user.isEmpty()){
+        // Find logged-in user
+        Optional<User> loggedUser = userRepository.findByEmail(email);
+        if (loggedUser.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
+        String userId = loggedUser.get().getId();
 
-        String userId = user.get().getId();
+        // Get all teaching sessions
+        List<SwapSession> sessions = service.getTeachingSessions(userId);
 
-        return ResponseEntity.ok(service.getTeachingSessions(userId));
+        // Ensure user1Id is actual ID (not email)
+        List<SwapSession> fixedSessions = sessions.stream().map(session -> {
+
+            // If user1Id looks like an email, convert to ID
+            if(session.getUser1Id().contains("@")) {
+                Optional<User> userOpt = userRepository.findByEmail(session.getUser1Id());
+                userOpt.ifPresent(user -> session.setUser1Id(user.getId()));
+            }
+
+            return session;
+
+        }).toList();
+
+        return ResponseEntity.ok(fixedSessions);
     }
 
     // Delete session
