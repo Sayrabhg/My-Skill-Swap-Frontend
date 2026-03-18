@@ -8,6 +8,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.skillswap.model.User;
+import com.example.skillswap.repository.UserRepository;
 import com.example.skillswap.service.UserService;
 
 @RestController
@@ -17,6 +18,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    
+    @Autowired
+    private UserRepository userRepository;
 
     // ---------------- GET CURRENT LOGGED-IN USER ----------------
     @GetMapping("/me")
@@ -74,4 +78,17 @@ public class UserController {
         return ResponseEntity.status(404).body("User not found");
     }
 
+    @PutMapping("/users/{id}")
+    public ResponseEntity<User> updateUser(
+            @PathVariable String id,
+            @RequestBody User updatedUser
+    ) {
+        User user = userRepository.findById(id).orElseThrow();
+
+        user.setFirstLogin(updatedUser.isFirstLogin());
+
+        userRepository.save(user);
+
+        return ResponseEntity.ok(user);
+    }
 }

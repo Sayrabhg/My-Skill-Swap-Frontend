@@ -17,7 +17,7 @@ public class User {
     private String email;
     private String password;
 
-    private String role = "USER"; // Default role
+    private String role = "USER";
 
     private String language;
     private String bio;
@@ -27,7 +27,6 @@ public class User {
     private int trustScore;
     private int tokens;
 
-    // New fields
     @Pattern(regexp = "^[0-9]{10}$")
     private String mobileNumber;
     private String gender;
@@ -41,4 +40,7 @@ public class User {
     private String website;
     private String linkedin;
     private String github;
+
+    // ✅ ADD THIS
+    private boolean isFirstLogin = true;
 }
