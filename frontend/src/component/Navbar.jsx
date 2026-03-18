@@ -171,15 +171,17 @@ const Navbar = () => {
                         )}
                     </div>
 
-                    <div className="lg:hidden">
-                        <NotificationBar loggedInUser={user} />
-                    </div>
+                    <div className="lg:hidden flex">
+                        <div className="lg:hidden">
+                            <NotificationBar loggedInUser={user} />
+                        </div>
 
-                    {/* Mobile Menu Button */}
-                    <div className="lg:hidden relative top-[2px] lg:top-0">
-                        <button onClick={() => setIsOpen1(!isOpen1)}>
-                            {isOpen1 ? <X size={28} /> : <Menu size={28} />}
-                        </button>
+                        {/* Mobile Menu Button */}
+                        <div className="lg:hidden relative top-[2px] lg:top-0 self-center">
+                            <button onClick={() => setIsOpen1(!isOpen1)}>
+                                {isOpen1 ? <X size={28} /> : <Menu size={28} />}
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>

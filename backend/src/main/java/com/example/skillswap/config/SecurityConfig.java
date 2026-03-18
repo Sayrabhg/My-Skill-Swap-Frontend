@@ -42,7 +42,7 @@ public class SecurityConfig {
             .csrf().disable()
             .authorizeHttpRequests(auth -> auth
                 // Public routes — contact form is now accessible to anyone
-                .requestMatchers("/", "/api/auth/**", "/api/contact/**").permitAll()
+                .requestMatchers("/", "/api/auth/**", "/api/contact/**", "/ws/**").permitAll()
                 // All other routes require authentication
                 .anyRequest().authenticated()
             )
@@ -65,6 +65,7 @@ public class SecurityConfig {
 
         CorsConfiguration configuration = new CorsConfiguration();
 
+        // Split comma-separated origins from application.properties
         configuration.setAllowedOrigins(Arrays.asList(corsOrigins.split(",")));
 
         configuration.setAllowedMethods(Arrays.asList(
@@ -79,7 +80,9 @@ public class SecurityConfig {
 
         return source;
     }
-
+    
+   
+    
     @Bean
     public AuthenticationManager authManager(HttpSecurity http) throws Exception {
         return http.getSharedObject(AuthenticationManagerBuilder.class)

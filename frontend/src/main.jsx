@@ -5,6 +5,8 @@ import App from './App.jsx'
 import './global.css';
 import { AuthProvider } from './context/AuthContext';
 
+window.global = window;
+
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <AuthProvider>

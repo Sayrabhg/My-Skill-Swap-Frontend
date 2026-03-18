@@ -29,6 +29,7 @@ import UserData from './component/page/pages/UserData';
 import ChatPage from './component/page/pages/ChatPage';
 import ChatRoomFetch from './component/page/pages/ChatRoomFetch';
 import NotificationBar from './component/page/pages/NotificationBar';
+import NotificationsPage from './component/page/pages/NotificationsPage';
 
 // Create a wrapper component to handle conditional header/footer
 const Layout = ({ children }) => {
@@ -80,9 +81,11 @@ function App() {
           <Route path="/review/:userId" element={<AddReview />} />
           <Route path="/dashboard/reviews" element={<AllReviews />} />
           <Route path="/dashboard/users" element={<UserData />} />
-          <Route path="/chat/:sessionId/:mentorId" element={<ChatPage />} />
+          {/* <Route path="/chat/:sessionId/:mentorId" element={<ChatPage />} /> */}
           <Route path="/chat-room" element={<ChatRoomFetch />} />
-          <Route path="/notifications" element={<Notification />} />
+          <Route path="/notificationbar" element={<Notification />} />
+          <Route path="/chat/:roomId" element={<ChatPage />} />
+          {/* <Route path="/notifications" element={<NotificationsPage loggedInUser={loggedInUser} />} /> */}
 
         </Routes>
       </Layout>
