@@ -77,7 +77,7 @@ const Navbar = () => {
                             <Link
                                 key={link.name}
                                 to={link.href}
-                                className="text-gray-700 hover:text-indigo-600 font-medium"
+                                className="text-gray-700 hover:text-indigo-600 mx-4 font-medium"
                             >
                                 {link.name}
                             </Link>
@@ -177,7 +177,7 @@ const Navbar = () => {
                         </div>
 
                         {/* Mobile Menu Button */}
-                        <div className="lg:hidden relative top-[2px] lg:top-0 self-center">
+                        <div className="lg:hidden relative top-[3px] lg:top-0 self-center">
                             <button onClick={() => setIsOpen1(!isOpen1)}>
                                 {isOpen1 ? <X size={28} /> : <Menu size={28} />}
                             </button>

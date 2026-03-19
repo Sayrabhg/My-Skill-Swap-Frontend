@@ -26,20 +26,17 @@ import MentorRequests from './component/page/pages/MentorRequests';
 import AddReview from './component/page/pages/AddReview';
 import AllReviews from './component/page/pages/AllReviews';
 import UserData from './component/page/pages/UserData';
-import ChatPage from './component/page/pages/ChatPage';
 import ChatRoomFetch from './component/page/pages/ChatRoomFetch';
-import NotificationBar from './component/page/pages/NotificationBar';
-import NotificationsPage from './component/page/pages/NotificationsPage';
 import WelcomePage from './component/page/auth/WelcomePage';
+import ChatPages from './component/page/pages/chat/ChatPages';
 
 // Create a wrapper component to handle conditional header/footer
 const Layout = ({ children }) => {
   const location = useLocation();
 
-  // Paths where Header/Footer should be hidden
-  const hideHeaderFooter = ["/auth"];
-
-  const shouldHide = hideHeaderFooter.includes(location.pathname);
+  const shouldHide =
+    location.pathname === "/auth" ||
+    location.pathname.startsWith("/chat/"); // ✅ FIX
 
   return (
     <>
@@ -88,7 +85,7 @@ function App() {
           {/* <Route path="/chat/:sessionId/:mentorId" element={<ChatPage />} /> */}
           <Route path="/chat-room" element={<ChatRoomFetch />} />
           <Route path="/notificationbar" element={<Notification />} />
-          <Route path="/chat/:roomId" element={<ChatPage />} />
+          <Route path="/chat/:roomId" element={<ChatPages />} />
           {/* <Route path="/notifications" element={<NotificationsPage loggedInUser={loggedInUser} />} /> */}
 
         </Routes>

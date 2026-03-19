@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { getMyTeachingSessions, updateSessionStatus, createChatRoom } from "../../../api/api";
 import { Button } from "@/components/ui/button";
 import Loading from "../components/Loading";
-import ChatDialog from "./ChatPage";
+import ChatDialog from "./chat/ChatPage";
 
 export default function MentorSessions() {
     const [sessions, setSessions] = useState([]);

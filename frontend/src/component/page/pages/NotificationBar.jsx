@@ -1,38 +1,53 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Bell, X } from "lucide-react";
-import { getUserChatRooms } from "../../../api/api";
-import ChatDialog from "./ChatPage";
+import { useNavigate } from "react-router-dom";
+import { getUserById, getUserChatRooms } from "../../../api/api";
 
-export default function NotificationBar({ loggedInUser }) { // receive prop
+export default function NotificationBar({ loggedInUser }) {
     const [notifications, setNotifications] = useState([]);
     const [modalOpen, setModalOpen] = useState(false);
-    const [chatOpen, setChatOpen] = useState(false);
-    const [roomId, setRoomId] = useState(null);
     const [userId, setUserId] = useState(null);
+    const modalRef = useRef(null);
 
-    // Set userId from loggedInUser prop
+    const navigate = useNavigate(); // ✅ NEW
+
     useEffect(() => {
         if (loggedInUser) setUserId(loggedInUser.id);
         else setUserId(null);
     }, [loggedInUser]);
 
-    // Fetch notifications if user is logged in
     const fetchNotifications = async () => {
-        if (!userId) return; // skip if no user logged in
+        if (!userId) return;
 
         try {
             const res = await getUserChatRooms();
             const rooms = res.data;
 
-            const notifs = rooms.map((room) => ({
-                id: room.id,
-                type: "chat",
-                message: `Chat room with users: ${room.userAId} & ${room.userBId}`,
-                timestamp: room.updatedAt || new Date().toISOString(),
-                roomId: room.id,
-            }));
+            const notifs = await Promise.all(
+                rooms.map(async (room) => {
+                    const otherUserId =
+                        room.userAId === userId ? room.userBId : room.userAId;
+
+                    let otherUserName = "Unknown User";
+
+                    try {
+                        const userRes = await getUserById(otherUserId);
+                        otherUserName = userRes.data.user.name;
+                    } catch (err) {
+                        console.error("User fetch failed:", err);
+                    }
+
+                    return {
+                        id: room.id,
+                        message: `${otherUserName}`,
+                        timestamp: room.updatedAt || new Date().toISOString(),
+                        roomId: room.id,
+                    };
+                })
+            );
 
             setNotifications(notifs);
+
         } catch (err) {
             console.error("Failed to fetch notifications:", err);
         }
@@ -41,29 +56,45 @@ export default function NotificationBar({ loggedInUser }) { // receive prop
     useEffect(() => {
         if (userId) {
             fetchNotifications();
-            const interval = setInterval(fetchNotifications, 5000); // refresh every 5s
+            const interval = setInterval(fetchNotifications, 5000);
             return () => clearInterval(interval);
         } else {
-            setNotifications([]); // clear if logged out
+            setNotifications([]);
         }
     }, [userId]);
 
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (modalRef.current && !modalRef.current.contains(event.target)) {
+                setModalOpen(false);
+            }
+        };
+
+        if (modalOpen) {
+            document.addEventListener("mousedown", handleClickOutside);
+        }
+
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [modalOpen]);
+
+    // ✅ Navigate instead of modal
     const handleOpenChat = (roomId) => {
-        setRoomId(roomId);
-        setChatOpen(true);
         setModalOpen(false);
+        navigate(`/chat/${roomId}`);
     };
 
     return (
-        <div className="relative inline-block text-left">
+        <div className="relative mx-4">
             {/* Bell Icon */}
             <button
-                className="relative p-2 rounded-full hover:bg-gray-200 transition"
+                className="relative p-2 rounded-full hover:bg-green-100 transition"
                 onClick={() => setModalOpen(!modalOpen)}
             >
                 <Bell className="w-6 h-6 text-gray-600" />
                 {userId && notifications.length > 0 && (
-                    <span className="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold text-white bg-red-600 rounded-full">
+                    <span className="absolute top-0 right-0 px-2 py-1 text-xs font-bold text-white bg-red-600 rounded-full">
                         {notifications.length}
                     </span>
                 )}
@@ -71,18 +102,21 @@ export default function NotificationBar({ loggedInUser }) { // receive prop
 
             {/* Notifications Modal */}
             {modalOpen && (
-                <div className="absolute lg:right-0 right-[-2.7em] mt-2 w-80 lg:w-96 max-h-96 overflow-y-auto rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50">
+                <div
+                    ref={modalRef}
+                    className="absolute lg:right-0 right-[-2.7em] mt-2 w-80 lg:w-96 max-h-96 overflow-y-auto rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50"
+                >
                     <div className="flex justify-between items-center p-3 border-b">
                         <h3 className="font-semibold text-gray-700">Notifications</h3>
                         <button onClick={() => setModalOpen(false)}>
-                            <X className="w-5 h-5 text-gray-500 hover:text-gray-700" />
+                            <X className="w-5 h-5 text-gray-500 hover:text-red-700" />
                         </button>
                     </div>
 
                     <div className="p-2">
                         {!userId ? (
                             <p className="text-sm text-gray-500 text-center py-4">
-                                Please log in first to see your notifications.
+                                Please log in first
                             </p>
                         ) : notifications.length === 0 ? (
                             <p className="text-sm text-gray-500 text-center py-4">
@@ -92,30 +126,18 @@ export default function NotificationBar({ loggedInUser }) { // receive prop
                             notifications.map((notif) => (
                                 <div
                                     key={notif.id}
-                                    className="flex items-center justify-between p-3 mb-2 hover:bg-gray-100 rounded cursor-pointer transition"
+                                    className="p-3 mb-2 hover:bg-gray-100 rounded text-left cursor-pointer"
                                     onClick={() => handleOpenChat(notif.roomId)}
                                 >
-                                    <div>
-                                        <p className="text-sm text-gray-700">{notif.message}</p>
-                                        <p className="text-xs text-gray-400">
-                                            {new Date(notif.timestamp).toLocaleString()}
-                                        </p>
-                                    </div>
+                                    <p className="text-sm font-medium text-gray-700">{notif.message}</p>
+                                    <p className="text-xs text-gray-400">
+                                        {new Date(notif.timestamp).toLocaleString()}
+                                    </p>
                                 </div>
                             ))
                         )}
                     </div>
                 </div>
-            )}
-
-            {/* Chat Dialog */}
-            {chatOpen && roomId && userId && (
-                <ChatDialog
-                    open={chatOpen}
-                    setOpen={setChatOpen}
-                    roomId={roomId}
-                    userId={userId}
-                />
             )}
         </div>
     );
