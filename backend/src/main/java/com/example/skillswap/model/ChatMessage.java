@@ -2,12 +2,9 @@ package com.example.skillswap.model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-
 import lombok.Data;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 
 @Data
 @Document(collection = "chat_messages")
@@ -20,12 +17,16 @@ public class ChatMessage {
     private String senderId;
     private String message;
 
-    private LocalDate date;
-    private String time;
+    private LocalDate date; // listener will set this
+    private String time;    // listener will set this
 
-    public ChatMessage() {
-        this.date = LocalDate.now();
-        this.time = LocalTime.now()
-                .format(DateTimeFormatter.ofPattern("hh:mm a"));
+    // Empty constructor is enough; listener will handle timestamps
+    public ChatMessage() {}
+
+    // Optional convenience constructor
+    public ChatMessage(String roomId, String senderId, String message) {
+        this.roomId = roomId;
+        this.senderId = senderId;
+        this.message = message;
     }
 }
