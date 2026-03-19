@@ -9,8 +9,6 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
-import jakarta.persistence.PrePersist; // ✅ IMPORTANT
-
 @Data
 @Document(collection = "chat_messages")
 public class ChatMessage {
@@ -25,11 +23,9 @@ public class ChatMessage {
     private LocalDate date;
     private String time;
 
-    // ✅ AUTO SET DATE + TIME BEFORE SAVE
-    @PrePersist
-    public void onCreate() {
+    public ChatMessage() {
         this.date = LocalDate.now();
         this.time = LocalTime.now()
-                .format(DateTimeFormatter.ofPattern("hh:mm a")); // 12-hour format
+                .format(DateTimeFormatter.ofPattern("hh:mm a"));
     }
 }
