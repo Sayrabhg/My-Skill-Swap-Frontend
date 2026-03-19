@@ -1,8 +1,8 @@
 import axios from "axios";
 
 const API = axios.create({
-    // baseURL: "https://my-skill-swap-backend-production.up.railway.app/api",
-    baseURL: "http://localhost:1213/api",
+    baseURL: "https://my-skill-swap-backend-production.up.railway.app/api",
+    // baseURL: "http://localhost:1213/api",
 });
 
 // Attach token automatically
