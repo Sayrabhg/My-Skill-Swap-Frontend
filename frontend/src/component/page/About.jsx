@@ -58,8 +58,8 @@ const About = () => {
 
                 {/* Feature Cards with Background Shapes */}
                 <div className="grid md:grid-cols-4 gap-8 text-center mb-16 relative">
-                    <div className="absolute -top-12 -left-10 w-32 h-32 bg-blue-100 rounded-full opacity-40 -z-10 animate-spin-slow"></div>
-                    <div className="absolute -bottom-16 -right-10 w-48 h-48 bg-pink-200 rounded-full opacity-30 -z-10 animate-spin-slow-reverse"></div>
+                    <div className="absolute -top-12 -left-10 w-32 h-32 bg-blue-100 rounded-full opacity-40 -z-0 animate-pulseSoft"></div>
+                    <div className="absolute -bottom-16 -right-2 w-48 h-48 bg-pink-200 rounded-full opacity-30 -z-0 animate-glow"></div>
 
                     <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition pop-card pop-delay-1 hover:-translate-y-2 transform">
                         <Users className="mx-auto text-primary mb-3" size={32} />
