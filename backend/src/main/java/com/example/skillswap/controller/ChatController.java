@@ -7,13 +7,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.Authentication;
 
+import com.example.skillswap.dto.ChatRoomDTO;
 import com.example.skillswap.model.ChatMessage;
 import com.example.skillswap.model.ChatRoom;
-import com.example.skillswap.model.SwapSession;
 import com.example.skillswap.model.User;
 import com.example.skillswap.service.ChatService;
 import com.example.skillswap.service.ChatServiceImpl;
-import com.example.skillswap.service.SwapSessionService;
 import com.example.skillswap.service.UserService;
 
 @RestController
@@ -23,99 +22,92 @@ public class ChatController {
 
     @Autowired
     private ChatService chatService;
-    
+
     @Autowired
     private UserService userService;
-    
+
     @Autowired
     private ChatServiceImpl chatServiceImpl;
-    
-    @Autowired
-    private SwapSessionService swapSessionService;
 
-    // Create chat room
+    // ✅ SEND REQUEST (UserA → UserB)
     @PostMapping("/create-room")
-    public Object createRoom(@RequestBody ChatRoom room) {
+    public ResponseEntity<ChatRoom> sendRequest(
+            @RequestParam String userBId,
+            Authentication authentication) {
 
-        // 1️⃣ Fetch the session
-        SwapSession session = swapSessionService.getSessionById(room.getSwapSessionId());
-        if (session == null) {
-            return ResponseEntity.status(400).body("Swap session ID not found");
-        }
+        String email = authentication.getName();
 
-        // 2️⃣ Check session status
-        if (!"active".equalsIgnoreCase(session.getStatus())) {
-            return ResponseEntity.status(400).body("First activate your swap session");
-        }
+        User userA = userService.getUserByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
 
-        // 3️⃣ Use IDs directly (no email lookup)
-        String user1Id = session.getUser1Id(); // learner ID
-        String user2Id = session.getUser2Id(); // mentor ID
+        ChatRoom room = chatService.createRoom(userA.getId(), userBId);
 
-        // 4️⃣ Validate users match the session
-        boolean validUsers =
-                (user1Id.equals(room.getUserAId()) && user2Id.equals(room.getUserBId())) ||
-                (user1Id.equals(room.getUserBId()) && user2Id.equals(room.getUserAId()));
+        return ResponseEntity.ok(room);
+    }
 
-        if (!validUsers) {
-            return ResponseEntity.status(403).body("Users are not connected with this swap session");
-        }
+    // ✅ ACCEPT REQUEST
+    @PutMapping("/accept/{roomId}")
+    public ResponseEntity<ChatRoom> acceptRequest(@PathVariable String roomId) {
 
-        // 5️⃣ Create room
-        ChatRoom createdRoom = chatService.createRoom(
-                room.getSwapSessionId(),
-                room.getUserAId(),
-                room.getUserBId()
+        return ResponseEntity.ok(chatService.acceptRequest(roomId));
+    }
+
+    // ✅ REJECT REQUEST
+    @PutMapping("/reject/{roomId}")
+    public ResponseEntity<ChatRoom> rejectRequest(@PathVariable String roomId) {
+
+        return ResponseEntity.ok(chatService.rejectRequest(roomId));
+    }
+
+    // ✅ GET PENDING REQUESTS (for logged user)
+    @GetMapping("/pending")
+    public ResponseEntity<List<ChatRoom>> getPendingRequests(Authentication authentication) {
+
+        String email = authentication.getName();
+
+        User user = userService.getUserByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        return ResponseEntity.ok(chatService.getPendingRequests(user.getId()));
+    }
+
+    // ✅ GET ACCEPTED CHAT ROOMS
+    @GetMapping("/last-message")
+    public ResponseEntity<List<ChatRoomDTO>> getUserChatRooms(Authentication authentication) {
+
+        String email = authentication.getName();
+
+        User user = userService.getUserByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        return ResponseEntity.ok(
+                chatServiceImpl.getUserChatRoomsWithLastMessage(user.getId())
         );
-
-        return ResponseEntity.ok(createdRoom);
     }
 
-    // Get room by swap session
-    @GetMapping("/room/{swapSessionId}")
-    public ChatRoom getRoom(@PathVariable String swapSessionId) {
-
-        return chatService.getRoomBySession(swapSessionId);
+    // ✅ GET MESSAGES
+    @GetMapping("/messages/{roomId}")
+    public List<ChatMessage> getMessages(@PathVariable String roomId) {
+        return chatService.getMessages(roomId);
     }
 
-    // Send message (secure)
+    // ✅ SEND MESSAGE (SECURE)
     @PostMapping("/send")
     public ChatMessage sendMessage(
             @RequestBody ChatMessage message,
             Authentication authentication) {
 
-        String email = authentication.getName(); // logged user email
+        String email = authentication.getName();
 
         User user = userService.getUserByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        String loggedUserId = user.getId(); // MongoDB user ID
-
-        return chatService.sendMessage(message, loggedUserId);
+        return chatService.sendMessage(message, user.getId());
     }
 
-    // Get messages
-    @GetMapping("/messages/{roomId}")
-    public List<ChatMessage> getMessages(@PathVariable String roomId) {
-
-        return chatService.getMessages(roomId);
-    }
-    
-    @GetMapping("/rooms")
-    public List<ChatRoom> getAllRooms() {
-        return chatServiceImpl.getAllRooms();
-    }
-    
-    @DeleteMapping("/delete-room/{roomId}")
-    public String deleteRoom(@PathVariable String roomId) {
-
-        chatServiceImpl.deleteRoomWithMessages(roomId);
-
-        return "Chat room and chat history deleted successfully";
-    }
-    
-    @DeleteMapping("/delete/{chatId}")
-    public String deleteMessage(
+    // ✅ DELETE MESSAGE
+    @DeleteMapping("/delete/me/{chatId}")
+    public ResponseEntity<?> deleteForMe(
             @PathVariable String chatId,
             Authentication authentication) {
 
@@ -124,32 +116,66 @@ public class ChatController {
         User user = userService.getUserByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        boolean deleted = chatService.deleteMessage(chatId, user.getId());
+        boolean deleted = chatService.deleteForMe(chatId, user.getId());
 
         if (deleted) {
-            return "Message deleted successfully";
+            return ResponseEntity.ok("Deleted for me ✅");
+        } else {
+            return ResponseEntity.status(403).body("Delete failed ❌");
         }
-
-        return "Delete failed";
     }
     
-    
-    
-    @GetMapping("/chats/rooms")
-    public ResponseEntity<List<ChatRoom>> getRoomsForUser(Authentication authentication) {
+    @DeleteMapping("/delete/everyone/{chatId}")
+    public ResponseEntity<?> deleteForEveryone(
+            @PathVariable String chatId,
+            Authentication authentication) {
 
-        // Logged-in user email from token
         String email = authentication.getName();
 
-        // Convert email → userId
         User user = userService.getUserByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        String userId = user.getId();
+        boolean deleted = chatService.deleteForEveryone(chatId, user.getId());
 
-        // Get rooms for this user
-        List<ChatRoom> rooms = chatService.getRoomsByUserId(userId);
+        if (deleted) {
+            return ResponseEntity.ok("Deleted for everyone ✅");
+        } else {
+            return ResponseEntity.status(403).body("Delete failed ❌");
+        }
+    }
 
-        return ResponseEntity.ok(rooms);
+    // ✅ ADMIN / DEBUG
+    @GetMapping("/all-rooms")
+    public List<ChatRoom> getAllRooms() {
+        return chatServiceImpl.getAllRooms();
+    }
+    
+ // ✅ PERFECT API: Get MY accepted chat rooms with roomId
+    @GetMapping("/my-chat-rooms")
+    public ResponseEntity<List<ChatRoomDTO>> getMyAcceptedChatRooms(Authentication authentication) {
+        String email = authentication.getName();
+        
+        User currentUser = userService.getUserByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        
+        List<ChatRoomDTO> myRooms = chatServiceImpl.getMyAcceptedChatRooms(currentUser.getId());
+        
+        return ResponseEntity.ok(myRooms);
+    }
+    
+ // YOUR CONTROLLER IS PERFECT - NO CHANGES!
+    @GetMapping("/my-users")
+    public ResponseEntity<?> getMyConnections(Authentication authentication) {
+        String email = authentication.getName();
+        List<User> users = chatService.getConnectedUsers(email); // ✅ WORKS NOW
+        return ResponseEntity.ok(users);
+    }
+
+    @DeleteMapping("/delete-room/{roomId}")
+    public String deleteRoom(@PathVariable String roomId) {
+
+        chatServiceImpl.deleteRoomWithMessages(roomId);
+
+        return "Chat room and chat history deleted successfully";
     }
 }

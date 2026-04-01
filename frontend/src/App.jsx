@@ -28,7 +28,12 @@ import AllReviews from './component/page/pages/AllReviews';
 import UserData from './component/page/pages/UserData';
 import ChatRoomFetch from './component/page/pages/ChatRoomFetch';
 import WelcomePage from './component/page/auth/WelcomePage';
-import ChatPages from './component/page/pages/chat/ChatPages';
+// import ChatPages from './component/page/pages/chat/ChatPages';
+import MaintenancePage from './component/page/auth/MaintenancePage';
+import ChatRoomsPage from './component/page/pages/chat/ChatRoomsPage';
+import ChatUserPage from './component/page/pages/chat/ChatUserPage';
+import ChatDashboard from './component/page/pages/chat/ChatDashboard';
+// import ChatLayout from './component/page/pages/chat/ChatLayout';
 
 // Create a wrapper component to handle conditional header/footer
 const Layout = ({ children }) => {
@@ -36,7 +41,7 @@ const Layout = ({ children }) => {
 
   const shouldHide =
     location.pathname === "/auth" ||
-    location.pathname.startsWith("/chat/"); // ✅ FIX
+    location.pathname.startsWith("/chats");
 
   return (
     <>
@@ -56,6 +61,7 @@ function App() {
 
           <Route path='/auth' element={<LoginSignup />} />
           <Route path="/welcome" element={<WelcomePage />} />
+          <Route path="/maintenance" element={<MaintenancePage />} />
 
           <Route path='/about' element={<About />} />
           <Route path="/how-it-works" element={<HowItWorks />} />
@@ -70,8 +76,8 @@ function App() {
           <Route path="/dashboard" element={<UserDashboard />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/Profile/edit" element={<UpdateProfile />} />
-          {/* <Route path="/classroom/:sessionId" element={<LiveClassroom />} />
-          <Route path="/profile" element={<ProfilePortfolio />} /> */}
+          {/* <Route path="/classroom/:sessionId" element={<LiveClassroom />} /> */}
+          <Route path="/user-profile/:user2Id" element={<ProfilePortfolio />} />
 
           {/* Admin Routes */}
           <Route path="/admin/contacts" element={<ContactFormsData />} />
@@ -82,10 +88,17 @@ function App() {
           <Route path="/review/:userId" element={<AddReview />} />
           <Route path="/dashboard/reviews" element={<AllReviews />} />
           <Route path="/dashboard/users" element={<UserData />} />
-          {/* <Route path="/chat/:sessionId/:mentorId" element={<ChatPage />} /> */}
           <Route path="/chat-room" element={<ChatRoomFetch />} />
           <Route path="/notificationbar" element={<Notification />} />
-          <Route path="/chat/:roomId" element={<ChatPages />} />
+          {/* <Route path="/chat" element={<ChatPage />} />
+          <Route path="/chat/:id" element={<ChatPage />} /> */}
+          {/* ✅ Main dashboard - handles everything */}
+          <Route path="/chats" element={<ChatDashboard />} />
+          <Route path="/chats/:roomId" element={<ChatDashboard />} />
+          <Route path="/chats/:roomId/:userId" element={<ChatDashboard />} />
+          {/* <Route path="/chats/rooms" element={<Chat />} /> */}
+          {/* 💬 Chat Main Page */}
+          {/* <Route path="/chat" element={<ChatLayout />} /> */}
           {/* <Route path="/notifications" element={<NotificationsPage loggedInUser={loggedInUser} />} /> */}
 
         </Routes>

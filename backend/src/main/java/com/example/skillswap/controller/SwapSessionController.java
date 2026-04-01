@@ -8,6 +8,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.skillswap.model.SwapSession;
@@ -58,6 +59,35 @@ public class SwapSessionController {
 
         return ResponseEntity.ok(created);
     }
+    
+    @GetMapping("/between/{user1}/{user2}")
+    public ResponseEntity<?> getSession(
+            @PathVariable String user1,
+            @PathVariable String user2) {
+
+        try {
+            SwapSession session = service.getSessionBetweenUsers(user1, user2);
+            return ResponseEntity.ok(session);
+        } catch (Exception e) {
+            return ResponseEntity.status(404).body("No session found");
+        }
+    }
+    
+    // ✅ CREATE OR GET SESSION (NO DUPLICATES)
+//    @PostMapping("/create/{user2Id}")
+//    public SwapSession createOrGetSession(
+//            @PathVariable String user2Id,
+//            @RequestBody SwapSession request
+//    ) {
+//        // Get logged-in user id from SecurityContext (JWT)
+//        String user1Id = SecurityContextHolder.getContext().getAuthentication().getName();
+//
+//        if (user1Id == null) {
+//            throw new RuntimeException("User not logged in");
+//        }
+//
+//        return service.createOrGetSession(user1Id, user2Id);
+//    }
     
     @GetMapping
     public ResponseEntity<List<SwapSession>> getAllSessions() {

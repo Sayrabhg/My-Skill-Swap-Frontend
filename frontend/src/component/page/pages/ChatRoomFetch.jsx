@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getChatMessages } from "../../../api/api";
+import { getMessages } from "../../../api/api";
 
 export default function ChatRoomFetch() {
     const [roomId, setRoomId] = useState("");
@@ -10,7 +10,7 @@ export default function ChatRoomFetch() {
         if (!roomId) return alert("Enter a room ID!");
         setLoading(true);
         try {
-            const res = await getChatMessages(roomId);
+            const res = await getMessages(roomId);
             setMessages(res.data || []);
         } catch (err) {
             console.error("Failed to fetch messages:", err);

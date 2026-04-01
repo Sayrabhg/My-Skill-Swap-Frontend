@@ -5,6 +5,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Document(collection = "chat_messages")
@@ -17,8 +19,16 @@ public class ChatMessage {
     private String senderId;
     private String message;
 
-    private LocalDate date; // server will set this in IST
-    private String time;    // server will set this in IST (HH:mm format)
+    private LocalDate date; // server sets (IST)
+    private String time;    // server sets (HH:mm)
+
+    // 🔥 NEW FIELDS (IMPORTANT)
+
+    // ✅ For "Delete for everyone"
+    private boolean deletedForEveryone = false;
+
+    // ✅ For "Delete for me"
+    private List<String> deletedForUsers = new ArrayList<>();
 
     public ChatMessage() {}
 

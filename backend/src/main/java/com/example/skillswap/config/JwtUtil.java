@@ -3,11 +3,15 @@ package com.example.skillswap.config;
 import java.security.Key;
 import java.util.Date;
 
+import org.springframework.stereotype.Component;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 
+
+@Component
 public class JwtUtil {
 
     // Minimum recommended size for HS256: 256 bits (32 bytes)
@@ -15,6 +19,16 @@ public class JwtUtil {
 
     private static Key getSigningKey() {
         return Keys.hmacShaKeyFor(SECRET.getBytes());
+    }
+    
+    public String extractUsername(String token) {
+        Claims claims = Jwts.parser()
+                .verifyWith((javax.crypto.SecretKey) getSigningKey())
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
+
+        return claims.getSubject();
     }
 
     // Generate JWT token

@@ -1,8 +1,8 @@
 import axios from "axios";
 
 const API = axios.create({
-    baseURL: "https://my-skill-swap-backend-production.up.railway.app/api",
-    // baseURL: "http://localhost:1213/api",
+    // baseURL: "https://my-skill-swap-backend-production.up.railway.app/api",
+    baseURL: "http://localhost:1213/api",
 });
 
 // Attach token automatically
@@ -20,7 +20,7 @@ export const registerUser = (data) => API.post("/auth/signup", data);
 
 // ================= USERS =================
 export const getProfile = () => API.get(`/users/me`);
-export const updateUser = (userId, data) => API.put(`/users/user/${userId}`, data);
+// export const updateUser = (userId, data) => API.put(`/users/user/${userId}`, data);//
 export const updateProfile = (data) => API.put(`/users/me`, data);
 export const getUserById = (id) => API.get(`/users/profile/${id}`);
 export const deleteProfile = () => API.delete(`/users/me`);
@@ -60,7 +60,9 @@ export const rejectRequest = (requestId) => API.put(`/requests/reject/${requestI
 // ================= SWAP SESSION =================
 export const createSwapSession = (user2Id, data) => API.post(`/sessions/create/${user2Id}`, data);
 export const getAllSessions = () => API.get("/sessions");
-export const getSessionBetweenUsers = (user1Id, user2Id) => API.get(`/sessions/session-between?user1Id=${user1Id}&user2Id=${user2Id}`);
+// export const getSessionBetweenUsers = (user1Id, user2Id) => API.get(`/sessions/session-between?user1Id=${user1Id}&user2Id=${user2Id}`);
+export const getSessionBetweenUsers = (user1Id, user2Id) =>
+    API.get(`/sessions/between/${user1Id}/${user2Id}`);
 export const getSessionById = (sessionId) => API.get(`/sessions/${sessionId}`);
 export const updateSessionStatus = (sessionId, status) => API.put(`/sessions/updateStatus/${sessionId}?status=${status}`);
 export const getMyLearningSessions = () => API.get("/sessions/my-learning");
@@ -73,14 +75,32 @@ export const getAllContactMessages = () => API.get(`/contact/all`);
 export const deleteContact = (contactId) => API.delete(`/contact/delete/${contactId}`);
 
 // ================= CHAT FORM =================
-export const createChatRoom = (data) => API.post("/chat/create-room", data);
-export const getRoomBySession = (swapSessionId) => API.get(`/chat/room/${swapSessionId}`);
-export const sendMessage = (data) => API.post("/chat/send", data);
-export const getChatMessages = (roomId) => API.get(`/chat/messages/${roomId}`);
-export const getAllRooms = () => API.get("/chat/rooms");
-export const deleteRoom = (roomId) => API.delete(`/chat/delete-room/${roomId}`);
-export const deleteMessage = (chatId) => API.delete(`/chat/delete/${chatId}`);
-export const getUserChatRooms = () => API.get("/chat/chats/rooms");
+// export const createChatRoom = (data) => API.post("/chat/create-room", data);
+// export const getRoomBySession = (swapSessionId) => API.get(`/chat/room/${swapSessionId}`);
+// export const sendMessage = (data) => API.post("/chat/send", data);
+// export const getChatMessages = (roomId) => API.get(`/chat/messages/${roomId}`);
+// export const getAllRooms = () => API.get("/chat/rooms");
+// export const deleteRoom = (roomId) => API.delete(`/chat/delete-room/${roomId}`);
+// export const deleteMessage = (chatId) => API.delete(`/chat/delete/${chatId}`);
+// export const getUserChatRooms = () => API.get("/chat/chats/rooms");
 
+// ✅ Create Chat Room (Note: userBId is passed as a query param)
+export const createChatRoom = (userBId) => API.post(`/chat/create-room?userBId=${userBId}`);
+// ✅ Accept / Reject Requests
+export const acceptChatRequest = (roomId) => API.put(`/chat/accept/${roomId}`);
+export const rejectChatRequest = (roomId) => API.put(`/chat/reject/${roomId}`);
+// ✅ Fetching Rooms
+export const getPendingRequests = () => API.get("/chat/pending");
+export const getAcceptedChatRooms = () => getLoginUserRooms();
+// export const getAcceptedChatRooms = () => API.get("/chat/all-rooms");
+export const getLastChatRooms = () => API.get("/chat/last-message");
+export const getLoginUserRooms = () => API.get("/chat/my-chat-rooms");
+// ✅ Messaging
+export const getMessages = (roomId) => API.get(`/chat/messages/${roomId}`);
+export const sendMessage = (messageData) => API.post("/chat/send", messageData);
+// 🔥 DELETE FOR EVERYONE
+export const deleteForEveryone = (chatId) => API.delete(`/chat/delete/everyone/${chatId}`);
+// 🔥 DELETE FOR ME
+export const deleteForMe = (chatId) => API.delete(`/chat/delete/me/${chatId}`);
 
 export default API;
