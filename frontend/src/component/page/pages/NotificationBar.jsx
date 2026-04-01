@@ -3,8 +3,9 @@ import { Bell, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import {
     getUserById,
-    getUserChatRooms,
-    getChatMessages
+    getMessages,
+    acceptChatRequest,
+    rejectChatRequest
 } from "../../../api/api";
 
 export default function NotificationBar({ loggedInUser }) {
@@ -21,56 +22,65 @@ export default function NotificationBar({ loggedInUser }) {
         else setUserId(null);
     }, [loggedInUser]);
 
-    // ✅ FETCH NOTIFICATIONS WITH LAST MESSAGE + TIME
+    // ✅ FETCH NOTIFICATIONS
     const fetchNotifications = async () => {
         if (!userId) return;
 
         try {
-            const res = await getUserChatRooms();
-            const rooms = res.data;
+            const res = await getMessages(); // 👉 should return chat rooms
+            const rooms = res.data || [];
 
             const notifs = await Promise.all(
                 rooms.map(async (room) => {
-                    const otherUserId =
-                        room.userAId === userId
-                            ? room.userBId
-                            : room.userAId;
+                    // 🔍 Identify other user
+                    const isSender = room.userAId === userId;
+                    const isReceiver = room.userBId === userId;
+
+                    const otherUserId = isSender
+                        ? room.userBId
+                        : room.userAId;
 
                     let otherUserName = "Unknown User";
                     let avatar = "";
                     let lastMessage = "";
                     let lastMessageTime = "";
 
-                    // ✅ Fetch user (name + avatar)
+                    // ✅ Fetch user details
                     try {
                         const userRes = await getUserById(otherUserId);
                         otherUserName = userRes.data.user.name;
-                        avatar = userRes.data.user.avatar; // ✅ ADD THIS
+                        avatar = userRes.data.user.avatar;
                     } catch (err) {
-                        console.error("User fetch failed:", err);
+                        console.error("User fetch failed", err);
                     }
 
                     // ✅ Fetch last message
                     try {
-                        const msgRes = await getChatMessages(room.id);
+                        const msgRes = await getMessages(room.id);
                         const messages = msgRes.data || [];
 
                         if (messages.length > 0) {
-                            const lastMsg = messages[messages.length - 1];
+                            const lastMsg =
+                                messages[messages.length - 1];
                             lastMessage = lastMsg.message;
                             lastMessageTime = lastMsg.time;
                         }
                     } catch (err) {
-                        console.error("Message fetch failed:", err);
+                        console.error("Message fetch failed", err);
                     }
 
                     return {
                         id: room.id,
                         name: otherUserName,
-                        message: lastMessage || "No messages",
+                        message:
+                            room.status?.toUpperCase() === "PENDING"
+                                ? "Chat request received"
+                                : lastMessage || "No messages",
                         time: lastMessageTime || "",
-                        avatar, // ✅ ADD THIS
+                        avatar,
                         roomId: room.id,
+                        status: room.status,
+                        isReceiver // ✅ IMPORTANT
                     };
                 })
             );
@@ -81,7 +91,27 @@ export default function NotificationBar({ loggedInUser }) {
         }
     };
 
-    // ✅ Polling
+    // ✅ Accept request
+    const handleAccept = async (roomId) => {
+        try {
+            await acceptChatRequest(roomId);
+            fetchNotifications();
+        } catch (err) {
+            console.error("Accept failed", err);
+        }
+    };
+
+    // ✅ Reject request
+    const handleReject = async (roomId) => {
+        try {
+            await rejectChatRequest(roomId);
+            fetchNotifications();
+        } catch (err) {
+            console.error("Reject failed", err);
+        }
+    };
+
+    // ✅ Polling every 5 sec
     useEffect(() => {
         if (userId) {
             fetchNotifications();
@@ -137,11 +167,11 @@ export default function NotificationBar({ loggedInUser }) {
                 )}
             </button>
 
-            {/* 📩 Notifications Modal */}
+            {/* 📩 Modal */}
             {modalOpen && (
                 <div
                     ref={modalRef}
-                    className="absolute lg:right-0 right-[-2.7em] mt-2 w-80 lg:w-96 max-h-96 overflow-y-auto rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50"
+                    className="absolute lg:right-0 right-[-2.7em] mt-2 w-80 lg:w-96 max-h-96 overflow-y-auto rounded-lg shadow-lg bg-white z-50"
                 >
                     {/* HEADER */}
                     <div className="flex justify-between items-center p-3 border-b">
@@ -156,21 +186,20 @@ export default function NotificationBar({ loggedInUser }) {
                     {/* BODY */}
                     <div className="p-2">
                         {!userId ? (
-                            <p className="text-sm text-gray-500 text-center py-4">
+                            <p className="text-sm text-center py-4">
                                 Please log in first
                             </p>
                         ) : notifications.length === 0 ? (
-                            <p className="text-sm text-gray-500 text-center py-4">
+                            <p className="text-sm text-center py-4">
                                 No notifications
                             </p>
                         ) : (
                             notifications.map((notif) => (
                                 <div
                                     key={notif.id}
-                                    className="flex items-start gap-3 p-3 mb-2 hover:bg-gray-100 rounded cursor-pointer"
-                                    onClick={() => handleOpenChat(notif.roomId)}
+                                    className="flex gap-3 p-3 mb-2 hover:bg-gray-100 rounded"
                                 >
-                                    {/* ✅ AVATAR */}
+                                    {/* Avatar */}
                                     <img
                                         src={
                                             notif.avatar ||
@@ -180,10 +209,9 @@ export default function NotificationBar({ loggedInUser }) {
                                         className="w-10 h-10 rounded-full object-cover"
                                     />
 
-                                    {/* ✅ TEXT CONTENT */}
                                     <div className="flex-1">
-                                        <div className="flex justify-between items-center">
-                                            <p className="text-sm font-semibold text-gray-700">
+                                        <div className="flex justify-between">
+                                            <p className="text-sm font-semibold">
                                                 {notif.name}
                                             </p>
                                             <p className="text-xs text-gray-500">
@@ -191,9 +219,37 @@ export default function NotificationBar({ loggedInUser }) {
                                             </p>
                                         </div>
 
-                                        <p className="text-sm text-left text-green-600 truncate">
-                                            {notif.message}
-                                        </p>
+                                        {/* ✅ SHOW BUTTONS ONLY TO RECEIVER */}
+                                        {notif.status?.toUpperCase() === "PENDING" &&
+                                            notif.isReceiver ? (
+                                            <div className="mt-2 flex gap-2">
+                                                <button
+                                                    onClick={() =>
+                                                        handleAccept(notif.roomId)
+                                                    }
+                                                    className="px-3 py-1 text-xs bg-green-500 text-white rounded"
+                                                >
+                                                    Accept
+                                                </button>
+                                                <button
+                                                    onClick={() =>
+                                                        handleReject(notif.roomId)
+                                                    }
+                                                    className="px-3 py-1 text-xs bg-red-500 text-white rounded"
+                                                >
+                                                    Reject
+                                                </button>
+                                            </div>
+                                        ) : (
+                                            <p
+                                                onClick={() =>
+                                                    handleOpenChat(notif.roomId)
+                                                }
+                                                className="text-sm text-green-600 truncate cursor-pointer"
+                                            >
+                                                {notif.message}
+                                            </p>
+                                        )}
                                     </div>
                                 </div>
                             ))

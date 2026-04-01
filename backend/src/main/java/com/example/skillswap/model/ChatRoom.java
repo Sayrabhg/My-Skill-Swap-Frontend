@@ -12,9 +12,11 @@ public class ChatRoom {
     @Id
     private String id;
 
-    private String userAId;
-    private String userBId;
+    private String userAId; // sender (request initiator)
+    private String userBId; // receiver
 
-    private String swapSessionId;
-
+    private String status; 
+    // PENDING → when A sends request
+    // ACCEPTED → when B accepts
+    // REJECTED → when B rejects
 }

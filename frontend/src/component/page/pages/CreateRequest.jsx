@@ -14,6 +14,7 @@ export default function CreateRequest() {
 
     const { mentorId, skillId } = useParams();
     const navigate = useNavigate();
+
     const [skill, setSkill] = useState("");
     const [scheduledTime, setScheduledTime] = useState("");
     const [tokenAmount, setTokenAmount] = useState("");
@@ -23,14 +24,11 @@ export default function CreateRequest() {
     const [dialogOpen, setDialogOpen] = useState(false);
     const [dialogMessage, setDialogMessage] = useState("");
 
+    // ================= LOAD SKILL =================
     useEffect(() => {
-
         const fetchSkill = async () => {
-
             try {
-
                 const res = await getSkillsByUserId(mentorId);
-
                 const mentorSkills = res.data || [];
 
                 const selectedSkill = mentorSkills.find(
@@ -40,19 +38,17 @@ export default function CreateRequest() {
                 if (selectedSkill) {
                     setSkill(selectedSkill.skillOffered);
                 }
-
             } catch (error) {
-
-                console.error(error);
-
+                console.error("Skill load error:", error);
             }
-
         };
 
-        fetchSkill();
-
+        if (mentorId && skillId) {
+            fetchSkill();
+        }
     }, [mentorId, skillId]);
 
+    // ================= SUBMIT =================
     const handleSubmit = async () => {
 
         if (!scheduledTime || !tokenAmount) {
@@ -63,7 +59,6 @@ export default function CreateRequest() {
         }
 
         try {
-
             setLoading(true);
 
             const sessionData = {
@@ -71,6 +66,8 @@ export default function CreateRequest() {
                 scheduledTime: new Date(scheduledTime).toISOString(),
                 tokenAmount: Number(tokenAmount)
             };
+
+            console.log("Sending:", sessionData);
 
             await createSwapSession(mentorId, sessionData);
 
@@ -86,8 +83,7 @@ export default function CreateRequest() {
             setTokenAmount("");
 
         } catch (error) {
-
-            console.error(error);
+            console.error("Create session error:", error);
 
             setDialogMessage(
                 error?.response?.data || "Failed to send request"
@@ -101,8 +97,8 @@ export default function CreateRequest() {
         }
     };
 
+    // ================= UI =================
     return (
-
         <div className="max-w-xl mx-auto m-10 bg-white shadow-lg rounded-xl p-6">
 
             {/* Dialog */}
@@ -112,8 +108,8 @@ export default function CreateRequest() {
                         <DialogTitle>Skill Swap</DialogTitle>
                         <DialogDescription
                             className={`text-base mt-2 font-medium ${status === "success"
-                                ? "text-green-500"
-                                : "text-red-500"
+                                    ? "text-green-500"
+                                    : "text-red-500"
                                 }`}
                         >
                             {dialogMessage}
@@ -132,12 +128,11 @@ export default function CreateRequest() {
 
             <div className="space-y-4">
 
-                {/* Skill Dropdown */}
+                {/* Skill */}
                 <div>
                     <label className="text-sm font-medium">
                         Selected Skill
                     </label>
-
                     <input
                         type="text"
                         value={skill}
@@ -146,27 +141,25 @@ export default function CreateRequest() {
                     />
                 </div>
 
-                {/* Scheduled Time */}
+                {/* Time */}
                 <div>
                     <label className="text-sm font-medium">
                         Schedule Time
                     </label>
-
                     <input
                         type="datetime-local"
-                        min={new Date().toISOString().slice(0,16)}
+                        min={new Date().toISOString().slice(0, 16)}
                         value={scheduledTime}
                         onChange={(e) => setScheduledTime(e.target.value)}
                         className="w-full border rounded-lg p-3 mt-1"
                     />
                 </div>
 
-                {/* Token Amount */}
+                {/* Tokens */}
                 <div>
                     <label className="text-sm font-medium">
                         Token Amount
                     </label>
-
                     <input
                         type="number"
                         placeholder="Example: 50"
@@ -176,6 +169,7 @@ export default function CreateRequest() {
                     />
                 </div>
 
+                {/* Button */}
                 <Button
                     className="w-full"
                     onClick={handleSubmit}
@@ -185,7 +179,6 @@ export default function CreateRequest() {
                 </Button>
 
             </div>
-
         </div>
     );
 }

@@ -64,28 +64,28 @@ public class SecurityConfig {
 
     // CORS configuration
     @Value("${cors.allowed.origins}")
-    private String corsOrigins;
-
-    @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-
-        CorsConfiguration configuration = new CorsConfiguration();
-
-        // Split comma-separated origins from application.properties
-        configuration.setAllowedOrigins(Arrays.asList(corsOrigins.split(",")));
-
-        configuration.setAllowedMethods(Arrays.asList(
-                "GET", "POST", "PUT", "DELETE", "OPTIONS"
-        ));
-
-        configuration.setAllowedHeaders(Arrays.asList("*"));
-        configuration.setAllowCredentials(true);
-
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-
-        return source;
-    }
+	private String corsOrigins;
+	
+	@Bean
+	public CorsConfigurationSource corsConfigurationSource() {
+	
+	    CorsConfiguration configuration = new CorsConfiguration();
+	
+	    // Split comma-separated origins from application.properties
+	    configuration.setAllowedOrigins(Arrays.asList(corsOrigins.split(",")));
+	
+	    configuration.setAllowedMethods(Arrays.asList(
+	            "GET", "POST", "PUT", "DELETE", "OPTIONS"
+	    ));
+	
+	    configuration.setAllowedHeaders(Arrays.asList("*"));
+	    configuration.setAllowCredentials(true);
+	
+	    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+	    source.registerCorsConfiguration("/**", configuration);
+	
+	    return source;
+	}
     
     @Bean
     public AuthenticationManager authManager(HttpSecurity http) throws Exception {

@@ -66,7 +66,7 @@ const Stats = () => {
     return (
         <div
             ref={sectionRef}
-            className="bg-gradient-to-r from-blue-800 via-indigo-600 to-purple-600 text-white rounded-2xl py-12 px-6 mt-16 shadow-lg"
+            className="bg-gradient-to-r relative z-0 from-blue-800 via-indigo-600 to-purple-600 text-white rounded-2xl py-12 px-6 mt-16 shadow-lg"
         >
             <div className="grid md:grid-cols-4 text-center gap-8">
                 <div>

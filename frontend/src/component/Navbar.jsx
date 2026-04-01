@@ -129,6 +129,13 @@ const Navbar = () => {
                                             Profile
                                         </Link>
                                         <Link
+                                            to="/chats"
+                                            className="block text-left px-4 py-2 hover:bg-gray-100"
+                                            onClick={() => setDropdownOpen(false)}
+                                        >
+                                            Chats
+                                        </Link>
+                                        <Link
                                             to="/mentor/requests"
                                             className="block text-left px-4 py-2 hover:bg-gray-100"
                                             onClick={() => setDropdownOpen(false)}
@@ -254,6 +261,15 @@ const Navbar = () => {
                                             className="block w-full text-left px-4 py-2 hover:bg-indigo-50 transition"
                                         >
                                             Profile
+                                        </button>
+                                        <button
+                                            onClick={() => {
+                                                navigate("/chats");
+                                                setIsOpen(false);
+                                            }}
+                                            className="block w-full text-left px-4 py-2 hover:bg-indigo-50 transition"
+                                        >
+                                            Chat
                                         </button>
                                         <button
                                             onClick={() => {
