@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-    baseURL: "https://my-skill-swap-backend-production.up.railway.app/api",
+    baseURL: "https://my-skill-swap-production.up.railway.app/api",
     // baseURL: "http://localhost:1213/api",
 });
 
