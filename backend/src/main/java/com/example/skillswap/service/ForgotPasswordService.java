@@ -42,12 +42,19 @@ public class ForgotPasswordService {
         otpEntity.setExpiryTime(LocalDateTime.now().plusMinutes(5));
         otpRepository.save(otpEntity);
 
-        // Send OTP via email
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(user.getEmail());
         message.setSubject("Your OTP for Password Reset");
         message.setText("Your OTP is: " + otp + "\nIt is valid for 5 minutes.");
-        mailSender.send(message);
+
+        try {
+            System.out.println("Sending email to: " + user.getEmail());
+            mailSender.send(message);
+            System.out.println("Email sent successfully");
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to send email");
+        }
     }
 
     // Validate OTP
