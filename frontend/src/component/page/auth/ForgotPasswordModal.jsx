@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/dialog";
 import { Eye, EyeOff, Mail, Key } from "lucide-react";
 import { sendOtp, verifyOtp, resetPassword } from "../../../api/api";
+import { ShineBorder } from "@/components/ui/shine-border";
 
 const ForgotPasswordModal = ({ open, onOpenChange }) => {
 
@@ -150,7 +151,9 @@ const ForgotPasswordModal = ({ open, onOpenChange }) => {
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="max-w-md text-center">
+            <DialogContent className="max-w-sm text-white bg-[#000291]/50 text-center">
+
+                <ShineBorder shineColor={["#00fdfd", "#ae00ff", "#ff0280"]} />
 
                 <DialogHeader>
                     <DialogTitle>Forgot Password</DialogTitle>
@@ -173,7 +176,7 @@ const ForgotPasswordModal = ({ open, onOpenChange }) => {
                                 placeholder="Enter your email"
                                 value={formData.email}
                                 onChange={handleChange}
-                                className="w-full border px-4 py-2 rounded-lg"
+                                className="w-full border text-white px-4 py-2 rounded-lg"
                             />
                             <Mail size={18} className="absolute right-3 top-1/2 -translate-y-1/2" />
                         </div>
