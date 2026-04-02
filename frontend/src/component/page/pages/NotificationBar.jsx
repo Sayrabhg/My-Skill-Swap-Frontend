@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from "react";
+import toast from "react-hot-toast";
 import { Bell, UserCheck2, UserRoundXIcon, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import {
@@ -29,16 +30,13 @@ export default function NotificationBar({ loggedInUser }) {
         if (!userId) return;
 
         try {
-            // ✅ 1. Get pending requests (ONLY where you are receiver)
             const pendingRes = await getPendingRequests();
-            const pendingRooms = pendingRes.data || [];
-
-            // ✅ 2. Get accepted chats
             const acceptedRes = await getAcceptedChatRooms();
-            const acceptedRooms = acceptedRes.data || [];
 
-            // 🔥 Combine both
-            const allRooms = [...pendingRooms, ...acceptedRooms];
+            const allRooms = [
+                ...(pendingRes.data || []),
+                ...(acceptedRes.data || [])
+            ];
 
             const notifs = await Promise.all(
                 allRooms.map(async (room) => {
@@ -49,21 +47,24 @@ export default function NotificationBar({ loggedInUser }) {
                         ? room.userBId
                         : room.userAId;
 
+                    // ❌ Skip invalid IDs (FIX 404)
+                    if (!otherUserId) return null;
+
                     let otherUserName = "Unknown User";
                     let avatar = "";
                     let lastMessage = "";
                     let lastMessageTime = "";
 
-                    // ✅ Fetch user
+                    // ✅ Safe user fetch
                     try {
                         const userRes = await getUserById(otherUserId);
-                        otherUserName = userRes.data.user.name;
-                        avatar = userRes.data.user.avatar;
+                        otherUserName = userRes?.data?.user?.name || "Unknown User";
+                        avatar = userRes?.data?.user?.avatar || "";
                     } catch (err) {
-                        console.error("User fetch failed", err);
+                        console.error("User fetch failed:", otherUserId);
                     }
 
-                    // ✅ Only fetch messages for ACCEPTED chats
+                    // ✅ Messages only for accepted
                     if (room.status === "ACCEPTED") {
                         try {
                             const msgRes = await getMessages(room.id);
@@ -75,7 +76,7 @@ export default function NotificationBar({ loggedInUser }) {
                                 lastMessageTime = lastMsg.time;
                             }
                         } catch (err) {
-                            console.error("Message fetch failed", err);
+                            console.error("Message fetch failed");
                         }
                     }
 
@@ -95,25 +96,45 @@ export default function NotificationBar({ loggedInUser }) {
                 })
             );
 
-            setNotifications(notifs);
+            // ✅ REMOVE NULL + PRESERVE actionStatus
+            setNotifications(prev => {
+                const filtered = notifs.filter(Boolean);
+
+                return filtered.map(n => {
+                    const existing = prev.find(p => p.roomId === n.roomId);
+                    return {
+                        ...n,
+                        actionStatus: existing?.actionStatus || null
+                    };
+                });
+            });
 
         } catch (err) {
             console.error("Failed to fetch notifications:", err);
         }
     };
-
     // ✅ Accept request
     const handleAccept = async (roomId) => {
         try {
             await acceptChatRequest(roomId);
 
-            // instant UI update (better UX)
             setNotifications(prev =>
-                prev.filter(n => n.roomId !== roomId)
+                prev.map(n =>
+                    n.roomId === roomId
+                        ? {
+                            ...n,
+                            actionStatus: "ACCEPTED",
+                            message: "You accepted the request ✅" // 👈 update message
+                        }
+                        : n
+                )
             );
+
+            toast.success("Request Accepted ✅");
 
         } catch (err) {
             console.error("Accept failed", err);
+            toast.error("Failed to accept ❌");
         }
     };
 
@@ -121,9 +142,24 @@ export default function NotificationBar({ loggedInUser }) {
     const handleReject = async (roomId) => {
         try {
             await rejectChatRequest(roomId);
-            fetchNotifications();
+
+            setNotifications(prev =>
+                prev.map(n =>
+                    n.roomId === roomId
+                        ? {
+                            ...n,
+                            actionStatus: "REJECTED",
+                            message: "You rejected the request ❌" // 👈 update
+                        }
+                        : n
+                )
+            );
+
+            toast.error("Request Rejected ❌");
+
         } catch (err) {
             console.error("Reject failed", err);
+            toast.error("Failed to reject ❌");
         }
     };
 
@@ -232,30 +268,47 @@ export default function NotificationBar({ loggedInUser }) {
                                     </div>
 
                                     {/* ✅ SHOW BUTTONS ONLY TO RECEIVER */}
-                                    {notif.status?.toUpperCase() === "PENDING" &&
-                                        notif.isReceiver ? (
-                                        <div className="mt-2 flex gap-2">
-                                            <button
-                                                title="Accept"
-                                                onClick={() => handleAccept(notif.roomId)}
-                                                className="px-2 py-1 cursor-pointer hover:scale-105 text-xs bg-green-500 text-white rounded-full"
-                                            >
-                                                <UserCheck2 size={18} />
-                                            </button>
+                                    {notif.status?.toUpperCase() === "PENDING" && notif.isReceiver ? (
 
-                                            <button
-                                                title="Reject"
-                                                onClick={() => handleReject(notif.roomId)}
-                                                className="px-2 py-1 cursor-pointer hover:scale-105 text-xs bg-red-500 text-white rounded-full"
-                                            >
-                                                <UserRoundXIcon size={18} />
-                                            </button>
-                                        </div>
+                                        notif.actionStatus ? (
+                                            <div className="flex flex-col items-end text-xs">
+                                                <span
+                                                    className={`px-2 py-1 rounded-full text-white ${notif.actionStatus === "ACCEPTED"
+                                                        ? "bg-green-500"
+                                                        : "bg-red-500"
+                                                        }`}
+                                                >
+                                                    {notif.actionStatus}
+                                                </span>
+
+                                                <span className="text-gray-500 mt-1 text-[11px]">
+                                                    {notif.message}
+                                                </span>
+                                            </div>
+                                        ) : (
+                                            // ✅ BEFORE CLICK SHOW BUTTONS
+                                            <div className="mt-2 flex gap-2">
+                                                <button
+                                                    title="Accept"
+                                                    onClick={() => handleAccept(notif.roomId)}
+                                                    className="px-2 py-1 cursor-pointer hover:scale-105 text-xs bg-green-500 text-white rounded-full"
+                                                >
+                                                    <UserCheck2 size={18} />
+                                                </button>
+
+                                                <button
+                                                    title="Reject"
+                                                    onClick={() => handleReject(notif.roomId)}
+                                                    className="px-2 py-1 cursor-pointer hover:scale-105 text-xs bg-red-500 text-white rounded-full"
+                                                >
+                                                    <UserRoundXIcon size={18} />
+                                                </button>
+                                            </div>
+                                        )
+
                                     ) : (
                                         <p
-                                            onClick={() =>
-                                                handleOpenChat(notif.roomId)
-                                            }
+                                            onClick={() => handleOpenChat(notif.roomId)}
                                             className="text-sm text-green-600 truncate cursor-pointer"
                                         >
                                             {notif.message}

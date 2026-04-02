@@ -26,4 +26,5 @@ public interface ChatService {
     List<User> getConnectedUsers(String email);
 	boolean deleteForEveryone(String chatId, String userId);
 	boolean deleteForMe(String chatId, String userId);
+	List<ChatRoom> getCheckedRequests(String userId);
 }

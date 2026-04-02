@@ -133,6 +133,15 @@ public class ChatServiceImpl implements ChatService {
         return chatRoomRepo.findByUserBIdAndStatus(userId, "PENDING");
     }
 
+    // ✅ PENDING REQUESTS
+    @Override
+    public List<ChatRoom> getCheckedRequests(String userId) {
+        return chatRoomRepo.findByUserBIdAndStatusIn(
+            userId,
+            List.of("ACCEPTED", "REJECTED")
+        );
+    }
+
     // ✅ ACCEPTED ROOMS
     @Override
     public List<ChatRoom> getUserChatRooms(String userId) {

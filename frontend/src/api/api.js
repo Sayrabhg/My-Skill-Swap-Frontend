@@ -82,6 +82,7 @@ export const acceptChatRequest = (roomId) => API.put(`/chat/accept/${roomId}`, {
 export const rejectChatRequest = (roomId) => API.put(`/chat/reject/${roomId}`, {});
 // ✅ Fetching Rooms
 export const getPendingRequests = () => API.get("/chat/pending");
+export const getCheckedRequests = () => API.get("/chat/status");
 export const getAcceptedChatRooms = () => getLoginUserRooms();
 // export const getAcceptedChatRooms = () => API.get("/chat/all-rooms");
 export const getLastChatRooms = () => API.get("/chat/last-message");

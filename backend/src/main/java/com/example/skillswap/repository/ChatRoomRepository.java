@@ -24,5 +24,5 @@ public interface ChatRoomRepository extends MongoRepository<ChatRoom, String> {
             @Param("status") String status
     );
     
-    // ✅ NO JOIN QUERY - REMOVED BROKEN METHOD
+    List<ChatRoom> findByUserBIdAndStatusIn(String userId, List<String> statuses);
 }
