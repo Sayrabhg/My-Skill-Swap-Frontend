@@ -1,12 +1,14 @@
 import { useEffect, useState, useRef } from "react";
-import { Bell, X } from "lucide-react";
+import { Bell, UserCheck2, UserRoundXIcon, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import {
     getUserById,
+    getPendingRequests,
+    getAcceptedChatRooms,
     getMessages,
     acceptChatRequest,
     rejectChatRequest
-} from "../../../api/api";
+} from "@/api/api";
 
 export default function NotificationBar({ loggedInUser }) {
     const [notifications, setNotifications] = useState([]);
@@ -27,12 +29,19 @@ export default function NotificationBar({ loggedInUser }) {
         if (!userId) return;
 
         try {
-            const res = await getMessages(); // 👉 should return chat rooms
-            const rooms = res.data || [];
+            // ✅ 1. Get pending requests (ONLY where you are receiver)
+            const pendingRes = await getPendingRequests();
+            const pendingRooms = pendingRes.data || [];
+
+            // ✅ 2. Get accepted chats
+            const acceptedRes = await getAcceptedChatRooms();
+            const acceptedRooms = acceptedRes.data || [];
+
+            // 🔥 Combine both
+            const allRooms = [...pendingRooms, ...acceptedRooms];
 
             const notifs = await Promise.all(
-                rooms.map(async (room) => {
-                    // 🔍 Identify other user
+                allRooms.map(async (room) => {
                     const isSender = room.userAId === userId;
                     const isReceiver = room.userBId === userId;
 
@@ -45,7 +54,7 @@ export default function NotificationBar({ loggedInUser }) {
                     let lastMessage = "";
                     let lastMessageTime = "";
 
-                    // ✅ Fetch user details
+                    // ✅ Fetch user
                     try {
                         const userRes = await getUserById(otherUserId);
                         otherUserName = userRes.data.user.name;
@@ -54,38 +63,40 @@ export default function NotificationBar({ loggedInUser }) {
                         console.error("User fetch failed", err);
                     }
 
-                    // ✅ Fetch last message
-                    try {
-                        const msgRes = await getMessages(room.id);
-                        const messages = msgRes.data || [];
+                    // ✅ Only fetch messages for ACCEPTED chats
+                    if (room.status === "ACCEPTED") {
+                        try {
+                            const msgRes = await getMessages(room.id);
+                            const messages = msgRes.data || [];
 
-                        if (messages.length > 0) {
-                            const lastMsg =
-                                messages[messages.length - 1];
-                            lastMessage = lastMsg.message;
-                            lastMessageTime = lastMsg.time;
+                            if (messages.length > 0) {
+                                const lastMsg = messages[messages.length - 1];
+                                lastMessage = lastMsg.message;
+                                lastMessageTime = lastMsg.time;
+                            }
+                        } catch (err) {
+                            console.error("Message fetch failed", err);
                         }
-                    } catch (err) {
-                        console.error("Message fetch failed", err);
                     }
 
                     return {
                         id: room.id,
                         name: otherUserName,
                         message:
-                            room.status?.toUpperCase() === "PENDING"
+                            room.status === "PENDING"
                                 ? "Chat request received"
                                 : lastMessage || "No messages",
                         time: lastMessageTime || "",
                         avatar,
                         roomId: room.id,
                         status: room.status,
-                        isReceiver // ✅ IMPORTANT
+                        isReceiver
                     };
                 })
             );
 
             setNotifications(notifs);
+
         } catch (err) {
             console.error("Failed to fetch notifications:", err);
         }
@@ -95,7 +106,12 @@ export default function NotificationBar({ loggedInUser }) {
     const handleAccept = async (roomId) => {
         try {
             await acceptChatRequest(roomId);
-            fetchNotifications();
+
+            // instant UI update (better UX)
+            setNotifications(prev =>
+                prev.filter(n => n.roomId !== roomId)
+            );
+
         } catch (err) {
             console.error("Accept failed", err);
         }
@@ -197,60 +213,54 @@ export default function NotificationBar({ loggedInUser }) {
                             notifications.map((notif) => (
                                 <div
                                     key={notif.id}
-                                    className="flex gap-3 p-3 mb-2 hover:bg-gray-100 rounded"
+                                    className="flex gap-3 p-3 mb-2 hover:bg-violet-50 rounded-full cursor-pointer justify-between"
                                 >
                                     {/* Avatar */}
-                                    <img
-                                        src={
-                                            notif.avatar ||
-                                            `https://ui-avatars.com/api/?name=${notif.name}`
-                                        }
-                                        alt="avatar"
-                                        className="w-10 h-10 rounded-full object-cover"
-                                    />
+                                    <div className="flex align-center gap-3">
+                                        <img
+                                            src={
+                                                notif.avatar ||
+                                                `https://ui-avatars.com/api/?name=${notif.name}`
+                                            }
+                                            alt="avatar"
+                                            className="w-10 h-10 rounded-full object-cover"
+                                        />
 
-                                    <div className="flex-1">
-                                        <div className="flex justify-between">
-                                            <p className="text-sm font-semibold">
-                                                {notif.name}
-                                            </p>
-                                            <p className="text-xs text-gray-500">
-                                                {notif.time}
-                                            </p>
-                                        </div>
-
-                                        {/* ✅ SHOW BUTTONS ONLY TO RECEIVER */}
-                                        {notif.status?.toUpperCase() === "PENDING" &&
-                                            notif.isReceiver ? (
-                                            <div className="mt-2 flex gap-2">
-                                                <button
-                                                    onClick={() =>
-                                                        handleAccept(notif.roomId)
-                                                    }
-                                                    className="px-3 py-1 text-xs bg-green-500 text-white rounded"
-                                                >
-                                                    Accept
-                                                </button>
-                                                <button
-                                                    onClick={() =>
-                                                        handleReject(notif.roomId)
-                                                    }
-                                                    className="px-3 py-1 text-xs bg-red-500 text-white rounded"
-                                                >
-                                                    Reject
-                                                </button>
-                                            </div>
-                                        ) : (
-                                            <p
-                                                onClick={() =>
-                                                    handleOpenChat(notif.roomId)
-                                                }
-                                                className="text-sm text-green-600 truncate cursor-pointer"
-                                            >
-                                                {notif.message}
-                                            </p>
-                                        )}
+                                        <p className="font-medium text-gray-700 self-center">
+                                            {notif.name}
+                                        </p>
                                     </div>
+
+                                    {/* ✅ SHOW BUTTONS ONLY TO RECEIVER */}
+                                    {notif.status?.toUpperCase() === "PENDING" &&
+                                        notif.isReceiver ? (
+                                        <div className="mt-2 flex gap-2">
+                                            <button
+                                                title="Accept"
+                                                onClick={() => handleAccept(notif.roomId)}
+                                                className="px-2 py-1 cursor-pointer hover:scale-105 text-xs bg-green-500 text-white rounded-full"
+                                            >
+                                                <UserCheck2 size={18} />
+                                            </button>
+
+                                            <button
+                                                title="Reject"
+                                                onClick={() => handleReject(notif.roomId)}
+                                                className="px-2 py-1 cursor-pointer hover:scale-105 text-xs bg-red-500 text-white rounded-full"
+                                            >
+                                                <UserRoundXIcon size={18} />
+                                            </button>
+                                        </div>
+                                    ) : (
+                                        <p
+                                            onClick={() =>
+                                                handleOpenChat(notif.roomId)
+                                            }
+                                            className="text-sm text-green-600 truncate cursor-pointer"
+                                        >
+                                            {notif.message}
+                                        </p>
+                                    )}
                                 </div>
                             ))
                         )}

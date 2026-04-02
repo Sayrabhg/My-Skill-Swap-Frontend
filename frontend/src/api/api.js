@@ -75,20 +75,11 @@ export const getAllContactMessages = () => API.get(`/contact/all`);
 export const deleteContact = (contactId) => API.delete(`/contact/delete/${contactId}`);
 
 // ================= CHAT FORM =================
-// export const createChatRoom = (data) => API.post("/chat/create-room", data);
-// export const getRoomBySession = (swapSessionId) => API.get(`/chat/room/${swapSessionId}`);
-// export const sendMessage = (data) => API.post("/chat/send", data);
-// export const getChatMessages = (roomId) => API.get(`/chat/messages/${roomId}`);
-// export const getAllRooms = () => API.get("/chat/rooms");
-// export const deleteRoom = (roomId) => API.delete(`/chat/delete-room/${roomId}`);
-// export const deleteMessage = (chatId) => API.delete(`/chat/delete/${chatId}`);
-// export const getUserChatRooms = () => API.get("/chat/chats/rooms");
-
 // ✅ Create Chat Room (Note: userBId is passed as a query param)
 export const createChatRoom = (userBId) => API.post(`/chat/create-room?userBId=${userBId}`);
 // ✅ Accept / Reject Requests
-export const acceptChatRequest = (roomId) => API.put(`/chat/accept/${roomId}`);
-export const rejectChatRequest = (roomId) => API.put(`/chat/reject/${roomId}`);
+export const acceptChatRequest = (roomId) => API.put(`/chat/accept/${roomId}`, {});
+export const rejectChatRequest = (roomId) => API.put(`/chat/reject/${roomId}`, {});
 // ✅ Fetching Rooms
 export const getPendingRequests = () => API.get("/chat/pending");
 export const getAcceptedChatRooms = () => getLoginUserRooms();
