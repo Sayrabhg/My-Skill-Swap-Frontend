@@ -91,7 +91,6 @@ public class SecurityConfig {
 
         return source;
     }
-
     
     @Bean
     public WebMvcConfigurer corsConfigurer() {
