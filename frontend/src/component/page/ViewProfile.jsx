@@ -7,6 +7,7 @@ import {
     getAcceptedChatRooms
 } from "../../api/api";
 import { Button } from "@/components/ui/button";
+import Loading from "./components/Loading";
 
 export default function ViewProfile() {
     const { email } = useParams();
@@ -85,7 +86,7 @@ export default function ViewProfile() {
 
     // --- LOADING ---
     if (loading) {
-        return <div className="text-center mt-10">Loading Profile...</div>;
+        return <Loading message="Loading profile..." />;
     }
 
     if (!user) {

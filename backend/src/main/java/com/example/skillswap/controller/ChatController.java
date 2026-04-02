@@ -71,6 +71,24 @@ public class ChatController {
         return ResponseEntity.ok(chatService.getPendingRequests(user.getId()));
     }
 
+    @GetMapping("/status")
+    public ResponseEntity<List<ChatRoom>> getCheckedRequests(Authentication authentication) {
+
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return ResponseEntity.status(401).build();
+        }
+
+        String email = authentication.getName();
+
+        User user = userService.getUserByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        // ✅ FIXED: call correct service method
+        return ResponseEntity.ok(
+                chatService.getCheckedRequests(user.getId())
+        );
+    }
+
     // ✅ GET ACCEPTED CHAT ROOMS
     @GetMapping("/last-message")
     public ResponseEntity<List<ChatRoomDTO>> getUserChatRooms(Authentication authentication) {
