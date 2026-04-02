@@ -469,8 +469,8 @@ const ChatUserPage = ({ roomId, onBack }) => {
                                     {/* STATUS */}
                                     {isMe && (
                                         <div className="absolute -bottom-2 -right-2 flex items-center gap-0.5 text-[10px] opacity-80">
-                                            <div className="w-1.5 h-1.5 bg-white/70 rounded-full" />
-                                            <div className="w-1.5 h-1.5 bg-white rounded-full shadow-sm" />
+                                            <div className="w-1.5 h-1.5 bg-violet-500 rounded-full" />
+                                            <div className="w-1.5 h-1.5 bg-violet-300 rounded-full shadow-sm" />
                                         </div>
                                     )}
                                 </div>
