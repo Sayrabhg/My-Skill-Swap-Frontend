@@ -102,7 +102,7 @@ const ChatDashboard = () => {
             <div
                 className={`
                 ${selectedRoomId ? "flex" : "hidden md:flex"}
-                flex-1 flex-col min-w-0 bg-[#f8fafc]
+                flex-1 flex-col min-w-0 bg-[#f8fafc] h-full
             `}
             >
                 {selectedRoomId ? (

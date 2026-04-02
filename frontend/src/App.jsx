@@ -28,12 +28,8 @@ import AllReviews from './component/page/pages/AllReviews';
 import UserData from './component/page/pages/UserData';
 import ChatRoomFetch from './component/page/pages/ChatRoomFetch';
 import WelcomePage from './component/page/auth/WelcomePage';
-// import ChatPages from './component/page/pages/chat/ChatPages';
 import MaintenancePage from './component/page/auth/MaintenancePage';
-import ChatRoomsPage from './component/page/pages/chat/ChatRoomsPage';
-import ChatUserPage from './component/page/pages/chat/ChatUserPage';
 import ChatDashboard from './component/page/pages/chat/ChatDashboard';
-// import ChatLayout from './component/page/pages/chat/ChatLayout';
 
 // Create a wrapper component to handle conditional header/footer
 const Layout = ({ children }) => {
@@ -89,16 +85,11 @@ function App() {
           <Route path="/dashboard/reviews" element={<AllReviews />} />
           <Route path="/dashboard/users" element={<UserData />} />
           <Route path="/chat-room" element={<ChatRoomFetch />} />
-          <Route path="/notificationbar" element={<Notification />} />
-          {/* <Route path="/chat" element={<ChatPage />} />
-          <Route path="/chat/:id" element={<ChatPage />} /> */}
+          {/* <Route path="/notificationbar" element={<Notification />} /> */}
           {/* ✅ Main dashboard - handles everything */}
           <Route path="/chats" element={<ChatDashboard />} />
           <Route path="/chats/:roomId" element={<ChatDashboard />} />
           <Route path="/chats/:roomId/:userId" element={<ChatDashboard />} />
-          {/* <Route path="/chats/rooms" element={<Chat />} /> */}
-          {/* 💬 Chat Main Page */}
-          {/* <Route path="/chat" element={<ChatLayout />} /> */}
           {/* <Route path="/notifications" element={<NotificationsPage loggedInUser={loggedInUser} />} /> */}
 
         </Routes>

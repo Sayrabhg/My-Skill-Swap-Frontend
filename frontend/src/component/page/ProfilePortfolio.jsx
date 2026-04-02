@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Helmet } from "react-helmet";
 import { getUserById } from "../../api/api";
+import { ArrowLeft } from "lucide-react";
 
 export default function ProfilePortfolio() {
     const { user2Id } = useParams();
@@ -10,6 +11,7 @@ export default function ProfilePortfolio() {
     const [skills, setSkills] = useState([]);
     const [reviews, setReviews] = useState([]);
     const [availability, setAvailability] = useState({});
+    const navigate = useNavigate();
 
     const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
     const times = ["10AM", "12PM", "2PM", "4PM", "6PM"];
@@ -51,7 +53,17 @@ export default function ProfilePortfolio() {
                 <title>{user.name} | Mentor Profile</title>
             </Helmet>
 
-            <div className="min-h-screen bg-gray-50 p-4 sm:p-8">
+            <div className="min-h-screen bg-gray-50 p-4 sm:p-8 relative">
+
+                <div className="absolute">
+                    <button
+                        onClick={() => navigate(-1)}
+                        className="p-2 bg-gradient-to-r from-indigo-600 to-violet-600 text-white hover:scale-110 rounded-full shadow-md hover:bg-indigo-200 transition-all"
+                    >
+                        <ArrowLeft size={20} />
+                    </button>
+                </div>
+
                 {/* PROFILE HEADER */}
                 <div className="bg-white p-4 sm:p-6 rounded-xl shadow-sm border mb-6 flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-6">
                     <img

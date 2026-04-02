@@ -265,7 +265,7 @@ const ChatUserPage = ({ roomId, onBack }) => {
     }
 
     return (
-        <div className="flex flex-col h-full bg-gradient-to-br from-gray-50 to-slate-100">
+        <div className="h-full flex flex-col h-full bg-gradient-to-br from-gray-50 to-slate-100">
 
             {/* 🔷 HEADER */}
             <div className="flex items-center gap-4 px-5 py-4 bg-white/80 backdrop-blur-sm border-b border-slate-200 shadow-sm sticky top-0 z-10">
@@ -606,7 +606,7 @@ const ChatUserPage = ({ roomId, onBack }) => {
                         ref={textareaRef}
                         onChange={(e) => handleTyping(e.target.value)}
                         placeholder="Type a message..."
-                        className="flex-1 bg-slate-50 border-2 border-slate-200 rounded-3xl px-5 py-3 text-sm placeholder-slate-500 outline-none focus:border-indigo-400 focus:ring-4 focus:ring-indigo-100/50 transition-all shadow-sm hover:shadow-md resize-none"
+                        className="flex-1 w-full bg-slate-50 border-2 border-slate-200 rounded-3xl px-5 py-3 text-sm placeholder-slate-500 outline-none focus:border-indigo-400 focus:ring-4 focus:ring-indigo-100/50 transition-all shadow-sm hover:shadow-md resize-none"
                         onKeyDown={(e) => {
                             if (e.key === "Enter" && !e.shiftKey) {
                                 e.preventDefault();
@@ -619,7 +619,7 @@ const ChatUserPage = ({ roomId, onBack }) => {
                     <button
                         onClick={handleSend}
                         disabled={!text.trim()}
-                        className="group flex-shrink-0 w-14 h-14 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-3xl hover:from-indigo-700 hover:to-purple-700 shadow-xl hover:shadow-2xl active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed transition-all flex items-center justify-center"
+                        className="group flex-shrink-0 w-12 h-12 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-2xl hover:from-indigo-700 hover:to-purple-700 shadow-xl hover:shadow-2xl active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed transition-all flex items-center justify-center"
                     >
                         <Send
                             size={18}

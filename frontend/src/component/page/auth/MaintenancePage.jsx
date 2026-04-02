@@ -1,10 +1,13 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function MaintenancePage() {
+    const navigate = useNavigate();
+
     return (
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-50 to-purple-100 px-6">
 
-            <div className="text-center max-w-lg">
+            <div className="text-center relative max-w-lg">
 
                 {/* Animated Icon */}
                 <div className="flex justify-center mb-6">
@@ -33,6 +36,14 @@ export default function MaintenancePage() {
                     <span className="w-3 h-3 bg-indigo-500 rounded-full animate-bounce delay-150"></span>
                     <span className="w-3 h-3 bg-indigo-500 rounded-full animate-bounce delay-300"></span>
                 </div>
+
+                {/* Back Button */}
+                <button
+                    onClick={() => navigate(-1)}
+                    className="px-6 py-2 bg-indigo-100 text-primary font-medium italic rounded-xl shadow-md hover:bg-indigo-200 transition-all mb-4"
+                >
+                    ← Go Back
+                </button>
 
                 {/* Footer */}
                 <p className="text-sm text-gray-500">
