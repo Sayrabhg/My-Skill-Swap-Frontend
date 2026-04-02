@@ -9,7 +9,6 @@ import com.example.skillswap.repository.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDateTime;
@@ -25,7 +24,7 @@ public class ForgotPasswordService {
     private OTPRepository otpRepository;
 
     @Autowired
-    private JavaMailSender mailSender;
+    private EmailService emailService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -49,7 +48,11 @@ public class ForgotPasswordService {
 
         try {
             System.out.println("Sending email to: " + user.getEmail());
-            mailSender.send(message);
+            emailService.sendEmail(
+            	    user.getEmail(),
+            	    "Your OTP for Password Reset",
+            	    "<h3>Your OTP is: " + otp + "</h3><p>Valid for 5 minutes</p>"
+            	);
             System.out.println("Email sent successfully");
         } catch (Exception e) {
             e.printStackTrace();
