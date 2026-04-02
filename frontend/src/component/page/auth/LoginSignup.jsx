@@ -11,11 +11,13 @@ import {
     DialogTitle,
     DialogDescription,
 } from "@/components/ui/dialog";
+import ForgotPasswordModal from "./ForgotPasswordModal";
 
 
 const LoginSignup = () => {
 
     const navigate = useNavigate();
+    const [forgotOpen, setForgotOpen] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [isLogin, setIsLogin] = useState(true);
@@ -120,6 +122,8 @@ const LoginSignup = () => {
                 alt="Skill Swap Background"
                 className="absolute w-full h-full object-cover opacity-20"
             />
+
+            <ForgotPasswordModal open={forgotOpen} onOpenChange={setForgotOpen} />
 
             <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
                 <DialogContent className="text-center">
@@ -227,6 +231,19 @@ const LoginSignup = () => {
                             {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                         </button>
                     </div>
+
+                    {/* Forgot Password Button */}
+                    {isLogin && (
+                        <div className="flex justify-end mt-1">
+                            <button
+                                type="button"
+                                className="text-sm text-indigo-400 hover:text-indigo-600 font-medium"
+                                onClick={() => setForgotOpen(true)}
+                            >
+                                Forgot Password?
+                            </button>
+                        </div>
+                    )}
 
                     {!isLogin && (
                         <div className="relative">

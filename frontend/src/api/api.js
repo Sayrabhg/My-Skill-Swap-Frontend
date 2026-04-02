@@ -18,6 +18,13 @@ API.interceptors.request.use((req) => {
 export const loginUser = (data) => API.post("/auth/login", data);
 export const registerUser = (data) => API.post("/auth/signup", data);
 
+// 1. Send OTP (Forgot Password)
+export const sendOtp = (data) => API.post("/auth/forgot-password", data);
+// 2. Verify OTP
+export const verifyOtp = (data) => API.post("/auth/verify-otp", data);
+// 3. Reset Password
+export const resetPassword = (data) => API.post("/auth/reset-password", data);
+
 // ================= USERS =================
 export const getProfile = () => API.get(`/users/me`);
 // export const updateUser = (userId, data) => API.put(`/users/user/${userId}`, data);//
