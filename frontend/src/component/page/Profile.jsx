@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { getProfile, updateProfile, getSkillsByUserId, uploadPdf, uploadBgImg } from "../../api/api";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { Pencil, Globe, Phone, AtSign, MapPin, Github, Linkedin, X } from "lucide-react";
+import { Pencil, Globe, Phone, AtSign, MapPin, Github, Linkedin, X, ArrowLeft } from "lucide-react";
 import Loading from "./components/Loading";
 import StatusDialog from "./components/StatusDialog";
 
@@ -154,7 +154,15 @@ export default function Profile() {
     };
 
     return (
-        <div className="min-h-screen bg-gray-100 pb-3">
+        <div className="min-h-screen bg-violet-50 pb-3">
+            <div className="absolute top-26 left-6 z-1">
+                <button
+                    onClick={() => navigate(-1)}
+                    className="p-2 bg-gradient-to-r from-indigo-600 to-violet-600 text-white hover:scale-110 rounded-full shadow-md hover:bg-indigo-200 transition-all"
+                >
+                    <ArrowLeft size={20} />
+                </button>
+            </div>
 
             {/* Cover Section */}
             <div className="relative h-56 w-full group" onClick={() => setShowOverlay(!showOverlay)}>
@@ -194,13 +202,13 @@ export default function Profile() {
                     <img
                         src={user.avatar || "https://i.pravatar.cc/150"}
                         alt="avatar"
-                        className="w-32 h-32 rounded-full border-4 border-white shadow-lg -mb-22"
+                        className="w-20 h-20 lg:w-32 lg:h-32 rounded-full border-4 border-white shadow-lg -mb-22"
                     />
                     <div className="lg:ml-6 -mb-12 text-white gap-2 grid">
                         <h1 className="text-sm lg:text-2xl bg-[#83838342] p-2 rounded-lg shadow-xl font-bold">
                             {user.name}
                         </h1>
-                        <p className="text-gray-200">{user.email}</p>
+                        <p className="text-gray-900">{user.email}</p>
                     </div>
                 </div>
 
@@ -266,12 +274,58 @@ export default function Profile() {
                 <div className="bg-white rounded-xl shadow p-6 md:col-span-2">
                     <h3 className="text-lg font-semibold mb-4">Contact & Info</h3>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-700">
-                        <div className="flex items-center gap-2"><Phone size={16} /> {user.mobileNumber || "Not provided"}</div>
-                        <div className="flex align-baseline text-left gap-2"><MapPin size={16} className="mt-1" /> {user.address || "Not provided"}, {user.city || "-"}, {user.state || "-"}, {user.country || "-"}, {user.postalCode || "-"}</div>
-                        <div className="flex items-center gap-2"><Globe size={16} /> <a href={user.website} target="_blank" className="text-blue-600 hover:underline" rel="noopener noreferrer">{user.website || "Not provided"}</a></div>
-                        <div className="flex items-center gap-2"><Linkedin size={16} /> <a href={user.linkedin} target="_blank" className="text-blue-600 hover:underline" rel="noopener noreferrer">{user.linkedin || "Not provided"}</a></div>
-                        <div className="flex items-center gap-2"><Github size={16} /> <a href={user.github} target="_blank" className="text-blue-600 hover:underline" rel="noopener noreferrer">{user.github || "Not provided"}</a></div>
-                        <div className="flex items-center gap-2"><AtSign size={16} /> Gender: {user.gender || "Not provided"}</div>
+                        <div className="flex items-start gap-2">
+                            <Phone size={16} className="mt-1 shrink-0" />
+                            <span className="break-words text-left">{user.mobileNumber || "Not provided"}</span>
+                        </div>
+
+                        <div className="flex items-start gap-2">
+                            <MapPin size={16} className="mt-1 shrink-0" />
+                            <span className="break-words text-left">
+                                {user.address || "Not provided"}, {user.city || "-"}, {user.state || "-"}, {user.country || "-"}, {user.postalCode || "-"}
+                            </span>
+                        </div>
+
+                        <div className="flex items-start gap-2">
+                            <Globe size={16} className="mt-1 shrink-0" />
+                            <a
+                                href={user.website}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-blue-600 hover:underline break-all text-left"
+                            >
+                                {user.website || "Not provided"}
+                            </a>
+                        </div>
+
+                        <div className="flex items-start gap-2">
+                            <Linkedin size={16} className="mt-1 shrink-0" />
+                            <a
+                                href={user.linkedin}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-blue-600 hover:underline break-all text-left"
+                            >
+                                {user.linkedin || "Not provided"}
+                            </a>
+                        </div>
+
+                        <div className="flex items-start gap-2">
+                            <Github size={16} className="mt-1 shrink-0" />
+                            <a
+                                href={user.github}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-blue-600 hover:underline break-all text-left"
+                            >
+                                {user.github || "Not provided"}
+                            </a>
+                        </div>
+
+                        <div className="flex items-start gap-2">
+                            <AtSign size={16} className="mt-1 shrink-0" />
+                            <span className="text-left">Gender: {user.gender || "Not provided"}</span>
+                        </div>
                     </div>
                 </div>
 
@@ -340,8 +394,18 @@ export default function Profile() {
 
                 </div> */}
 
-            </div>
 
+                {/* Edit Full Profile Button */}
+                <div className="flex md:col-span-2 justify-center">
+                    <Link to="/profile/edit">
+                        <Button className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white">
+                            <Pencil size={16} />
+                            Edit Profile
+                        </Button>
+                    </Link>
+                </div>
+
+            </div>
             {/* Mini Bio Dialog */}
             {showBioDialog && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
@@ -386,16 +450,6 @@ export default function Profile() {
                 message={dialogMessage}
                 onClose={handleDialogClose}
             />
-
-            {/* Edit Full Profile Button */}
-            <div className="mt-8 flex justify-center">
-                <Link to="/profile/edit">
-                    <Button className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white">
-                        <Pencil size={16} />
-                        Edit Profile
-                    </Button>
-                </Link>
-            </div>
 
         </div>
     );

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { updateProfile, uploadAvatar } from "../../api/api";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-import { CheckCircle, AlertCircle, XCircle } from "lucide-react";
+import { CheckCircle, AlertCircle, XCircle, ArrowLeft } from "lucide-react";
 import StatusDialog from "./components/StatusDialog";
 
 export default function UpdateProfile() {
@@ -143,7 +143,15 @@ export default function UpdateProfile() {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50 flex justify-center items-center p-6">
+        <div className="min-h-screen bg-violet-50 flex justify-center items-center p-6 relative">
+            <div className="absolute top-6 left-6">
+                <button
+                    onClick={() => navigate(-1)}
+                    className="p-2 bg-gradient-to-r from-indigo-600 to-violet-600 text-white hover:scale-110 rounded-full shadow-md hover:bg-indigo-200 transition-all"
+                >
+                    <ArrowLeft size={20} />
+                </button>
+            </div>
             <div className="bg-white shadow-lg rounded-xl p-8 w-full max-w-2xl">
                 <h2 className="text-2xl font-bold mb-6">Update Profile</h2>
                 <form onSubmit={handleSubmit} className="space-y-4">

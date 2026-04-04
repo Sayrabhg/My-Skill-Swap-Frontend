@@ -43,6 +43,7 @@ const Layout = ({ children }) => {
 
   const shouldHide =
     location.pathname === "/auth" ||
+    location.pathname === "/welcome" ||
     location.pathname.startsWith("/chats");
 
   return (

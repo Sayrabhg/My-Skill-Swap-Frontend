@@ -3,6 +3,8 @@ import geminiskillswap from "../../assets/GeminiSkillSwap.png";
 import { Typewriter } from "react-simple-typewriter";
 import RightIllustration from "./components/RightIllustration";
 import { CoolMode } from "@/components/ui/cool-mode";
+import PopupMessage from "@/component/page/components/PopupMessage";
+import { useState } from "react";
 
 const suggestions = [
     "What do you want to learn today?",
@@ -20,6 +22,19 @@ const suggestions = [
 const HeroSection = () => {
     const handleSearch = () => {
         alert("Searching skills...");
+    };
+
+    const [showPopup, setShowPopup] = useState(false);
+
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    const handleStartClick = () => {
+        if (!user?.id) {
+            setShowPopup(true); // Show popup if not logged in
+        } else {
+            // Navigate to swapping page
+            console.log("User logged in, go to swapping page");
+        }
     };
 
     return (
@@ -91,7 +106,10 @@ const HeroSection = () => {
                     <div className="mt-8 flex flex-wrap lg:justify-start justify-center gap-4">
 
                         <CoolMode>
-                            <button className="bg-primary hover:bg-primaryLight text-white px-6 py-3 rounded-full font-semibold flex items-center gap-2 shadow-lg hover:shadow-primary/40 transition transform hover:-translate-y-1">
+                            <button
+                                className="bg-primary hover:bg-primaryLight text-white px-6 py-3 rounded-full font-semibold flex items-center gap-2 shadow-lg hover:shadow-primary/40 transition transform hover:-translate-y-1"
+                                onClick={handleStartClick}
+                            >
                                 Start Swapping
                                 <ArrowRight size={18} />
                             </button>
@@ -127,6 +145,12 @@ const HeroSection = () => {
 
                 {/* Right Illustration */}
                 <RightIllustration />
+                {/* Popup */}
+                <PopupMessage
+                    open={showPopup}
+                    onClose={() => setShowPopup(false)}
+                    message="You need to first login to start swapping."
+                />
 
             </div>
         </section>

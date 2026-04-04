@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import chatgptsskillsswap from "../../../assets/ChatGPTSkillSwap.png";
+import chatgptsskillsswap from "@/assets/ChatGPTSkillSwap.png";
 import { ShineBorder } from "@/components/ui/shine-border";
 import { Eye, EyeOff, Globe } from "lucide-react";
 import { loginUser, registerUser, getProfile } from "../../../api/api";
