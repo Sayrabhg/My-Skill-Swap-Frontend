@@ -29,6 +29,11 @@ export const resetPassword = (data) => API.post("/auth/reset-password", data);
 export const getProfile = () => API.get(`/users/me`);
 // export const updateUser = (userId, data) => API.put(`/users/user/${userId}`, data);//
 export const updateProfile = (data) => API.put(`/users/me`, data);
+// upload avatar (image)
+export const uploadAvatar = (formData) => API.post("/users/avatar", formData);
+export const uploadBgImg = (formData) => API.post("/users/background", formData);
+// upload pdf
+export const uploadPdf = (formData) => API.post("/users/pdf", formData);
 export const getUserById = (id) => API.get(`/users/profile/${id}`);
 export const deleteProfile = () => API.delete(`/users/me`);
 

@@ -1,15 +1,18 @@
 package com.example.skillswap.controller;
 
+import java.security.Principal;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.skillswap.dto.UserUpdateRequest;
 import com.example.skillswap.model.User;
 import com.example.skillswap.repository.UserRepository;
+import com.example.skillswap.service.FileUploadService;
 import com.example.skillswap.service.UserService;
 
 @RestController
@@ -22,6 +25,44 @@ public class UserController {
     
     @Autowired
     private UserRepository userRepository;
+    
+    @Autowired
+    private FileUploadService fileUploadService;
+
+    // ---------------- SEND USER AVATAR ----------------
+    @PostMapping("/avatar")
+    public String uploadAvatar(
+            @RequestParam("file") MultipartFile file,
+            Principal principal) {
+
+        // ✅ get logged-in user email (from token)
+        String email = principal.getName();
+
+        return fileUploadService.uploadUserAvatarByEmail(email, file);
+    }
+    
+    // ---------------- SEND USER BACKGROUND ----------------
+    @PostMapping("/background")
+    public String uploadBackground(
+            @RequestParam("file") MultipartFile file,
+            Principal principal) {
+
+        String email = principal.getName();
+
+        return fileUploadService.uploadUserBgImage(email, file);
+    }
+    
+    // ---------------- SEND USER PDF ----------------
+    @PostMapping("/pdf")
+    public String uploadPdf(
+            @RequestParam("file") MultipartFile file,
+            Principal principal) {
+
+        // ✅ get logged-in user email from token
+        String email = principal.getName();
+
+        return fileUploadService.uploadUserPdf(email, file);
+    }
 
     // ---------------- GET CURRENT LOGGED-IN USER ----------------
     @GetMapping("/me")
