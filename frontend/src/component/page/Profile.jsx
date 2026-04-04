@@ -168,25 +168,26 @@ export default function Profile() {
 
                 {/* Overlay on hover */}
                 {showOverlay && (
-                    <div className="absolute inset-0 bg-black/40 transition flex items-center justify-center">
-
-                    <label
-                        htmlFor="bgUpload"
-                        className="cursor-pointer bg-primary text-white px-4 py-2 rounded-lg shadow hover:bg-gray-200"
+                    <div
+                        className="absolute inset-0 bg-black/40 flex items-center justify-center"
+                        onClick={(e) => e.stopPropagation()} // ✅ IMPORTANT
                     >
-                        {bgUploading ? "Uploading..." : "Change Image"}
-                        <input
-                            type="file"
-                            accept="image/*"
-                            id="bgUpload"
-                            className="cursor-pointer z-1 absolute left-0 right-0 bg-red-500 opacity-0"
-                            onChange={handleBgUpload}
+                        <label
+                            htmlFor="bgUpload"
+                            className="cursor-pointer bg-primary text-white px-4 py-2 rounded-lg shadow hover:bg-gray-200"
                         >
-                        </input>
+                            {bgUploading ? "Uploading..." : "Change Image"}
+                            <input
+                                type="file"
+                                accept="image/*"
+                                id="bgUpload"
+                                className="cursor-pointer z-1 absolute left-0 right-0 bg-red-500 opacity-0"
+                                onChange={handleBgUpload}
+                            />
+                        </label>
 
-                    </label>
-
-                </div>)}
+                    </div>
+                )}
 
                 {/* Profile Info */}
                 <div className="absolute inset-0 flex items-end justify-start p-6">
