@@ -1,14 +1,18 @@
 import { useEffect, useState } from "react";
-import { updateProfile } from "../../api/api";
+import { updateProfile, uploadAvatar } from "../../api/api";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { CheckCircle, AlertCircle, XCircle } from "lucide-react";
+import StatusDialog from "./components/StatusDialog";
 
 export default function UpdateProfile() {
     const [user, setUser] = useState({
         name: "",
         email: "",
         avatar: "",
+        avatarName: "",
+        // resumePdf: "",
+        // resumePdfName: "",
         bio: "",
         mobileNumber: "",
         gender: "",
@@ -27,6 +31,8 @@ export default function UpdateProfile() {
     const [dialogMessage, setDialogMessage] = useState("");
     const [showDialog, setShowDialog] = useState(false);
     const [dialogType, setDialogType] = useState("success");
+    const [uploading, setUploading] = useState(false);
+    const [preview, setPreview] = useState("");
 
     useEffect(() => {
         const storedUser = localStorage.getItem("user");
@@ -34,6 +40,70 @@ export default function UpdateProfile() {
             setUser(JSON.parse(storedUser));
         }
     }, []);
+
+    const handleAvatarUpload = async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const formData = new FormData();
+        formData.append("file", file);
+
+        const localPreview = URL.createObjectURL(file);
+        setPreview(localPreview);
+
+        setUploading(true);
+
+        try {
+            const res = await uploadAvatar(formData);
+
+            const updatedUser = {
+                ...user,
+                avatar: res.data,              // URL from backend
+                avatarName: file.name          // 👈 store file name
+            };
+
+            setUser(updatedUser);
+            localStorage.setItem("user", JSON.stringify(updatedUser));
+
+        } catch (err) {
+            console.error(err);
+        } finally {
+            setUploading(false);
+        }
+    };
+
+    const handleResumeUpload = async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        if (file.type !== "application/pdf") {
+            alert("Only PDF allowed");
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append("file", file);
+
+        try {
+            setUploading(true);
+
+            const res = await uploadResume(formData); // 👈 create this API
+
+            const updatedUser = {
+                ...user,
+                resumePdf: res.data,       // URL from backend
+                resumePdfName: file.name   // file name
+            };
+
+            setUser(updatedUser);
+            localStorage.setItem("user", JSON.stringify(updatedUser));
+
+        } catch (err) {
+            console.error(err);
+        } finally {
+            setUploading(false);
+        }
+    };
 
     const handleChange = (e) => {
         setUser({
@@ -80,18 +150,39 @@ export default function UpdateProfile() {
 
                     {/* Avatar */}
                     <div className="flex flex-col items-center">
-                        <img
-                            src={user.avatar || "https://i.pravatar.cc/100"}
-                            className="w-24 h-24 rounded-full mb-2"
-                        />
+                        <div className="relative w-24 h-24 mb-3">
+
+                            {/* Avatar */}
+                            <img
+                                src={preview || user.avatar || "https://i.pravatar.cc/100"}
+                                alt="avatar"
+                                className="w-24 h-24 rounded-full object-cover"
+                            />
+
+                            {/* Loader Overlay */}
+                            {uploading && (
+                                <div className="absolute inset-0 flex items-center justify-center bg-black/50 rounded-full">
+                                    <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Hidden File Input */}
                         <input
-                            type="text"
-                            name="avatar"
-                            placeholder="Avatar Image URL"
-                            value={user.avatar}
-                            onChange={handleChange}
-                            className="w-full border rounded-lg px-4 py-2"
+                            type="file"
+                            accept="image/png, image/jpeg"
+                            id="avatarUpload"
+                            style={{ display: "none" }}
+                            onChange={handleAvatarUpload}
                         />
+
+                        {/* Button */}
+                        <label
+                            htmlFor="avatarUpload"
+                            className="cursor-pointer bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
+                        >
+                            Choose Image
+                        </label>
                     </div>
 
                     {/* Name */}
@@ -232,46 +323,12 @@ export default function UpdateProfile() {
             </div>
 
             {/* Dialog */}
-            {showDialog && (
-                <div className="fixed inset-0 flex items-center justify-center bg-black/60 backdrop-blur-sm z-50">
-                    <div className="bg-white rounded-2xl shadow-2xl p-6 w-96 text-center animate-slideFromLeft">
-
-                        {/* Icon */}
-                        <div className="flex justify-center mb-3">
-                            <div
-                                className={`p-3 rounded-full ${dialogType === "success" ? "bg-green-100" : "bg-red-100"
-                                    }`}
-                            >
-                                {dialogType === "success" ? (
-                                    <CheckCircle size={40} className="text-green-600" />
-                                ) : (
-                                    <XCircle size={40} className="text-red-600" />
-                                )}
-                            </div>
-                        </div>
-
-                        {/* Message */}
-                        <h2 className="text-xl font-semibold mb-2">
-                            {dialogType === "success" ? "Success" : "Error"}
-                        </h2>
-
-                        <p
-                            className={`mb-6 ${dialogType === "success" ? "text-green-600" : "text-red-600"
-                                }`}
-                        >
-                            {dialogMessage}
-                        </p>
-                        {/* Button */}
-                        <Button
-                            onClick={handleDialogClose}
-                            className="w-full bg-green-600 hover:bg-green-700 text-white rounded-lg"
-                        >
-                            OK
-                        </Button>
-
-                    </div>
-                </div>
-            )}
+            <StatusDialog
+                open={showDialog}
+                type={dialogType}
+                message={dialogMessage}
+                onClose={handleDialogClose}
+            />
         </div>
     );
 }

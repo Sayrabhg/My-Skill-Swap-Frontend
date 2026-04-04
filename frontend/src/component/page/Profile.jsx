@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { getProfile, updateProfile, getSkillsByUserId } from "../../api/api";
+import { getProfile, updateProfile, getSkillsByUserId, uploadPdf, uploadBgImg } from "../../api/api";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { Pencil, Globe, Phone, AtSign, MapPin, Github, Linkedin, X } from "lucide-react";
 import Loading from "./components/Loading";
+import StatusDialog from "./components/StatusDialog";
 
 export default function Profile() {
     const [user, setUser] = useState(null);
@@ -11,9 +12,94 @@ export default function Profile() {
     const [loading, setLoading] = useState(true);
     const [showBioDialog, setShowBioDialog] = useState(false);
     const [newBio, setNewBio] = useState("");
+    const [showDialog, setShowDialog] = useState(false);
+    const [dialogType, setDialogType] = useState("success");
+    const [dialogMessage, setDialogMessage] = useState("");
     const [bioLoading, setBioLoading] = useState(false);
     const [showMsgDialog, setShowMsgDialog] = useState(false);
     const [msgText, setMsgText] = useState("");
+    const [bgUploading, setBgUploading] = useState(false);
+    const [resumeUploading, setResumeUploading] = useState(false);
+
+    const handleBgUpload = async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        if (!file.type.startsWith("image/")) {
+            setMsgText("Only image files allowed");
+            setShowMsgDialog(true);
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append("file", file);
+
+        try {
+            setBgUploading(true);
+
+            // 🔥 create API like uploadBgImage
+            const res = await uploadBgImg(formData); // replace with uploadBgImage API
+
+            const updatedUser = {
+                ...user,
+                bgImg: res.data
+            };
+
+            setUser(updatedUser);
+            localStorage.setItem("user", JSON.stringify(updatedUser));
+
+            setDialogMessage("Background image updated!");
+            setDialogType("success");
+            setShowDialog(true);
+
+        } catch (err) {
+            console.error(err);
+            setDialogMessage("Failed to upload image");
+            setDialogType("error");
+            setShowDialog(true);
+        } finally {
+            setBgUploading(false);
+        }
+    };
+
+    const handleResumeUpload = async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        if (file.type !== "application/pdf") {
+            setMsgText("Only PDF files allowed");
+            setShowMsgDialog(true);
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append("file", file);
+
+        try {
+            setResumeUploading(true);
+
+            const res = await uploadPdf(formData);
+
+            const updatedUser = {
+                ...user,
+                resumePdf: res.data,
+                resumePdfName: file.name
+            };
+
+            setUser(updatedUser);
+            localStorage.setItem("user", JSON.stringify(updatedUser));
+
+            setMsgText("Resume uploaded successfully!");
+            setShowMsgDialog(true);
+
+        } catch (error) {
+            console.error(error);
+            setMsgText("Resume upload failed.");
+            setShowMsgDialog(true);
+        } finally {
+            setResumeUploading(false);
+        }
+    };
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -61,27 +147,61 @@ export default function Profile() {
         }
     };
 
+    const handleDialogClose = () => {
+        setShowDialog(false);
+        dialogMessage === "Profile updated successfully"
+    };
+
     return (
         <div className="min-h-screen bg-gray-100 pb-3">
 
             {/* Cover Section */}
-            <div className="relative h-56 w-full">
+            <div className="relative h-56 w-full group">
+
+                {/* Background Image */}
                 <img
-                    src="https://images.unsplash.com/photo-1496307042754-b4aa456c4a2d"
+                    src={user.bgImg || "https://images.unsplash.com/photo-1496307042754-b4aa456c4a2d"}
                     alt="cover"
                     className="w-full h-full object-cover"
                 />
-                <div className="absolute inset-0 bg-opacity-30 flex items-end justify-start p-6">
+
+                {/* Overlay on hover */}
+                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
+
+                    <label
+                        htmlFor="bgUpload"
+                        className="cursor-pointer bg-primary text-white px-4 py-2 rounded-lg shadow hover:bg-gray-200"
+                    >
+                        {bgUploading ? "Uploading..." : "Change Image"}
+                        <input
+                            type="file"
+                            accept="image/*"
+                            id="bgUpload"
+                            className="cursor-pointer z-1 absolute left-0 right-0 bg-red-500 opacity-0"
+                            onChange={handleBgUpload}
+                        // onSubmit={handleSubmit}
+                        >
+                        </input>
+
+                    </label>
+
+                </div>
+
+                {/* Profile Info */}
+                <div className="absolute inset-0 flex items-end justify-start p-6">
                     <img
                         src={user.avatar || "https://i.pravatar.cc/150"}
                         alt="avatar"
                         className="w-32 h-32 rounded-full border-4 border-white shadow-lg -mb-22"
                     />
                     <div className="lg:ml-6 -mb-12 text-white gap-2 grid">
-                        <h1 className="text-sm lg:text-2xl text-white bg-[#83838342] p-2 rounded-lg shadow-xl font-bold">{user.name}</h1>
-                        <p className="text-gray-900">{user.email}</p>
+                        <h1 className="text-sm lg:text-2xl bg-[#83838342] p-2 rounded-lg shadow-xl font-bold">
+                            {user.name}
+                        </h1>
+                        <p className="text-gray-200">{user.email}</p>
                     </div>
                 </div>
+
             </div>
 
             {/* Stats Section */}
@@ -153,6 +273,71 @@ export default function Profile() {
                     </div>
                 </div>
 
+                {/* Resume Card */}
+                {/* <div className="bg-white rounded-xl shadow p-6 md:col-span-2">
+
+                    <div className="flex justify-between items-center mb-4">
+                        <h3 className="text-lg font-semibold">Resume</h3>
+
+                        {/* Upload Button *
+                        <label
+                            htmlFor="resumeUpload"
+                            className="cursor-pointer bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600"
+                        >
+                            Upload
+                        </label>
+                    </div>
+
+                    {/* Hidden Input *
+                    <input
+                        type="file"
+                        accept="application/pdf"
+                        id="resumeUpload"
+                        style={{ display: "none" }}
+                        onChange={handleResumeUpload}
+                    />
+
+                    {/* Loader *
+                    {resumeUploading && (
+                        <div className="flex items-center gap-2 text-gray-500 mb-3">
+                            <div className="w-4 h-4 border-2 border-gray-400 border-t-transparent rounded-full animate-spin"></div>
+                            Uploading resume...
+                        </div>
+                    )}
+
+                    {/* File Info *
+                    {user.resumePdf ? (
+                        <div className="flex flex-col gap-2">
+
+                            <p className="text-gray-700">
+                                📄 {user.resumePdfName || "Resume.pdf"}
+                            </p>
+
+                            <div className="flex gap-4">
+                                <a
+                                    href={user.resumePdf}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-blue-600 hover:underline"
+                                >
+                                    View
+                                </a>
+
+                                <a
+                                    href={user.resumePdf}
+                                    download={user.resumePdfName}
+                                    className="text-green-600 hover:underline"
+                                >
+                                    Download
+                                </a>
+                            </div>
+                        </div>
+                    ) : (
+                        <p className="text-gray-500">No resume uploaded.</p>
+                    )}
+
+                </div> */}
+
             </div>
 
             {/* Mini Bio Dialog */}
@@ -184,7 +369,7 @@ export default function Profile() {
             {/* Message Dialog */}
             {showMsgDialog && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-                    <div className="bg-white rounded-lg shadow-lg p-6 w-80 text-center">
+                    <div className="bg-white rounded-lg shadow-lg p-6 w-80 text-center animate-slideFromLeft">
                         <p className="mb-4">{msgText}</p>
                         <Button className="w-full" onClick={() => setShowMsgDialog(false)}>
                             OK
@@ -192,6 +377,13 @@ export default function Profile() {
                     </div>
                 </div>
             )}
+
+            <StatusDialog
+                open={showDialog}
+                type={dialogType}
+                message={dialogMessage}
+                onClose={handleDialogClose}
+            />
 
             {/* Edit Full Profile Button */}
             <div className="mt-8 flex justify-center">

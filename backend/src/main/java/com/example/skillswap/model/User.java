@@ -21,7 +21,12 @@ public class User {
 
     private String language;
     private String bio;
+    private String bgImg;
+    private String bgImgName;
     private String avatar;
+    private String avatarName;
+    private String resumePdf;
+    private String resumePdfName;
 
     private double rating;
     private int trustScore;
