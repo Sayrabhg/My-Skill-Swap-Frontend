@@ -19,6 +19,7 @@ export default function Profile() {
     const [showMsgDialog, setShowMsgDialog] = useState(false);
     const [msgText, setMsgText] = useState("");
     const [bgUploading, setBgUploading] = useState(false);
+    const [showOverlay, setShowOverlay] = useState(false);
     const [resumeUploading, setResumeUploading] = useState(false);
 
     const handleBgUpload = async (e) => {
@@ -156,7 +157,7 @@ export default function Profile() {
         <div className="min-h-screen bg-gray-100 pb-3">
 
             {/* Cover Section */}
-            <div className="relative h-56 w-full group">
+            <div className="relative h-56 w-full group" onClick={() => setShowOverlay(!showOverlay)}>
 
                 {/* Background Image */}
                 <img
@@ -166,7 +167,8 @@ export default function Profile() {
                 />
 
                 {/* Overlay on hover */}
-                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
+                {showOverlay && (
+                    <div className="absolute inset-0 bg-black/40 transition flex items-center justify-center">
 
                     <label
                         htmlFor="bgUpload"
@@ -179,13 +181,12 @@ export default function Profile() {
                             id="bgUpload"
                             className="cursor-pointer z-1 absolute left-0 right-0 bg-red-500 opacity-0"
                             onChange={handleBgUpload}
-                        // onSubmit={handleSubmit}
                         >
                         </input>
 
                     </label>
 
-                </div>
+                </div>)}
 
                 {/* Profile Info */}
                 <div className="absolute inset-0 flex items-end justify-start p-6">
