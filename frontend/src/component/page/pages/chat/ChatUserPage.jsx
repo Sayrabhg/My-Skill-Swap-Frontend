@@ -27,7 +27,7 @@ const ChatUserPage = ({ roomId, onBack }) => {
     const [loading, setLoading] = useState(true);
     const [otherTyping, setOtherTyping] = useState(false);
     const typingTimeout = useRef(null);
-    const [otherUser, setOtherUser] = useState({ name: "User", avatar: null });
+    const [otherUser, setOtherUser] = useState({ name: "User", avatar: "what" });
 
     const [showEmoji, setShowEmoji] = useState(false);
     const [activeEmojiTab, setActiveEmojiTab] = useState("Smileys");
@@ -165,11 +165,7 @@ const ChatUserPage = ({ roomId, onBack }) => {
     useEffect(() => {
         fetchMessages();
     }, [fetchMessages]);
-
-    useEffect(() => {
-        setOtherUser({ name: "User", avatar: null }); // reset header
-    }, [finalRoomId]);
-
+    
     // ✅ Auto scroll to bottom
     useEffect(() => {
         bottomRef.current?.scrollIntoView({ behavior: "smooth" });

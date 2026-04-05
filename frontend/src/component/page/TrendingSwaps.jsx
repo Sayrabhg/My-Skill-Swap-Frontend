@@ -12,7 +12,7 @@ const ReviewCard = ({ image, name, skill, quote }) => {
         <article
             className={cn(
                 "relative h-full w-72 cursor-pointer overflow-hidden rounded-2xl border p-5",
-                "border-gray-200 bg-white hover:bg-gray-50 transition shadow-sm hover:shadow-lg"
+                "border-gray-200 dark:border-gray-500 dark:bg-gray-800 dark:hover:bg-gray-900 hover:bg-gray-50 transition shadow-sm hover:shadow-lg"
             )}
         >
             <header className="flex items-center gap-3">
@@ -22,13 +22,13 @@ const ReviewCard = ({ image, name, skill, quote }) => {
                     alt={`Photo of ${name}`}
                     loading="lazy"
                 />
-                <div className="flex flex-col">
-                    <h3 className="text-sm font-semibold text-gray-800">{name}</h3>
-                    <p className="text-xs text-indigo-500">{skill}</p>
+                <div className="flex flex-col leading-tight text-left">
+                    <h3 className="text-sm font-semibold text-gray-800 dark:text-gray-100">{name}</h3>
+                    <p className="text-xs text-indigo-500 dark:text-indigo-400">{skill}</p>
                 </div>
             </header>
 
-            <blockquote className="mt-3 text-sm text-gray-600 leading-relaxed">
+            <blockquote className="mt-3 text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
                 “{quote}”
             </blockquote>
         </article>
@@ -38,7 +38,7 @@ const ReviewCard = ({ image, name, skill, quote }) => {
 const TestimonialMarquee = () => {
     return (
         <section
-            className="py-20 px-6 bg-gradient-to-b from-white to-gray-100"
+            className="py-20 px-6 bg-gradient-to-b from-white dark:from-gray-900 to-gray-100 dark:to-gray-900"
             aria-labelledby="testimonial-heading"
         >
             {/* React Helmet for SEO */}
@@ -55,11 +55,11 @@ const TestimonialMarquee = () => {
             <div className="text-center mb-14">
                 <h2
                     id="testimonial-heading"
-                    className="text-4xl font-bold text-gray-800"
+                    className="text-4xl font-bold text-gray-800 dark:text-gray-200"
                 >
                     💬 What Our Learners Say
                 </h2>
-                <p className="text-gray-500 mt-3">
+                <p className="text-gray-500 dark:text-gray-300 mt-3">
                     Real experiences from our global SkillSwap community
                 </p>
             </div>
@@ -81,8 +81,8 @@ const TestimonialMarquee = () => {
                 </Marquee>
 
                 {/* Gradient edges */}
-                <div className="pointer-events-none absolute inset-y-0 left-0 w-1/4 bg-gradient-to-r from-white"></div>
-                <div className="pointer-events-none absolute inset-y-0 right-0 w-1/4 bg-gradient-to-l from-white"></div>
+                <div className="pointer-events-none absolute inset-y-0 left-0 w-1/4 bg-gradient-to-r from-white dark:from-gray-900"></div>
+                <div className="pointer-events-none absolute inset-y-0 right-0 w-1/4 bg-gradient-to-l from-white dark:from-gray-900"></div>
             </div>
         </section>
     );

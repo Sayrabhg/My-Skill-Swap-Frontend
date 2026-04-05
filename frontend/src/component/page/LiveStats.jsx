@@ -87,7 +87,7 @@ const LiveStats = () => {
     }, [startCount]);
 
     return (
-        <section className="bg-gradient-to-b from-gray-50 to-gray-200 py-20 px-6">
+        <section className="bg-gradient-to-b from-gray-50 dark:from-gray-900 to-gray-200 dark:to-gray-900 py-20 px-6">
 
             {/* Heading Animation */}
             <motion.div
@@ -97,10 +97,10 @@ const LiveStats = () => {
                 viewport={{ once: true }}
                 className="text-center mb-16"
             >
-                <h2 className="text-4xl font-bold text-gray-800">
+                <h2 className="text-4xl font-bold text-gray-800 dark:text-gray-100">
                     📊 Live SkillSwap Network Stats
                 </h2>
-                <p className="text-gray-500 mt-3">
+                <p className="text-gray-500 dark:text-gray-300 mt-3">
                     Real-time insights into our growing learning community
                 </p>
             </motion.div>
@@ -119,22 +119,22 @@ const LiveStats = () => {
                         key={index}
                         variants={cardVariants}
                         whileHover={{ scale: 1.07 }}
-                        className="bg-white rounded-3xl p-8 text-center shadow-xl relative overflow-hidden"
+                        className="bg-white dark:bg-gray-800 border dark:border-gray-500 rounded-3xl p-8 text-center shadow-xl relative overflow-hidden"
                     >
                         {/* Icon */}
                         <div
-                            className={`w-16 h-16 mx-auto mb-4 flex items-center justify-center rounded-full text-white bg-gradient-to-r ${stat.color}`}
+                            className={`w-16 h-16 mx-auto mb-4 flex items-center justify-center rounded-full text-white  bg-gradient-to-r ${stat.color}`}
                         >
                             {stat.icon}
                         </div>
 
                         {/* Counter */}
-                        <h3 className="text-4xl font-bold text-gray-800">
+                        <h3 className="text-4xl font-bold text-gray-800 dark:text-gray-100">
                             {counts[index].toLocaleString()}+
                         </h3>
 
                         {/* Title */}
-                        <p className="text-gray-500 mt-2">{stat.title}</p>
+                        <p className="text-gray-500 dark:text-gray-300 mt-2">{stat.title}</p>
 
                         {/* Glow hover */}
                         <div className="absolute inset-0 opacity-0 hover:opacity-20 transition bg-gradient-to-r from-indigo-400 to-purple-500 blur-2xl"></div>

@@ -48,8 +48,8 @@ const steps = [
 
 const HowItWorks = () => {
     return (
-        <section className="bg-gray-50 py-20 px-6 flex flex-col items-center">
-            <h2 className="text-5xl font-bold mb-12 text-gray-800 text-center">
+        <section className="bg-gray-50 dark:bg-gray-800 py-20 px-6 flex flex-col items-center">
+            <h2 className="text-5xl font-bold mb-12 text-gray-800 dark:text-gray-300 text-center">
                 How it Works
             </h2>
 
@@ -75,7 +75,7 @@ const HowItWorks = () => {
                         <h3 className="text-2xl font-semibold mb-2">{step.title}</h3>
 
                         {/* Step Description */}
-                        <p className="text-gray-600">{step.description}</p>
+                        <p className="text-gray-600 dark:text-gray-300">{step.description}</p>
 
                         {/* Arrow (except last step) */}
                         {index < steps.length - 1 && (

@@ -5,6 +5,12 @@
   justify-self: center;
 }
 
+.dark h3,
+.dark h4,
+.dark h5,
+.dark h6 {
+  color: var(--color-light);
+}
 
 h3,
 h4,

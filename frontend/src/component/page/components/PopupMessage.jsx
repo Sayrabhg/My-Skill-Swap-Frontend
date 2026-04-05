@@ -24,14 +24,14 @@ export default function PopupMessage({ open, onClose, message }) {
             ></div>
 
             {/* Popup Content */}
-            <div className="relative bg-white rounded-2xl shadow-xl p-6 max-w-sm w-full text-center z-10">
+            <div className="relative bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 max-w-sm w-full text-center z-10">
                 <h2 className="text-xl font-semibold text-red-500 mb-4">
                     Attention!
                 </h2>
-                <p className="text-gray-600 mb-4">{message}</p>
+                <p className="text-gray-600 dark:text-gray-300 mb-4">{message}</p>
                 <div className="grid gap-2 justify-center">
                     <button
-                        className="text-gray-500 hover:text-green-500 px-4 cursor-pointer hover:bg-green-100 rounded-lg "
+                        className="text-gray-500 dark:text-gray-300 hover:text-green-500 dark:hover:text-green-400 px-4 cursor-pointer hover:bg-green-100 rounded-lg "
                         onClick={onClose}
                     >
                         OK

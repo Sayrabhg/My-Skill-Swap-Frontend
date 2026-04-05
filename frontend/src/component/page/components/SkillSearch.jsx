@@ -22,7 +22,11 @@ const SkillSearch = ({ search, setSearch }) => {
                     text-left
                     focus:ring-4 focus:ring-indigo-300
                     placeholder-gray-400
+                    dark:placeholder-gray-500
+                    dark:bg-gray-700/30 dark:border-gray-600
+                    dark:focus:ring-indigo-500
                     text-gray-800
+                    dark:text-gray-200
                     shadow-lg
                     transition
                     duration-300
@@ -33,7 +37,7 @@ const SkillSearch = ({ search, setSearch }) => {
                 "
             />
             {/* Animated Placeholder Suggestion */}
-            <span className="absolute right-6 top-1/2 transform -translate-y-1/2 text-indigo-500 text-sm animate-pulse hidden sm:inline">
+            <span className="absolute right-6 top-1/2 transform -translate-y-1/2 text-indigo-500 dark:text-indigo-200 text-sm animate-pulse hidden sm:inline">
                 Type and discover trending skills...
             </span>
         </div>

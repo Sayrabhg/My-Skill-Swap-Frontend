@@ -2,7 +2,7 @@
 import HeroSection from "./page/HeroSection";
 import HowItWorks from "./page/HowItWorks";
 import LiveStats from "./page/LiveStats";
-import TestimonialBento from "./page/TestimonialBento";
+// import TestimonialBento from "./page/TestimonialBento";
 import TrendingSwaps from "./page/TrendingSwaps";
 
 export default function Home() {
@@ -12,7 +12,7 @@ export default function Home() {
             <HowItWorks />
             <TrendingSwaps />
             <LiveStats />
-            <TestimonialBento />
+            {/* <TestimonialBento /> */}
         </>
     )
 }

@@ -10,7 +10,7 @@ export default function Header() {
     }, []);
 
     return (
-        <div
+        <div id="header"
             className={`relative ${user ? "h-38 lg:h-20" : "h-20"
                 } transition-all duration-300`}
         >

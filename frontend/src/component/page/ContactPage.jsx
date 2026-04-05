@@ -50,7 +50,7 @@ const ContactPage = () => {
     const closeModal = () => setStatus({ ...status, show: false });
 
     return (
-        <section className="relative min-h-screen bg-gradient-to-b from-gray-50 to-gray-200 py-16 px-6 overflow-hidden">
+        <section className="relative min-h-screen bg-gradient-to-b from-gray-50 dark:from-gray-800 to-gray-200 dark:to-gray-600 py-16 px-6 overflow-hidden">
             {/* SEO */}
             <Helmet>
                 <title>Contact Us | Skill Swap</title>
@@ -70,8 +70,8 @@ const ContactPage = () => {
                 transition={{ duration: 0.6 }}
                 className="relative z-10 text-center max-w-3xl mx-auto mb-14"
             >
-                <h1 className="text-4xl font-bold text-gray-800">Contact Us</h1>
-                <p className="text-gray-500 mt-3">
+                <h1 className="text-4xl font-bold text-gray-800 dark:text-gray-200">Contact Us</h1>
+                <p className="text-gray-500 dark:text-gray-400 mt-3">
                     Have questions or suggestions? We'd love to hear from you. Reach out
                     and our team will get back to you soon.
                 </p>
@@ -118,10 +118,10 @@ const ContactPage = () => {
                     whileInView={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.6 }}
                     viewport={{ once: true }}
-                    className="bg-white/90 backdrop-blur-md p-8 rounded-3xl shadow-xl space-y-6"
+                    className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-md p-8 rounded-3xl shadow-xl space-y-6"
                 >
                     <div className="m-2">
-                        <label className="text-sm text-gray-600">Full Name</label>
+                        <label className="text-sm text-gray-600 dark:text-gray-400">Full Name</label>
                         <input
                             type="text"
                             name="name"
@@ -134,7 +134,7 @@ const ContactPage = () => {
                     </div>
 
                     <div className="m-2">
-                        <label className="text-sm text-gray-600">Email</label>
+                        <label className="text-sm text-gray-600 dark:text-gray-400">Email</label>
                         <input
                             type="email"
                             name="email"
@@ -147,7 +147,7 @@ const ContactPage = () => {
                     </div>
 
                     <div className="m-2">
-                        <label className="text-sm text-gray-600">Subject</label>
+                        <label className="text-sm text-gray-600 dark:text-gray-400">Subject</label>
                         <input
                             type="text"
                             name="subject"
@@ -160,7 +160,7 @@ const ContactPage = () => {
                     </div>
 
                     <div className="m-2">
-                        <label className="text-sm text-gray-600">Message</label>
+                        <label className="text-sm text-gray-600 dark:text-gray-400">Message</label>
                         <textarea
                             name="message"
                             rows="4"
