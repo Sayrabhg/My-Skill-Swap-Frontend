@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Menu, X, Rocket, MoreVertical } from "lucide-react";
 import { CoolMode } from "@/components/ui/cool-mode";
 import NotificationBar from "./page/pages/NotificationBar";
+import userImg from "@/assets/no_user.jpg";
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false); // mobile dropdown
@@ -56,16 +57,16 @@ const Navbar = () => {
     };
 
     return (
-        <nav className="fixed w-full z-50 top-0 bg-white/70 backdrop-blur-md border-b">
+        <nav className="fixed w-full z-50 top-0 dark:bg-black/90 bg-white/70 backdrop-blur-md border-b">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between h-20 items-center">
                     {/* Logo */}
                     <CoolMode>
                         <Link to="/" className="flex items-center gap-2 group">
-                            <div className="bg-indigo-600 p-2 rounded-lg group-hover:scale-110 transition">
-                                <Rocket className="text-white w-6 h-6" />
+                            <div className="bg-indigo-600 dark:bg-white p-2 rounded-lg group-hover:scale-110 transition">
+                                <Rocket className="text-white dark:text-indigo-600 w-6 h-6" />
                             </div>
-                            <span className="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-transparent">
+                            <span className="text-2xl font-bold bg-gradient-to-r from-indigo-600 dark:from-indigo-300 to-violet-600 bg-clip-text text-transparent">
                                 My Skill-Swap
                             </span>
                         </Link>
@@ -77,7 +78,7 @@ const Navbar = () => {
                             <Link
                                 key={link.name}
                                 to={link.href}
-                                className="text-gray-700 hover:text-indigo-600 mx-4 font-medium"
+                                className="text-gray-700 dark:text-gray-100 hover:text-indigo-600 mx-4 font-medium"
                             >
                                 {link.name}
                             </Link>
@@ -90,7 +91,7 @@ const Navbar = () => {
                                 {/* Avatar */}
                                 {user.avatar ? (
                                     <img
-                                        src={user.avatar}
+                                        src={user.avatar || userImg}
                                         alt={user.name}
                                         className="w-10 h-10 rounded-full object-cover"
                                     />
@@ -170,7 +171,7 @@ const Navbar = () => {
                         ) : (
                             <CoolMode>
                                 <Link to="/auth">
-                                    <button className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2.5 rounded-full font-semibold shadow">
+                                    <button className="bg-indigo-600 dark:bg-indigo-100 dark:hover:bg-indigo-200 dark:text-indigo-600 hover:bg-indigo-700 text-white px-6 py-2.5 rounded-full font-semibold shadow">
                                         Get Started
                                     </button>
                                 </Link>

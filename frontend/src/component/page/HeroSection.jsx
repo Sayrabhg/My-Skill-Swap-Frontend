@@ -38,7 +38,7 @@ const HeroSection = () => {
     };
 
     return (
-        <section className="relative flex items-center overflow-hidden">
+        <section className="relative flex items-center overflow-hidden" id="hero">
 
             {/* Background Image */}
             <img
@@ -48,7 +48,7 @@ const HeroSection = () => {
             />
 
             {/* Overlay (optional for better text visibility) */}
-            <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/80 via-purple-800/50 to-blue-100/40"></div>
+            <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/80 dark:from-indigo-500/80 dark:via-purple-800/50 dark:to-blue-100/40"></div>
 
             <div className="relative z-10 max-w-7xl mx-auto px-6 py-16 grid lg:grid-cols-2 gap-12 items-center">
 

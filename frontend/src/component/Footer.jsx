@@ -29,7 +29,7 @@ const Footer = () => {
     };
 
     return (
-        <footer className="relative mt-1 bg-gray-900 text-gray-300 pt-12 pb-6 shadow-lg">
+        <footer className="relative border-t border-gray-600 bg-gray-900 text-gray-300 pt-12 pb-6 shadow-lg">
             <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-4 gap-10">
 
                 {/* Logo + Description */}

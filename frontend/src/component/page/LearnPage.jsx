@@ -21,12 +21,12 @@ const LearnPage = () => {
     };
 
     return (
-        <section className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-200 py-16 px-6">
+        <section className="min-h-screen bg-gradient-to-b from-gray-50 dark:from-gray-800 to-gray-200 dark:to-gray-600 py-16 px-6">
 
             {/* Header */}
             <div className="text-center max-w-3xl mx-auto mb-14">
                 <div className="relative inline-block">
-                    <h1 className="text-4xl font-bold text-gray-800">
+                    <h1 className="text-4xl font-bold text-gray-800 dark:text-gray-200">
                         🎓 Learn Premium Skills
                     </h1>
 
@@ -35,7 +35,7 @@ const LearnPage = () => {
                     </span>
                 </div>
 
-                <p className="text-gray-500 mt-3">
+                <p className="text-gray-500 dark:text-gray-400 mt-3">
                     Use your tokens to unlock premium learning content and master new skills.
                 </p>
             </div>
@@ -65,7 +65,7 @@ const LearnPage = () => {
                     <motion.div
                         key={course.id}
                         whileHover={{ scale: 1.05 }}
-                        className="bg-white rounded-3xl shadow-lg overflow-hidden cursor-pointer"
+                        className="bg-white dark:bg-gray-700 rounded-3xl shadow-lg overflow-hidden cursor-pointer"
                     >
 
                         <img
@@ -92,19 +92,19 @@ const LearnPage = () => {
                                 {course.title}
                             </h3>
 
-                            <p className="text-sm text-gray-500 mt-1">
+                            <p className="text-sm text-gray-500 dark:text-gray-300 mt-1">
                                 Instructor: {course.instructor}
                             </p>
 
                             <div className="flex justify-between items-center mt-4">
 
-                                <span className="text-xs text-gray-500">
+                                <span className="text-xs text-gray-500 dark:text-gray-300">
                                     Level: {course.level}
                                 </span>
 
                                 <div className="flex items-center gap-1 text-yellow-500">
                                     <Star size={16} fill="currentColor" />
-                                    <span className="text-sm text-gray-600">
+                                    <span className="text-sm text-gray-600 dark:text-gray-300">
                                         {course.rating}
                                     </span>
                                 </div>
@@ -139,16 +139,16 @@ const LearnPage = () => {
                         animate={{ scale: 1, opacity: 1 }}
                         exit={{ scale: 0.7, opacity: 0 }}
                         transition={{ duration: 0.3 }}
-                        className="bg-white rounded-2xl shadow-xl p-8 text-center max-w-sm w-full"
+                        className="bg-white dark:bg-gray-700 rounded-2xl shadow-xl p-8 text-center max-w-sm w-full"
                     >
 
                         <div className="text-5xl mb-3">🔒</div>
 
-                        <h3 className="text-xl font-bold text-gray-800">
+                        <h3 className="text-xl font-bold text-gray-800 dark:text-gray-200">
                             Course Locked
                         </h3>
 
-                        <p className="text-gray-500 mt-2">
+                        <p className="text-gray-500 dark:text-gray-400 mt-2">
                             This course is locked. Use tokens to unlock it.
                         </p>
 

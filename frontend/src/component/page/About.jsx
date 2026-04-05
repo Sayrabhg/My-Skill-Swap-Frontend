@@ -22,7 +22,7 @@ const About = () => {
     return (
         <section
             ref={sectionRef}
-            className={`bg-gray-50 py-16 ${visible ? "show" : ""}`}
+            className={`bg-gray-50 dark:bg-gray-800 py-16 ${visible ? "show" : ""}`}
         >
             <div className="max-w-7xl mx-auto px-6">
 

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import userImg from "@/assets/no_user.jpg";
 import {
     getUserByEmail,
     getSkillsByUserId,
@@ -94,13 +95,13 @@ export default function ViewProfile() {
     }
 
     return (
-        <div className="max-w-5xl mx-auto mt-10 px-4">
+        <div className="max-w-5xl mx-auto mt-10 px-4 v">
 
             {/* PROFILE HEADER */}
-            <div className="bg-white shadow-xl rounded-2xl p-6 flex flex-col md:flex-row items-center gap-6">
+            <div className="bg-indigo-100 shadow-xl rounded-2xl p-6 flex flex-col md:flex-row items-center gap-6">
 
                 <img
-                    src={user.avatar || "https://i.pravatar.cc/150"}
+                    src={user.avatar || userImg}
                     alt={user.name}
                     className="w-24 h-24 rounded-full"
                 />

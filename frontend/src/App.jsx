@@ -1,9 +1,11 @@
 import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
 import { Suspense, lazy } from 'react';
-import './App.css';
-import Header from './component/Header';
-import Footer from './component/Footer';
-import Loading from './component/page/components/Loading';
+import '@/App.css';
+import Header from '@/component/Header';
+import Footer from '@/component/Footer';
+import Loading from '@/component/page/components/Loading';
+import ScrollProgressButton from '@/component/page/components/ScrollProgressButton';
+import ThemeToggle from './component/page/components/ThemeToggle';
 
 // Lazy imports
 const Home = lazy(() => import('./component/Home'));
@@ -58,6 +60,8 @@ const Layout = ({ children }) => {
 function App() {
   return (
     <BrowserRouter>
+      <ThemeToggle />
+      <ScrollProgressButton />
       <Layout>
         {/* Suspense fallback loader */}
         <Suspense fallback={<Loading />}>

@@ -32,7 +32,7 @@ const cardVariants = {
 
 const TestimonialBento = () => {
     return (
-        <section className="py-20 px-6 bg-gradient-to-b from-white to-gray-100">
+        <section className="py-20 px-6 bg-gradient-to-b from-white dark:from-gray-900 to-gray-100 dark:to-gray-900">
 
             {/* Heading animation */}
             <motion.div
@@ -42,10 +42,10 @@ const TestimonialBento = () => {
                 viewport={{ once: true }}
                 className="text-center mb-16"
             >
-                <h2 className="text-4xl font-bold text-gray-800">
+                <h2 className="text-4xl font-bold text-gray-800 dark:text-gray-100">
                     💬 What Our Learners Say
                 </h2>
-                <p className="text-gray-500 mt-3">
+                <p className="text-gray-500 dark:text-gray-300 mt-3">
                     Real stories from people exchanging skills worldwide
                 </p>
             </motion.div>

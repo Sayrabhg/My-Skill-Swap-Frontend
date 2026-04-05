@@ -6,7 +6,7 @@ import { Meteors } from "@/components/ui/meteors";
 
 const TeachPage = () => {
     return (
-        <section className="relative min-h-screen bg-gradient-to-b from-gray-50 to-gray-200 py-16 px-6 overflow-hidden">
+        <section className="relative min-h-screen bg-gradient-to-b from-gray-50 dark:from-gray-800 to-gray-200 dark:to-gray-600 py-16 px-6 overflow-hidden">
 
             {/* Meteors Effect */}
             <Meteors number={25} className="text-indigo-400" />
@@ -19,11 +19,11 @@ const TeachPage = () => {
                 className="text-center max-w-3xl mx-auto mb-16"
             >
 
-                <h1 className="text-4xl font-bold text-gray-800">
+                <h1 className="text-4xl font-bold text-gray-800 dark:text-gray-200">
                     👨‍🏫 Teach on SkillSwap
                 </h1>
 
-                <p className="text-gray-500 mt-3">
+                <p className="text-gray-500 dark:text-gray-400 mt-3">
                     Share your knowledge, guide learners, and build your reputation
                     as an expert while earning rewards.
                 </p>
@@ -58,14 +58,14 @@ const TeachPage = () => {
                         transition={{ delay: i * 0.2 }}
                         viewport={{ once: true }}
                         whileHover={{ scale: 1.05 }}
-                        className="bg-white p-6 rounded-2xl shadow text-center"
+                        className="bg-white dark:bg-gray-700 p-6 rounded-2xl shadow text-center"
                     >
 
                         {item.icon}
 
                         <h3 className="text-2xl font-bold">{item.number}</h3>
 
-                        <p className="text-gray-500 text-sm">{item.text}</p>
+                        <p className="text-gray-500 dark:text-gray-400 text-sm">{item.text}</p>
 
                     </motion.div>
 
@@ -85,16 +85,16 @@ const TeachPage = () => {
                         transition={{ duration: 0.5, delay: index * 0.15 }}
                         viewport={{ once: true }}
                         whileHover={{ scale: 1.05, y: -6 }}
-                        className="bg-white rounded-3xl shadow-lg p-6 cursor-pointer"
+                        className="bg-white dark:bg-gray-700 rounded-3xl shadow-lg p-6 cursor-pointer"
                     >
 
                         <div className="text-4xl mb-4">{option.icon}</div>
 
-                        <h3 className="text-lg font-semibold text-gray-800">
+                        <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
                             {option.title}
                         </h3>
 
-                        <p className="text-sm text-gray-500 mt-2">
+                        <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
                             {option.description}
                         </p>
 
@@ -125,7 +125,7 @@ const TeachPage = () => {
                 className="text-center mt-20"
             >
 
-                <h2 className="text-2xl font-semibold text-gray-800">
+                <h2 className="text-2xl font-semibold text-gray-800 dark:text-gray-200">
                     Become a mentor and start teaching today 🚀
                 </h2>
 

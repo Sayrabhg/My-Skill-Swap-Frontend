@@ -169,3 +169,22 @@
 html {
   scroll-behavior: smooth;
 }
+
+/* @tailwind base;
+@tailwind components;
+@tailwind utilities; */
+
+/* optional: smooth transition for colors */
+body {
+  transition: colors 300ms;
+}
+
+body.dark {
+  background-color: #000;
+  color: #fff;
+}
+
+body.light {
+  background-color: #fff;
+  color: #000;
+}

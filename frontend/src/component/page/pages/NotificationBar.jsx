@@ -207,10 +207,10 @@ export default function NotificationBar({ loggedInUser }) {
         <div className="relative mx-4">
             {/* 🔔 Bell Icon */}
             <button
-                className="relative p-2 rounded-full hover:bg-green-100 transition"
+                className="relative p-2 rounded-full hover:bg-green-100 dark:hover:bg-green-500 transition"
                 onClick={() => setModalOpen(!modalOpen)}
             >
-                <Bell className="w-6 h-6 text-gray-600" />
+                <Bell className="w-6 h-6 text-gray-600 dark:text-gray-100" />
 
                 {userId && notifications.length > 0 && (
                     <span className="absolute top-0 right-0 px-2 py-1 text-xs font-bold text-white bg-red-600 rounded-full">
@@ -223,15 +223,15 @@ export default function NotificationBar({ loggedInUser }) {
             {modalOpen && (
                 <div
                     ref={modalRef}
-                    className="absolute lg:right-0 right-[-2.7em] mt-2 w-80 lg:w-96 max-h-96 overflow-y-auto rounded-lg shadow-lg bg-white z-50"
+                    className="absolute lg:right-0 right-[-2.7em] mt-2 w-80 lg:w-96 max-h-96 overflow-y-auto rounded-lg shadow-lg bg-white dark:bg-gray-800 z-50"
                 >
                     {/* HEADER */}
-                    <div className="flex justify-between items-center p-3 border-b">
-                        <h3 className="font-semibold text-gray-700">
+                    <div className="flex justify-between items-center p-3 border-b dark:border-gray-500 rounded-lg">
+                        <h3 className="font-semibold dark:text-gray-100 text-gray-700">
                             Notifications
                         </h3>
                         <button onClick={() => setModalOpen(false)}>
-                            <X className="w-5 h-5 text-gray-500 hover:text-red-700" />
+                            <X className="w-5 h-5 text-gray-500 dark:text-gray-200 cursor-pointer hover:text-red-700" />
                         </button>
                     </div>
 

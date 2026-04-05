@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
+import userImg from "@/assets/no_user.jpg";
 import {
     getProfile,
     getSkillsByUserId,
@@ -53,7 +54,6 @@ export default function UserDashboard() {
             setDialogMessage("Failed to delete skill ❌");
             setStatus("error");
             setDialogOpen(true);
-
         }
 
     };
@@ -220,7 +220,7 @@ export default function UserDashboard() {
 
     return (
 
-        <div className="min-h-screen bg-gray-50 p-6">
+        <div className="min-h-screen bg-violet-50 p-6">
 
             <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
                 <DialogContent className="text-center">
@@ -245,7 +245,7 @@ export default function UserDashboard() {
             <div className="flex items-center justify-center gap-4 mb-8">
 
                 <img
-                    src={user?.avatar || "https://i.pravatar.cc/150"}
+                    src={user?.avatar || userImg}
                     className="w-14 h-14 rounded-full"
                     alt={user?.name}
                 />
@@ -380,7 +380,7 @@ export default function UserDashboard() {
                             >
 
                                 <img
-                                    src={u.avatar || "https://i.pravatar.cc/150"}
+                                    src={u.avatar || userImg}
                                     alt={u.name}
                                     className="w-16 h-16 rounded-full mx-auto mb-3"
                                 />

@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { getProfile, updateProfile, getSkillsByUserId, uploadPdf, uploadBgImg } from "../../api/api";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Pencil, Globe, Phone, AtSign, MapPin, Github, Linkedin, X, ArrowLeft } from "lucide-react";
 import Loading from "./components/Loading";
+import userImg from "@/assets/no_user.jpg";
 import StatusDialog from "./components/StatusDialog";
 
 export default function Profile() {
@@ -20,6 +21,7 @@ export default function Profile() {
     const [msgText, setMsgText] = useState("");
     const [bgUploading, setBgUploading] = useState(false);
     const [showOverlay, setShowOverlay] = useState(false);
+    const navigate = useNavigate();
     const [resumeUploading, setResumeUploading] = useState(false);
 
     const handleBgUpload = async (e) => {
@@ -200,7 +202,7 @@ export default function Profile() {
                 {/* Profile Info */}
                 <div className="absolute inset-0 flex items-end justify-start p-6">
                     <img
-                        src={user.avatar || "https://i.pravatar.cc/150"}
+                        src={user.avatar || userImg}
                         alt="avatar"
                         className="w-20 h-20 lg:w-32 lg:h-32 rounded-full border-4 border-white shadow-lg -mb-22"
                     />
