@@ -254,17 +254,17 @@ const ChatUserPage = ({ roomId, onBack }) => {
 
     if (loading) {
         return (
-            <div className="flex items-center justify-center h-full bg-gradient-to-br from-gray-50 to-indigo-50">
+            <div className="flex items-center justify-center h-full bg-gradient-to-br from-gray-50 dark:from-gray-800 to-indigo-50 dark:to-gray-700">
                 <div className="animate-spin h-10 w-10 border-4 border-indigo-200 border-t-indigo-600 rounded-full shadow-lg" />
             </div>
         );
     }
 
     return (
-        <div className="h-full flex flex-col h-full bg-gradient-to-br from-gray-50 to-slate-100">
+        <div className="h-full flex flex-col h-full bg-gradient-to-br from-gray-50 dark:from-gray-800 to-indigo-50 dark:to-gray-700">
 
             {/* 🔷 HEADER */}
-            <div className="flex items-center gap-4 px-5 py-4 bg-white/80 backdrop-blur-sm border-b border-slate-200 shadow-sm sticky top-0 z-10">
+            <div className="flex items-center gap-4 px-5 py-4 bg-white/80 dark:bg-gray-700/80 backdrop-blur-sm border-b border-slate-200 dark:border-gray-600 shadow-sm sticky top-0 z-10">
                 {onBack && (
                     <button
                         onClick={onBack}
@@ -282,8 +282,8 @@ const ChatUserPage = ({ roomId, onBack }) => {
                         className="w-10 h-10 rounded-full object-cover"
                     />
                     <div className="min-w-0 flex-1 text-left">
-                        <h2 className="font-bold text-slate-800 text-lg truncate">{otherUser.name}</h2>
-                        <p className="text-sm text-emerald-600 font-medium flex items-center gap-1">
+                        <h2 className="font-bold text-slate-800 dark:text-slate-200 text-lg truncate">{otherUser.name}</h2>
+                        <p className="text-sm text-emerald-600 dark:text-emerald-400 font-medium flex items-center gap-1">
                             Online
                             <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
                         </p>
@@ -293,12 +293,12 @@ const ChatUserPage = ({ roomId, onBack }) => {
                 <div className="flex items-center gap-2 flex-shrink-0">
                     <button
                         onClick={() => navigate("/maintenance")}
-                        className="p-2.5 text-slate-500 hover:text-indigo-600 hover:bg-indigo-50 rounded-2xl transition-all hidden md:flex">
+                        className="p-2.5 text-slate-500 dark:text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 dark:hover:bg-gray-600 rounded-2xl transition-all hidden md:flex">
                         <Phone size={18} />
                     </button>
                     <button
                         onClick={() => navigate("/maintenance")}
-                        className="p-2.5 text-slate-500 hover:text-indigo-600 hover:bg-indigo-50 rounded-2xl transition-all hidden lg:flex">
+                        className="p-2.5 text-slate-500 dark:text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 dark:hover:bg-gray-600 rounded-2xl transition-all hidden lg:flex">
                         <Video size={18} />
                     </button>
                     <div className="relative" ref={headerMenuRef}>
@@ -308,7 +308,7 @@ const ChatUserPage = ({ roomId, onBack }) => {
                                 e.stopPropagation();
                                 setShowMenu(prev => !prev);
                             }}
-                            className="p-2.5 text-slate-500 hover:text-indigo-600 hover:bg-indigo-50 rounded-2xl transition-all"
+                            className="p-2.5 text-slate-500 dark:text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 dark:hover:bg-gray-600 rounded-2xl transition-all"
                         >
                             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
@@ -318,7 +318,7 @@ const ChatUserPage = ({ roomId, onBack }) => {
 
                         {/* 📂 Dropdown */}
                         {showMenu && (
-                            <div className="absolute right-0 mt-2 py-2 w-44 bg-white border border-slate-200 rounded-xl shadow-xl z-50 overflow-hidden">
+                            <div className="absolute right-0 mt-2 py-2 w-44 bg-white dark:bg-gray-700 border border-slate-200 dark:border-gray-600 rounded-xl shadow-xl z-50 overflow-hidden">
 
                                 {/* 📱 Mobile Only Options */}
                                 <div className="md:hidden">
@@ -327,7 +327,7 @@ const ChatUserPage = ({ roomId, onBack }) => {
                                             navigate("/maintenance");
                                             setShowMenu(false);
                                         }}
-                                        className="w-full flex gap-2 text-left px-4 py-2 text-sm hover:bg-slate-50"
+                                        className="w-full flex gap-2 text-left px-4 py-2 text-sm hover:bg-slate-50 dark:hover:bg-gray-600"
                                     >
                                         <Phone size={18} /> Call
                                     </button>
@@ -337,7 +337,7 @@ const ChatUserPage = ({ roomId, onBack }) => {
                                             navigate("/maintenance");
                                             setShowMenu(false);
                                         }}
-                                        className="w-full flex gap-2 text-left px-4 py-2 text-sm hover:bg-slate-50"
+                                        className="w-full flex gap-2 text-left px-4 py-2 text-sm hover:bg-slate-50 dark:hover:bg-gray-600"
                                     >
                                         <Video size={18} /> Video Call
                                     </button>
@@ -349,7 +349,7 @@ const ChatUserPage = ({ roomId, onBack }) => {
                                         navigate(`/user-profile/${userId}`);
                                         setShowMenu(false);
                                     }}
-                                    className="w-full flex gap-2 text-left px-4 py-2 text-sm hover:bg-slate-50"
+                                    className="w-full flex gap-2 text-left px-4 py-2 text-sm hover:bg-slate-50 dark:hover:bg-gray-600"
                                 >
                                     <UserCircle2 size={18} /> View Profile
                                 </button>
@@ -360,7 +360,7 @@ const ChatUserPage = ({ roomId, onBack }) => {
                                         navigate(`/maintenance`);
                                         setShowMenu(false);
                                     }}
-                                    className="w-full flex gap-2 text-left px-4 py-2 text-sm hover:bg-slate-50"
+                                    className="w-full flex gap-2 text-left px-4 py-2 text-sm hover:bg-slate-50 dark:hover:bg-gray-600"
                                 >
                                     <Settings size={18} /> Settings
                                 </button>
@@ -492,15 +492,15 @@ const ChatUserPage = ({ roomId, onBack }) => {
             </div>
 
             {/* 🔷 INPUT */}
-            <div className="bg-white/90 backdrop-blur-sm border-t border-slate-200 shadow-2xl p-4">
+            <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm border-t border-slate-200 dark:border-gray-600 shadow-2xl p-4">
                 <div className="max-w-4xl mx-auto flex items-end gap-3">
                     {showEmoji && (
                         <div
                             ref={emojiRef}
-                            className="absolute bottom-10 left-4 mb-4 w-72 h-80 bg-white border border-slate-200 shadow-2xl rounded-2xl flex flex-col z-50"
+                            className="absolute bottom-10 left-4 mb-4 w-72 h-80 bg-white dark:bg-gray-700 border border-slate-200 dark:border-gray-600 shadow-2xl rounded-2xl flex flex-col z-50"
                         >
                             <div className="p-3 border-b border-slate-100 flex items-center justify-between">
-                                <span className="text-xs font-bold text-slate-800 uppercase tracking-wider">Emojis</span>
+                                <span className="text-xs font-bold text-slate-800 dark:text-slate-300 uppercase tracking-wider">Emojis</span>
                                 <button onClick={() => setShowEmoji(false)} className="text-slate-400 hover:text-slate-600">
                                     <X size={16} />
                                 </button>
@@ -582,14 +582,14 @@ const ChatUserPage = ({ roomId, onBack }) => {
                         <button
                             ref={buttonRef}
                             onClick={() => setShowEmoji(prev => !prev)}
-                            className="p-3 text-slate-500 hover:text-yellow-500 hover:bg-yellow-50 rounded-2xl transition-all shadow-sm"
+                            className="p-3 text-slate-500 dark:text-slate-300 hover:text-yellow-500 hover:bg-yellow-50 dark:hover:bg-gray-600 rounded-2xl transition-all shadow-sm"
                         >
                             <Smile size={20} />
                         </button>
 
                         <button
                             onClick={handleFile}
-                            className="p-3 text-gray-400 hover:text-indigo-600 hover:bg-yellow-50 rounded-2xl transition-all shadow-sm"
+                            className="p-3 text-gray-400 hover:text-indigo-600 hover:bg-yellow-50 dark:hover:bg-gray-600 rounded-2xl transition-all shadow-sm"
                         >
                             <Paperclip size={20} />
                         </button>
@@ -602,7 +602,7 @@ const ChatUserPage = ({ roomId, onBack }) => {
                         ref={textareaRef}
                         onChange={(e) => handleTyping(e.target.value)}
                         placeholder="Type a message..."
-                        className="flex-1 w-full bg-slate-50 border-2 border-slate-200 rounded-3xl px-5 py-3 text-sm placeholder-slate-500 outline-none focus:border-indigo-400 focus:ring-4 focus:ring-indigo-100/50 transition-all shadow-sm hover:shadow-md resize-none"
+                        className="flex-1 w-full bg-slate-50 border-2 border-slate-200 rounded-3xl px-5 py-3 text-sm placeholder-slate-500 outline-none focus:border-indigo-400 focus:ring-4 focus:ring-indigo-100/50 dark:bg-gray-700 dark:border-gray-600 dark:placeholder:text-slate-400 transition-all shadow-sm hover:shadow-md resize-none"
                         onKeyDown={(e) => {
                             if (e.key === "Enter" && !e.shiftKey) {
                                 e.preventDefault();

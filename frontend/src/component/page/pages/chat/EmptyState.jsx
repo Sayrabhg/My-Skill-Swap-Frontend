@@ -36,7 +36,7 @@ const EmptyState = ({
     };
 
     return (
-        <div className="flex-1 flex items-center justify-center p-8 sm:p-12 bg-gradient-to-br from-slate-50/50 to-indigo-50/50 min-h-0">
+        <div className="flex-1 flex items-center justify-center p-8 sm:p-12 bg-gradient-to-br from-slate-50/50 dark:from-gray-800 to-indigo-50/50 dark:to-gray-900 min-h-0">
             <div className="text-center max-w-md w-full">
                 {/* Icon */}
                 <div className="w-24 h-24 bg-gradient-to-r from-indigo-400 via-purple-400 to-indigo-500 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-2xl ring-1 ring-white/20">
@@ -44,19 +44,19 @@ const EmptyState = ({
                 </div>
 
                 {/* Title */}
-                <h2 className="text-2xl sm:text-3xl font-bold text-slate-800 mb-4 leading-tight">
+                <h2 className="text-2xl sm:text-3xl font-bold text-slate-800 dark:text-white mb-4 leading-tight">
                     {title}
                 </h2>
 
                 {/* Description */}
-                <p className="text-lg sm:text-xl text-slate-600 mb-8 leading-relaxed px-4">
+                <p className="text-lg sm:text-xl text-slate-600 dark:text-gray-300 mb-8 leading-relaxed px-4">
                     {description}
                 </p>
 
                 {/* Status Badge */}
-                <div className="flex items-center justify-center gap-2 mb-8 px-6 py-3 bg-white/60 backdrop-blur-sm rounded-2xl shadow-lg border border-slate-200/50">
+                <div className="flex items-center justify-center gap-2 mb-8 px-6 py-3 bg-white/60 dark:bg-gray-700/50 backdrop-blur-sm rounded-2xl shadow-lg border border-slate-200/50 dark:border-gray-600/50">
                     <span className="w-2.5 h-2.5 bg-emerald-500 rounded-full animate-pulse shadow-sm"></span>
-                    <span className="text-sm font-semibold text-slate-700">End-to-end encrypted</span>
+                    <span className="text-sm font-semibold text-slate-700 dark:text-gray-300">End-to-end encrypted</span>
                 </div>
 
                 {/* Action Button */}

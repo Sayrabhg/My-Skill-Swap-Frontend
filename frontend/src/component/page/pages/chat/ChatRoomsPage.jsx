@@ -125,7 +125,7 @@ const ChatRoomsPage = ({ onRoomSelect, selectedRoomId }) => {
     }
 
     return (
-        <div className="flex flex-col h-full bg-white">
+        <div className="flex flex-col h-full bg-white dark:bg-gray-800">
 
             {/* 🔍 Search */}
             <div className="p-4 border-b">
@@ -150,9 +150,9 @@ const ChatRoomsPage = ({ onRoomSelect, selectedRoomId }) => {
                         <div
                             key={room.roomId}
                             onClick={() => handleRoomClick(room)}
-                            className={`p-4 hover:bg-slate-50 cursor-pointer transition-all duration-200 flex items-center gap-4 group relative border-r-4 ${selectedRoomId === room.roomId
-                                ? 'bg-indigo-50 border-indigo-500 shadow-sm ring-1 ring-indigo-200/50'
-                                : 'border-transparent hover:border-indigo-100'
+                            className={`p-4 hover:bg-slate-50 dark:hover:bg-gray-700 cursor-pointer transition-all duration-200 flex items-center gap-4 group relative border-r-4 ${selectedRoomId === room.roomId
+                                ? 'bg-indigo-50 dark:bg-gray-600 border-indigo-500 shadow-sm ring-1 ring-indigo-200/50 dark:ring-indigo-700/50'
+                                : 'border-transparent hover:border-indigo-100 dark:hover:border-indigo-700'
                                 }`}
                         >
 

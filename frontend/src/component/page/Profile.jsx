@@ -156,7 +156,7 @@ export default function Profile() {
     };
 
     return (
-        <div className="min-h-screen bg-violet-50 pb-3">
+        <div className="min-h-screen bg-violet-50 dark:bg-gray-800 pb-3">
             <div className="absolute top-26 left-6 z-1">
                 <button
                     onClick={() => navigate(-1)}
@@ -210,7 +210,7 @@ export default function Profile() {
                         <h1 className="text-sm lg:text-2xl bg-[#83838342] p-2 rounded-lg shadow-xl font-bold">
                             {user.name}
                         </h1>
-                        <p className="text-gray-900">{user.email}</p>
+                        <p className="text-gray-900 dark:text-gray-300">{user.email}</p>
                     </div>
                 </div>
 
@@ -218,16 +218,16 @@ export default function Profile() {
 
             {/* Stats Section */}
             <div className="max-w-5xl mx-auto px-6 mt-20 grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="bg-white shadow rounded-xl p-4 text-center">
-                    <p className="text-gray-500">Role</p>
+                <div className="bg-white dark:bg-gray-700 shadow rounded-xl p-4 text-center">
+                    <p className="text-gray-500 dark:text-gray-300">Role</p>
                     <p className="font-semibold text-lg">{user.role}</p>
                 </div>
-                <div className="bg-white shadow rounded-xl p-4 text-center">
-                    <p className="text-gray-500">Tokens</p>
+                <div className="bg-white dark:bg-gray-700 shadow rounded-xl p-4 text-center">
+                    <p className="text-gray-500 dark:text-gray-300">Tokens</p>
                     <p className="font-semibold text-lg">{user.tokens}</p>
                 </div>
-                <div className="bg-white shadow rounded-xl p-4 text-center">
-                    <p className="text-gray-500">Trust Score</p>
+                <div className="bg-white dark:bg-gray-700 shadow rounded-xl p-4 text-center">
+                    <p className="text-gray-500 dark:text-gray-300">Trust Score</p>
                     <p className="font-semibold text-lg">{user.trustScore}</p>
                 </div>
             </div>
@@ -236,23 +236,23 @@ export default function Profile() {
             <div className="max-w-5xl mx-auto px-6 mt-6 grid md:grid-cols-2 gap-6">
 
                 {/* Bio Card */}
-                <div className="bg-white rounded-xl shadow p-6">
+                <div className="bg-white dark:bg-gray-700 rounded-xl shadow p-6">
                     <div className="flex justify-between items-center mb-3">
                         <h3 className="text-lg font-semibold">Bio</h3>
                         <Pencil
                             size={18}
-                            className="text-gray-400 cursor-pointer"
+                            className="text-gray-400 hover:text-green-300 cursor-pointer"
                             onClick={() => {
                                 setNewBio(user.bio || "");
                                 setShowBioDialog(true);
                             }}
                         />
                     </div>
-                    <p className="text-gray-600">{user.bio || "No bio provided."}</p>
+                    <p className="text-gray-600 dark:text-gray-300">{user.bio || "No bio provided."}</p>
                 </div>
 
                 {/* Skills Card */}
-                <div className="bg-white rounded-xl shadow p-6">
+                <div className="bg-white dark:bg-gray-700 rounded-xl shadow p-6">
                     <div className="flex justify-between items-center mb-3">
                         <h3 className="text-lg font-semibold">Skills</h3>
                     </div>
@@ -261,21 +261,21 @@ export default function Profile() {
                             skills.map((skill) => (
                                 <span
                                     key={skill.id}
-                                    className="bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full text-sm"
+                                    className="bg-indigo-100 dark:bg-blue-800 text-indigo-700 dark:text-indigo-200 px-3 py-1 rounded-full text-sm"
                                 >
                                     {skill.skillOffered}
                                 </span>
                             ))
                         ) : (
-                            <p className="text-gray-500">No skills added.</p>
+                            <p className="text-gray-500 dark:text-gray-300">No skills added.</p>
                         )}
                     </div>
                 </div>
 
                 {/* Contact & Info Card */}
-                <div className="bg-white rounded-xl shadow p-6 md:col-span-2">
+                <div className="bg-white dark:bg-gray-700 rounded-xl shadow p-6 md:col-span-2">
                     <h3 className="text-lg font-semibold mb-4">Contact & Info</h3>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-700">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-700 dark:text-gray-300">
                         <div className="flex items-start gap-2">
                             <Phone size={16} className="mt-1 shrink-0" />
                             <span className="break-words text-left">{user.mobileNumber || "Not provided"}</span>
@@ -400,7 +400,7 @@ export default function Profile() {
                 {/* Edit Full Profile Button */}
                 <div className="flex md:col-span-2 justify-center">
                     <Link to="/profile/edit">
-                        <Button className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white">
+                        <Button className="flex py-5 items-center gap-2 bg-blue-600 cursor-pointer hover:bg-blue-700 text-white">
                             <Pencil size={16} />
                             Edit Profile
                         </Button>
@@ -411,7 +411,7 @@ export default function Profile() {
             {/* Mini Bio Dialog */}
             {showBioDialog && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-                    <div className="bg-white rounded-lg shadow-lg p-6 w-96">
+                    <div className="bg-white dark:bg-gray-700 rounded-lg shadow-lg p-6 w-96">
                         <div className="flex justify-between items-center mb-4">
                             <h3 className="text-lg font-semibold">Edit Bio</h3>
                             <X className="cursor-pointer" onClick={() => setShowBioDialog(false)} />
@@ -424,7 +424,7 @@ export default function Profile() {
                             placeholder="Update your bio..."
                         />
                         <Button
-                            className="w-full"
+                            className="w-full dark:text-white cursor-pointer"
                             onClick={handleBioSave}
                             disabled={bioLoading}
                         >
@@ -437,9 +437,9 @@ export default function Profile() {
             {/* Message Dialog */}
             {showMsgDialog && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-                    <div className="bg-white rounded-lg shadow-lg p-6 w-80 text-center animate-slideFromLeft">
+                    <div className="bg-white dark:bg-gray-700 rounded-lg shadow-lg p-6 w-80 text-center animate-slideFromLeft">
                         <p className="mb-4">{msgText}</p>
-                        <Button className="w-full" onClick={() => setShowMsgDialog(false)}>
+                        <Button className="w-full dark:text-white cursor-pointer" onClick={() => setShowMsgDialog(false)}>
                             OK
                         </Button>
                     </div>

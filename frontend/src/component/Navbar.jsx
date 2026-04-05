@@ -57,7 +57,7 @@ const Navbar = () => {
     };
 
     return (
-        <nav className="fixed w-full z-50 top-0 dark:bg-black/90 bg-white/70 backdrop-blur-md border-b">
+        <nav className="fixed w-full z-50 top-0 dark:bg-gray-800 bg-white/70 backdrop-blur-md">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between h-20 items-center">
                     {/* Logo */}
@@ -101,44 +101,44 @@ const Navbar = () => {
                                     </div>
                                 )}
 
-                                <span className="hidden sm:block font-medium text-gray-800">
+                                <span className="hidden sm:block font-medium text-gray-800 dark:text-gray-200">
                                     {user.name}
                                 </span>
 
                                 {/* Dropdown Toggle */}
                                 <button
                                     onClick={() => setDropdownOpen(!dropdownOpen)}
-                                    className="p-2 rounded-full hover:bg-gray-100"
+                                    className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition"
                                 >
                                     <MoreVertical size={24} />
                                 </button>
 
                                 {dropdownOpen && (
-                                    <div className="absolute right-0 top-11 mt-2 w-40 bg-white border rounded-lg shadow-lg py-2 z-50">
+                                    <div className="absolute right-0 top-11 mt-2 w-40 bg-white dark:bg-gray-800 border rounded-lg shadow-lg py-2 z-50">
                                         <Link
                                             to="/dashboard"
-                                            className="block text-left px-4 py-2 hover:bg-gray-100"
+                                            className="block text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700"
                                             onClick={() => setDropdownOpen(false)}
                                         >
                                             Dashboard
                                         </Link>
                                         <Link
                                             to="/profile"
-                                            className="block text-left px-4 py-2 hover:bg-gray-100"
+                                            className="block text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700"
                                             onClick={() => setDropdownOpen(false)}
                                         >
                                             Profile
                                         </Link>
                                         <Link
                                             to="/chats"
-                                            className="block text-left px-4 py-2 hover:bg-gray-100"
+                                            className="block text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700"
                                             onClick={() => setDropdownOpen(false)}
                                         >
                                             Chats
                                         </Link>
                                         <Link
                                             to="/mentor/requests"
-                                            className="block text-left px-4 py-2 hover:bg-gray-100"
+                                            className="block text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700"
                                             onClick={() => setDropdownOpen(false)}
                                         >
                                             Request
@@ -146,7 +146,7 @@ const Navbar = () => {
                                         {user && (user.role === "ADMIN" || user.role === "MODERATOR") && (
                                             <button
                                                 onClick={() => navigate("/dashboard/users")}
-                                                className="w-full text-left px-4 py-2 hover:bg-gray-100"
+                                                className="w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700"
                                             >
                                                 Account Profiles
                                             </button>
@@ -154,14 +154,14 @@ const Navbar = () => {
                                         {user && (user.role === "ADMIN" || user.role === "MODERATOR") && (
                                             <button
                                                 onClick={() => navigate("/admin/contacts")}
-                                                className="w-full text-left px-4 py-2 hover:bg-gray-100"
+                                                className="w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700"
                                             >
                                                 Contact Form
                                             </button>
                                         )}
                                         <button
                                             onClick={logout}
-                                            className="w-full text-left px-4 py-2 hover:bg-gray-100 text-red-500"
+                                            className="w-full text-left px-4 py-2 hover:bg-gray-100 text-red-500 dark:hover:bg-gray-700 dark:text-red-400"
                                         >
                                             Logout
                                         </button>

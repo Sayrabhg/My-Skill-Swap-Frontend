@@ -151,7 +151,7 @@ const ForgotPasswordModal = ({ open, onOpenChange }) => {
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="max-w-sm text-white bg-[#000291]/50 text-center">
+            <DialogContent className="max-w-sm text-white bg-[#000291]/80 text-center">
 
                 <ShineBorder shineColor={["#00fdfd", "#ae00ff", "#ff0280"]} />
 

@@ -28,9 +28,9 @@ export default function ThemeToggle() {
     return (
         <button
             onClick={toggleTheme}
-            className="fixed bottom-20 right-6 bg-indigo-600 z-11 text-white p-3 rounded-full flex items-center gap-2 shadow-lg hover:bg-indigo-500 hover:scale-105 transition transform"
+            className={`fixed cursor-pointer bottom-20 right-6 z-11 text-white p-3 rounded-full flex items-center gap-2 shadow-lg hover:scale-105 transition transform ${isDark ? 'bg-yellow-400' : 'bg-gray-800'}`}
         >
-            {isDark ? <Sun className="w-5 h-5 text-yellow-400" /> : <Moon className="w-5 h-5 text-gray-200" />}
+            {isDark ? <Sun className="w-5 h-5 text-yellow-950" /> : <Moon className="w-5 h-5 text-gray-200" />}
         </button>
     );
 }

@@ -37,7 +37,7 @@ export default function WelcomePage() {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-r from-indigo-600 to-violet-600 flex items-center justify-center px-4 relative">
+        <div className="min-h-screen bg-gradient-to-r from-indigo-600 dark:from-violet-900 to-violet-600 dark:to-indigo-900 flex items-center justify-center px-4 relative">
             {/* Background Image */}
             <img
                 src={chatgptsskillsswap}
@@ -46,20 +46,20 @@ export default function WelcomePage() {
             />
 
             {/* Card */}
-            <div className="relative max-w-3xl w-full bg-white/80 shadow-xl rounded-2xl p-8 text-center space-y-6">
-                <h1 className="text-3xl font-bold text-gray-800">
+            <div className="relative max-w-3xl w-full bg-white/80 dark:bg-gray-800 shadow-xl rounded-2xl p-8 text-center space-y-6">
+                <h1 className="text-3xl font-bold text-gray-800 dark:text-gray-100">
                     Welcome to Skill Swap 👋
                 </h1>
 
-                <p className="text-gray-500">
+                <p className="text-gray-500 dark:text-gray-300">
                     {user?.name ? `Hi ${user.name},` : "Hi there,"} welcome to Skill Swap! 🚀
                     Get ready to learn new skills, share your expertise, and connect with a vibrant
                     community of learners and mentors. Let's start swapping skills and growing together!
                 </p>
 
                 {/* Rules / Regulations */}
-                <div className="text-left text-gray-600 bg-gray-50 p-4 rounded-lg shadow-inner space-y-2">
-                    <h3 className="font-semibold text-gray-800 mb-1">📌 Community Guidelines & Rules</h3>
+                <div className="text-left text-gray-600 dark:text-gray-300 bg-gray-50 dark:bg-gray-600 p-4 rounded-lg shadow-inner space-y-2">
+                    <h3 className="font-semibold text-gray-800 dark:text-gray-100 mb-1">📌 Community Guidelines & Rules</h3>
                     <ul className="list-disc list-inside text-sm space-y-1">
                         <li>Be respectful and professional in all interactions.</li>
                         <li>No abusive, offensive, or harmful content.</li>
@@ -94,7 +94,7 @@ export default function WelcomePage() {
                         onChange={() => setAccepted(!accepted)}
                         className="w-4 h-4 accent-indigo-600 cursor-pointer"
                     />
-                    <label htmlFor="privacyCheck" className="text-gray-500 text-sm">
+                    <label htmlFor="privacyCheck" className="text-gray-500 dark:text-gray-300 text-sm">
                         I agree to the{" "}
                         <span className="text-indigo-600 font-medium">Privacy Policy</span> and{" "}
                         <span className="text-indigo-600 font-medium">Terms of Service</span>.
