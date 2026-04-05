@@ -13,7 +13,7 @@ export default function StatusDialog({
 
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-black/60 backdrop-blur-sm z-50">
-            <div className="bg-white rounded-2xl shadow-2xl p-6 w-96 text-center animate-slideFromLeft">
+            <div className="bg-white dark:bg-gray-700 rounded-2xl shadow-2xl p-6 w-96 text-center animate-slideFromLeft">
 
                 {/* Icon */}
                 <div className="flex justify-center mb-3">

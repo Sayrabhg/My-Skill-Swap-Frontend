@@ -143,7 +143,7 @@ export default function UpdateProfile() {
     };
 
     return (
-        <div className="min-h-screen bg-violet-50 flex justify-center items-center p-6 relative">
+        <div className="min-h-screen bg-violet-50 dark:bg-gray-800 flex justify-center items-center p-6 relative">
             <div className="absolute top-6 left-6">
                 <button
                     onClick={() => navigate(-1)}
@@ -152,7 +152,7 @@ export default function UpdateProfile() {
                     <ArrowLeft size={20} />
                 </button>
             </div>
-            <div className="bg-white shadow-lg rounded-xl p-8 w-full max-w-2xl">
+            <div className="bg-white dark:bg-gray-700 shadow-lg rounded-xl p-8 w-full max-w-2xl">
                 <h2 className="text-2xl font-bold mb-6">Update Profile</h2>
                 <form onSubmit={handleSubmit} className="space-y-4">
 
@@ -164,7 +164,7 @@ export default function UpdateProfile() {
                             <img
                                 src={preview || user.avatar || "https://i.pravatar.cc/100"}
                                 alt="avatar"
-                                className="w-24 h-24 rounded-full object-cover"
+                                className="w-24 h-24 rounded-full border-3 border-white object-cover"
                             />
 
                             {/* Loader Overlay */}
@@ -209,7 +209,7 @@ export default function UpdateProfile() {
                         name="email"
                         value={user.email}
                         disabled
-                        className="w-full border rounded-lg px-4 py-2 bg-gray-100"
+                        className="w-full border rounded-lg px-4 py-2 bg-gray-100 cursor-not-allowed dark:bg-gray-600"
                     />
 
                     {/* Mobile Number */}
@@ -229,7 +229,7 @@ export default function UpdateProfile() {
                             name="gender"
                             value={user.gender || ""}
                             onChange={handleChange}
-                            className="w-full border rounded-lg px-4 py-2"
+                            className="w-full border rounded-lg px-4 py-2 bg-white dark:bg-gray-700"
                         >
                             <option value="">Select Gender</option>
                             <option value="Male">Male</option>
@@ -321,7 +321,7 @@ export default function UpdateProfile() {
                     {/* Submit Button */}
                     <Button
                         type="submit"
-                        className="w-full mt-2"
+                        className="w-full mt-2 dark:text-white py-5"
                         disabled={loading}
                     >
                         {loading ? "Updating..." : "Update Profile"}

@@ -43,7 +43,7 @@ export default function UserDashboard() {
             setStatus("success");
             setDialogOpen(true);
 
-            const userRes = await getProfile(userId);
+            const userRes = await getProfile();
             const userData = userRes.data;
             console.log("User Data:", userData);
 
@@ -139,16 +139,16 @@ export default function UserDashboard() {
 
     if (loading) {
         return (
-            <div className="min-h-screen bg-gray-50 p-6 animate-pulse">
+            <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-6 animate-pulse">
 
                 {/* Header Skeleton */}
                 <div className="flex items-center justify-center gap-4 mb-8">
 
-                    <div className="w-14 h-14 rounded-full bg-gray-300"></div>
+                    <div className="w-14 h-14 rounded-full bg-gray-300 dark:bg-gray-600"></div>
 
                     <div className="space-y-2">
-                        <div className="h-6 w-40 bg-gray-300 rounded"></div>
-                        <div className="h-4 w-28 bg-gray-200 rounded"></div>
+                        <div className="h-6 w-40 bg-gray-300 dark:bg-gray-600 rounded"></div>
+                        <div className="h-4 w-28 bg-gray-200 dark:bg-gray-500 rounded"></div>
                     </div>
 
                 </div>
@@ -159,26 +159,26 @@ export default function UserDashboard() {
                     {[1, 2, 3].map((i) => (
                         <div
                             key={i}
-                            className="bg-white border rounded-xl p-6 shadow-sm space-y-3"
+                            className="bg-white dark:bg-gray-800 border rounded-xl p-6 shadow-sm space-y-3"
                         >
-                            <div className="h-4 w-24 bg-gray-200 rounded"></div>
-                            <div className="h-8 w-16 bg-gray-300 rounded"></div>
+                            <div className="h-4 w-24 bg-gray-200 dark:bg-gray-500 rounded"></div>
+                            <div className="h-8 w-16 bg-gray-300 dark:bg-gray-600 rounded"></div>
                         </div>
                     ))}
 
                 </div>
 
                 {/* Skills Section Skeleton */}
-                <div className="bg-white rounded-xl shadow-sm border p-6 mb-10">
+                <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border p-6 mb-10">
 
-                    <div className="h-6 w-32 bg-gray-300 rounded mb-4"></div>
+                    <div className="h-6 w-32 bg-gray-300 dark:bg-gray-600 rounded mb-4"></div>
 
                     <div className="flex flex-wrap gap-3">
 
                         {[1, 2, 3, 4].map((i) => (
                             <div
                                 key={i}
-                                className="h-8 w-28 bg-gray-200 rounded-full"
+                                className="h-8 w-28 bg-gray-200 dark:bg-gray-500 rounded-full"
                             ></div>
                         ))}
 
@@ -187,9 +187,9 @@ export default function UserDashboard() {
                 </div>
 
                 {/* Recommendations Skeleton */}
-                <div className="bg-white rounded-xl shadow-sm border p-6">
+                <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border p-6">
 
-                    <div className="h-6 w-52 bg-gray-300 rounded mb-6"></div>
+                    <div className="h-6 w-52 bg-gray-300 dark:bg-gray-600 rounded mb-6"></div>
 
                     <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-6">
 
@@ -199,13 +199,13 @@ export default function UserDashboard() {
                                 className="border rounded-xl p-4 text-center space-y-3"
                             >
 
-                                <div className="w-16 h-16 bg-gray-300 rounded-full mx-auto"></div>
+                                <div className="w-16 h-16 bg-gray-300 dark:bg-gray-600 rounded-full mx-auto"></div>
 
-                                <div className="h-4 w-20 bg-gray-300 rounded mx-auto"></div>
+                                <div className="h-4 w-20 bg-gray-300 dark:bg-gray-600 rounded mx-auto"></div>
 
-                                <div className="h-3 w-32 bg-gray-200 rounded mx-auto"></div>
+                                <div className="h-3 w-32 bg-gray-200 dark:bg-gray-500 rounded mx-auto"></div>
 
-                                <div className="h-8 w-24 bg-gray-300 rounded mx-auto"></div>
+                                <div className="h-8 w-24 bg-gray-300 dark:bg-gray-600 rounded mx-auto"></div>
 
                             </div>
                         ))}
@@ -220,7 +220,7 @@ export default function UserDashboard() {
 
     return (
 
-        <div className="min-h-screen bg-violet-50 p-6">
+        <div className="min-h-screen bg-violet-50 dark:bg-gray-900 p-6">
 
             <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
                 <DialogContent className="text-center">
@@ -267,32 +267,32 @@ export default function UserDashboard() {
 
             <div className="grid md:grid-cols-3 gap-6 mb-10">
 
-                <div className="bg-white border rounded-xl p-6 shadow-sm">
-                    <p className="text-sm text-gray-500">
+                <div className="bg-white dark:bg-gray-800 border rounded-xl p-6 shadow-sm">
+                    <p className="text-sm text-gray-500 dark:text-gray-400">
                         Earned Tokens
                     </p>
 
-                    <h2 className="text-4xl font-bold text-indigo-600 mt-2">
+                    <h2 className="text-4xl font-bold text-indigo-600 dark:text-indigo-400 mt-2">
                         {tokens}
                     </h2>
                 </div>
 
-                <div className="bg-white border rounded-xl p-6 shadow-sm">
-                    <p className="text-sm text-gray-500">
+                <div className="bg-white dark:bg-gray-800 border rounded-xl p-6 shadow-sm">
+                    <p className="text-sm text-gray-500 dark:text-gray-400">
                         Your Skills
                     </p>
 
-                    <h2 className="text-4xl font-bold text-indigo-600 mt-2">
+                    <h2 className="text-4xl font-bold text-indigo-600 dark:text-indigo-400 mt-2">
                         {skills.length}
                     </h2>
                 </div>
 
-                <div className="bg-white border rounded-xl p-6 shadow-sm">
-                    <p className="text-sm text-gray-500">
+                <div className="bg-white dark:bg-gray-800 border rounded-xl p-6 shadow-sm">
+                    <p className="text-sm text-gray-500 dark:text-gray-400">
                         Skill Matches
                     </p>
 
-                    <h2 className="text-4xl font-bold text-indigo-600 mt-2">
+                    <h2 className="text-4xl font-bold text-indigo-600 dark:text-indigo-400 mt-2">
                         {recommendations.length}
                     </h2>
                 </div>
@@ -302,7 +302,7 @@ export default function UserDashboard() {
 
             {/* Skills Section */}
 
-            <div className="bg-white rounded-xl shadow-sm border p-6 mb-10">
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border p-6 mb-10">
 
                 <h2 className="text-xl font-semibold mb-4">
                     Your Skills
@@ -351,7 +351,7 @@ export default function UserDashboard() {
 
                     )}
 
-                    <Button onClick={() => navigate("/add-skill")}>
+                    <Button onClick={() => navigate("/add-skill")} className="dark:text-white">
                         Add Skill
                     </Button>
 
@@ -362,7 +362,7 @@ export default function UserDashboard() {
 
             {/* Recommended Matches */}
 
-            <div className="bg-white rounded-xl shadow-sm border p-6">
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border p-6">
 
                 <h2 className="text-xl font-semibold mb-6">
                     Recommended Skill Matches
@@ -376,7 +376,7 @@ export default function UserDashboard() {
 
                             <div
                                 key={u.id}
-                                className="border rounded-xl p-4 text-center hover:shadow-lg transition"
+                                className="border dark:bg-gray-700 rounded-xl p-4 text-center hover:shadow-lg transition"
                             >
 
                                 <img
@@ -389,12 +389,13 @@ export default function UserDashboard() {
                                     {u.name}
                                 </h3>
 
-                                <p className="text-sm text-gray-500 mb-3">
+                                <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">
                                     Perfect Skill Swap Match
                                 </p>
 
                                 <Button
                                     size="sm"
+                                    className="dark:text-white"
                                     onClick={() => navigate(`/profile/${u.email}`)}
                                 >
                                     View Profile

@@ -80,7 +80,7 @@ export default function AddSkill() {
 
     return (
 
-        <div className="min-h-screen bg-violet-50 flex items-center justify-center p-6">
+        <div className="min-h-screen bg-violet-50 dark:bg-gray-900 flex items-center justify-center p-6">
 
             {/* Dialog */}
 
@@ -103,13 +103,13 @@ export default function AddSkill() {
 
             {/* Form Card */}
 
-            <div className="bg-white shadow-xl rounded-2xl p-8 w-full max-w-lg border">
+            <div className="bg-white dark:bg-gray-800 shadow-xl rounded-2xl p-8 w-full max-w-lg border">
 
                 <h2 className="text-2xl font-bold mb-2 text-center">
                     Add Your Skill
                 </h2>
 
-                <p className="text-gray-500 text-center mb-6">
+                <p className="text-gray-500 dark:text-gray-300 text-center mb-6">
                     Share what you can teach and what you want to learn
                 </p>
 
@@ -122,7 +122,7 @@ export default function AddSkill() {
 
                     <div>
 
-                        <label className="text-sm font-medium text-gray-600">
+                        <label className="text-sm font-medium text-gray-600 dark:text-gray-300">
                             Skill You Offer
                         </label>
 
@@ -142,7 +142,7 @@ export default function AddSkill() {
 
                     <div>
 
-                        <label className="text-sm font-medium text-gray-600">
+                        <label className="text-sm font-medium text-gray-600 dark:text-gray-300">
                             Skill You Want
                         </label>
 
@@ -162,7 +162,7 @@ export default function AddSkill() {
 
                     <div>
 
-                        <label className="text-sm font-medium text-gray-600">
+                        <label className="text-sm font-medium text-gray-600 dark:text-gray-300">
                             Category
                         </label>
 
@@ -170,7 +170,7 @@ export default function AddSkill() {
                             name="category"
                             value={formData.category}
                             onChange={handleChange}
-                            className="w-full border rounded-lg px-4 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                            className="w-full border rounded-lg px-4 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600"
                             required
                         >
 
@@ -189,7 +189,7 @@ export default function AddSkill() {
 
                     <Button
                         type="submit"
-                        className="w-full"
+                        className="w-full dark:text-white"
                         disabled={loading}
                     >
                         {loading ? "Adding Skill..." : "Add Skill"}

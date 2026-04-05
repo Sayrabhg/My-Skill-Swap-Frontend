@@ -115,7 +115,7 @@ const LoginSignup = () => {
     };
 
     return (
-        <div className="relative min-h-screen bg-gradient-to-r from-indigo-600 to-violet-600 flex items-center justify-center px-4">
+        <div className="relative min-h-screen bg-gradient-to-r from-indigo-600 dark:from-violet-900 to-violet-600 dark:to-indigo-900 flex items-center justify-center px-4">
 
             <img
                 src={chatgptsskillsswap}
@@ -141,7 +141,7 @@ const LoginSignup = () => {
                 </DialogContent>
             </Dialog>
 
-            <div className="absolute inset-0 bg-black/40"></div>
+            <div className="absolute inset-0 bg-black/40 dark:bg-black/60"></div>
 
             <div className="relative w-full text-white max-w-md bg-[#000291]/25 shadow-xl rounded-2xl p-8 overflow-hidden z-10">
 

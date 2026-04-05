@@ -5,7 +5,7 @@ export default function MaintenancePage() {
     const navigate = useNavigate();
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-50 to-purple-100 px-6">
+        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-50 dark:from-gray-800 to-purple-100 dark:to-gray-900 px-6">
 
             <div className="text-center relative max-w-lg">
 
@@ -20,12 +20,12 @@ export default function MaintenancePage() {
                 <h6 className="text-2xl italic font-bold text-primary mb-4">
                     MySkillSwap
                 </h6>
-                <h1 className="text-4xl font-bold text-gray-800 mb-4">
+                <h1 className="text-4xl font-bold text-gray-800 dark:text-white mb-4">
                     This Page is Under Maintenance
                 </h1>
 
                 {/* Description */}
-                <p className="text-gray-600 mb-6">
+                <p className="text-gray-600 dark:text-gray-300 mb-6">
                     We're improving your experience 🚀 <br />
                     Please check back soon!
                 </p>
@@ -46,7 +46,7 @@ export default function MaintenancePage() {
                 </button>
 
                 {/* Footer */}
-                <p className="text-sm text-gray-500">
+                <p className="text-sm text-gray-500 dark:text-gray-400">
                     © {new Date().getFullYear()} SkillSwap
                 </p>
             </div>

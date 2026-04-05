@@ -55,18 +55,18 @@ const ChatDashboard = () => {
     };
 
     return (
-        <div className="flex h-screen bg-gray-50 overflow-hidden">
+        <div className="flex h-screen bg-gray-50 dark:bg-gray-900 overflow-hidden">
 
             {/* ================= LEFT SIDEBAR ================= */}
             <div
                 className={`
                 ${selectedRoomId ? "hidden md:flex" : "flex"} 
                 flex-col w-full md:w-80 lg:w-96 xl:w-[420px]
-                border-r border-slate-200 bg-white shadow-sm
+                border-r border-slate-200 bg-white dark:bg-gray-800 shadow-sm
             `}
             >
                 {/* Header */}
-                <div className="p-4 md:p-6 border-b border-slate-200 bg-gradient-to-r from-indigo-600 to-purple-600 text-white">
+                <div className="p-4 md:p-6 border-b border-slate-200 bg-gradient-to-r from-indigo-600 dark:from-gray-800 to-purple-600 dark:to-gray-700 text-white">
                     <div className="flex items-center justify-between text-left">
 
                         {/* 🔙 Back Button */}

@@ -26,7 +26,7 @@ export default function ScrollProgressButton() {
     return (
         <button
             onClick={scrollToHeader}
-            className="fixed bottom-6 right-6 w-11 h-11 z-11 hover:scale-110 rounded-full flex items-center justify-center bg-indigo-500 text-white shadow-lg hover:bg-indigo-600 transition"
+            className="fixed cursor-pointer bottom-6 right-6 w-11 h-11 z-11 hover:scale-110 rounded-full flex items-center justify-center bg-indigo-500 text-white shadow-lg hover:bg-indigo-600 transition"
         >
             {/* Circular SVG progress */}
             <svg className="absolute w-14 h-14" viewBox="0 0 36 36">

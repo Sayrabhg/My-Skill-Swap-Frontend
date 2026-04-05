@@ -11,7 +11,7 @@ export default function Header() {
 
     return (
         <div id="header"
-            className={`relative ${user ? "h-38 lg:h-20" : "h-20"
+            className={`relative ${user ? "h-37 lg:h-20" : "h-20"
                 } transition-all duration-300`}
         >
             <Navbar />
