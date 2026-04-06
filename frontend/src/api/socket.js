@@ -25,7 +25,8 @@ export const connectSocket = (roomId, onTypingReceived, onMessageReceived, onDel
     }
 
     if (!stompClient) {
-        const socket = new SockJS("http://localhost:1213/ws");
+        const socket = new SockJS("https://my-skill-swap-production.up.railway.app/ws");
+        // const socket = new SockJS("http://localhost:1213/ws");
         stompClient = Stomp.over(socket);
 
         const token = localStorage.getItem("token"); // ✅ your JWT
